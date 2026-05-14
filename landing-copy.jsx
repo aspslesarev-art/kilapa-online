@@ -82,8 +82,6 @@ const COPY = {
       tag: 'A small studio crafting calm apps for Apple platforms.',
       cols: [
         { h: 'Apps', l: ['CCV', 'VText', 'Fluffy', 'Switcher'] },
-        { h: 'Read', l: ['Manifesto', 'Journal', 'Press kit'] },
-        { h: 'Elsewhere', l: ['Mastodon', 'GitHub', 'Email', 'Newsletter'] },
       ],
       legal: '© 2026 Kelappa · Made slowly in Ubud · kelappa.studio',
     },
@@ -168,8 +166,6 @@ const COPY = {
       tag: 'Маленькая студия, делающая спокойные приложения для платформ Apple.',
       cols: [
         { h: 'Приложения', l: ['CCV', 'VText', 'Fluffy', 'Switcher'] },
-        { h: 'Читать', l: ['Манифест', 'Журнал', 'Press kit'] },
-        { h: 'Где ещё', l: ['Mastodon', 'GitHub', 'Email', 'Рассылка'] },
       ],
       legal: '© 2026 Kelappa · Сделано медленно в Убуде · kelappa.studio',
     },
