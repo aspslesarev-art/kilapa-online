@@ -83,9 +83,9 @@ function Nav({ t, copy, lang, setLang }) {
 // ── HERO ───────────────────────────────────────────────────
 function Hero({ t, copy }) {
   const apps = [
-    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV'             },
+    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            href: 'https://kelappa.com/ccv/' },
     { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText'           },
-    { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi'           },
+    { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          href: 'https://flofi.online' },
     { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher'  },
   ];
   return (
@@ -124,19 +124,25 @@ function Hero({ t, copy }) {
           {copy.hero.strip_label}
         </div>
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-          {apps.map((a) => (
-            <div key={a.name} style={{
-              display: 'flex', alignItems: 'center', gap: 14,
-              background: `${t.cream}`, border: `1px solid ${t.sand}`,
-              borderRadius: 16, padding: 12, minWidth: 200, flex: '1 0 200px',
-            }}>
-              <FinalIcon size={56} bg={a.bg} mark={a.mark} dots={a.dots} />
-              <div>
-                <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 17, color: t.ink, letterSpacing: '-0.02em' }}>{a.name}</div>
-                <div style={{ fontSize: 11, color: t.husk, letterSpacing: '0.04em', marginTop: 2 }}>App Store</div>
-              </div>
-            </div>
-          ))}
+          {apps.map((a) => {
+            const Tag = a.href ? 'a' : 'div';
+            const linkProps = a.href ? { href: a.href, target: '_blank', rel: 'noopener noreferrer' } : {};
+            return (
+              <Tag key={a.name} {...linkProps} style={{
+                display: 'flex', alignItems: 'center', gap: 14,
+                background: `${t.cream}`, border: `1px solid ${t.sand}`,
+                borderRadius: 16, padding: 12, minWidth: 200, flex: '1 0 200px',
+                textDecoration: 'none', color: 'inherit',
+                cursor: a.href ? 'pointer' : 'default',
+              }}>
+                <FinalIcon size={56} bg={a.bg} mark={a.mark} dots={a.dots} />
+                <div>
+                  <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 17, color: t.ink, letterSpacing: '-0.02em' }}>{a.name}</div>
+                  <div style={{ fontSize: 11, color: t.husk, letterSpacing: '0.04em', marginTop: 2 }}>App Store</div>
+                </div>
+              </Tag>
+            );
+          })}
         </div>
       </div>
     </Sec>
