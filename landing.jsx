@@ -104,7 +104,7 @@ function Hero({ t, copy }) {
     { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            sub: 'macOS · DMG',   href: 'https://kelappa.com/ccv/' },
     { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText',          sub: 'macOS · DMG'    },
     { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          sub: 'iOS · web',     href: 'https://flofi.online' },
-    { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG'    },
+    { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG',   href: '/switcher/EN-RU-Switcher.dmg' },
     { bg: t.palm,         mark: t.cream,       dots: KELAPPA_BROWN, name: 'Teleprompter',   sub: 'web',           href: 'https://www.free-teleprompter.online' },
     { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     sub: 'macOS · DMG',   href: '/teleprompter/Telesufler.dmg' },
   ];
