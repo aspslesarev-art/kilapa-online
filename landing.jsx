@@ -101,12 +101,12 @@ function Nav({ t, copy, lang, setLang }) {
 function Hero({ t, copy }) {
   const isMobile = useIsMobile();
   const apps = [
-    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            href: 'https://kelappa.com/ccv/' },
-    { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText'           },
-    { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          href: 'https://flofi.online' },
-    { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher'  },
-    { bg: t.palm,         mark: t.cream,       dots: KELAPPA_BROWN, name: 'Teleprompter',   href: 'https://www.free-teleprompter.online' },
-    { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     href: '/teleprompter/Telesufler.dmg' },
+    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            sub: 'macOS · DMG',   href: 'https://kelappa.com/ccv/' },
+    { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText',          sub: 'macOS · DMG'    },
+    { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          sub: 'iOS · web',     href: 'https://flofi.online' },
+    { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG'    },
+    { bg: t.palm,         mark: t.cream,       dots: KELAPPA_BROWN, name: 'Teleprompter',   sub: 'web',           href: 'https://www.free-teleprompter.online' },
+    { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     sub: 'macOS · DMG',   href: '/teleprompter/Telesufler.dmg' },
   ];
   return (
     <Sec bg={t.cream} color={t.ink} pad="80px 40px 100px" padMobile="56px 20px 72px" id="top">
@@ -158,7 +158,7 @@ function Hero({ t, copy }) {
                 <FinalIcon size={isMobile ? 44 : 56} bg={a.bg} mark={a.mark} dots={a.dots} />
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: isMobile ? 15 : 17, color: t.ink, letterSpacing: '-0.02em', overflowWrap: 'anywhere' }}>{a.name}</div>
-                  <div style={{ fontSize: 11, color: t.husk, letterSpacing: '0.04em', marginTop: 2 }}>App Store</div>
+                  <div style={{ fontSize: 11, color: t.husk, letterSpacing: '0.04em', marginTop: 2 }}>{a.sub}</div>
                 </div>
               </Tag>
             );
