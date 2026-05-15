@@ -106,6 +106,7 @@ function Hero({ t, copy }) {
     { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          href: 'https://flofi.online' },
     { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher'  },
     { bg: t.palm,         mark: t.cream,       dots: KELAPPA_BROWN, name: 'Teleprompter',   href: 'https://www.free-teleprompter.online' },
+    { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     href: '/teleprompter/Telesufler.dmg' },
   ];
   return (
     <Sec bg={t.cream} color={t.ink} pad="80px 40px 100px" padMobile="56px 20px 72px" id="top">
@@ -217,10 +218,10 @@ function Principles({ t, copy }) {
 // ── APPS ──────────────────────────────────────────────────
 function AppsSection({ t, copy }) {
   const isMobile = useIsMobile();
-  const mocks = [CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock];
-  const bgs   = ['husk',  'coral', 'lagoon', 'saffron', 'palm'];
-  const marks = ['cream', 'cream', 'brown',  'brown',   'cream'];
-  const dots  = ['husk',  'coral', 'cream',  'cream',   'brown'];
+  const mocks = [CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock, TelesuflerMock];
+  const bgs   = ['husk',  'coral', 'lagoon', 'saffron', 'palm',  'ink'];
+  const marks = ['cream', 'cream', 'brown',  'brown',   'cream', 'coral'];
+  const dots  = ['husk',  'coral', 'cream',  'cream',   'brown', 'cream'];
 
   const resolve = (key) => key === 'brown' ? KELAPPA_BROWN : t[key];
 

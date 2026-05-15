@@ -242,57 +242,133 @@ function SwitcherMock({ t }) {
   );
 }
 
-// ── Teleprompter · script reader (web · tablet/phone) ──────
+// ── Teleprompter · tablet inside a rig (web) ───────────────
 function TeleprompterMock({ t }) {
+  // Outer black "rig" with a tilted glass over a horizontal tablet.
   return (
-    <ScreenFrame device="mac" width={460} height={290}>
+    <div style={{ position: 'relative', width: 460, height: 290 }}>
+      {/* rig base */}
       <div style={{
         position: 'absolute', inset: 0,
         background: '#0a0a0a',
-        padding: '22px 32px',
+        borderRadius: 14,
+        boxShadow: '0 30px 60px -20px rgba(60,30,10,0.35)',
+      }} />
+      {/* lens hole on the rig front */}
+      <div style={{
+        position: 'absolute', top: 14, left: '50%', transform: 'translateX(-50%)',
+        width: 28, height: 28, borderRadius: '50%',
+        background: '#1d1d1d', border: '2px solid #2a2a2a',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: t.coral, opacity: 0.85 }} />
+      </div>
+
+      {/* glass + tablet area */}
+      <div style={{
+        position: 'absolute', left: 20, right: 20, top: 50, bottom: 20,
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 100%)',
+        borderRadius: 8,
+        padding: 14,
+        display: 'flex', flexDirection: 'column',
         fontFamily: "'Plus Jakarta Sans', sans-serif",
         color: t.cream,
-        display: 'flex', flexDirection: 'column',
       }}>
-        {/* top bar */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.65 }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: t.coral }} />
-            REC · 0:42
-          </span>
-          <span>120 wpm</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.55 }}>
+          <span>tablet · landscape</span>
+          <span>120 wpm · mirror on</span>
         </div>
 
-        {/* scrolling script */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10, marginTop: 16 }}>
-          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 16, lineHeight: 1.35, opacity: 0.28 }}>
+        {/* scrolling script — mirrored hint via transform */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 8, padding: '6px 22px' }}>
+          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 14, lineHeight: 1.35, opacity: 0.28 }}>
             …and that's why we built this in the first place.
           </div>
-          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 22, lineHeight: 1.25, letterSpacing: '-0.02em', color: t.cream, position: 'relative', padding: '6px 0' }}>
-            <span style={{ position: 'absolute', left: -18, top: '50%', transform: 'translateY(-50%)', width: 6, height: 6, borderRadius: '50%', background: t.coral }} />
-            Today we're walking through three things you can ship by Friday.
+          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 20, lineHeight: 1.25, letterSpacing: '-0.02em', color: t.cream, position: 'relative' }}>
+            <span style={{ position: 'absolute', left: -16, top: '50%', transform: 'translateY(-50%)', width: 6, height: 6, borderRadius: '50%', background: t.coral }} />
+            Today we're shipping three things by Friday.
           </div>
-          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 16, lineHeight: 1.35, opacity: 0.55 }}>
-            One — pick the smallest version that still feels finished.
-          </div>
-          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 15, lineHeight: 1.35, opacity: 0.28 }}>
-            Two — write it down before you touch the camera.
+          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 14, lineHeight: 1.35, opacity: 0.5 }}>
+            One — the smallest version that still feels finished.
           </div>
         </div>
 
-        {/* bottom control */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ width: 26, height: 26, borderRadius: '50%', background: t.coral, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ width: 0, height: 0, borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: `8px solid ${t.cream}`, marginLeft: 2 }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 10, opacity: 0.7 }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ width: 20, height: 20, borderRadius: '50%', background: t.coral, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ width: 0, height: 0, borderTop: '4px solid transparent', borderBottom: '4px solid transparent', borderLeft: `6px solid ${t.cream}`, marginLeft: 1 }} />
             </span>
-            <span style={{ fontSize: 11, opacity: 0.75 }}>play · mirror on</span>
+            play
+          </span>
+          <span>read into the lens →</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Telesufler · floating overlay (macOS) ──────────────────
+function TelesuflerMock({ t }) {
+  return (
+    <ScreenFrame device="mac" width={460} height={290}>
+      {/* fake call grid behind the overlay */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: '#1a1a1a',
+        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, padding: 4,
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+      }}>
+        {[
+          { bg: `linear-gradient(135deg, ${t.lagoon}, ${t.husk})`, label: 'You · camera' },
+          { bg: `linear-gradient(135deg, ${t.saffron}, ${t.coral})`, label: 'Wira' },
+          { bg: `linear-gradient(135deg, ${t.palm}, ${t.husk})`, label: 'Nyoman' },
+          { bg: `linear-gradient(135deg, ${t.coral}, ${KELAPPA_BROWN})`, label: 'Sasha' },
+        ].map((p) => (
+          <div key={p.label} style={{
+            background: p.bg, borderRadius: 6, position: 'relative',
+            display: 'flex', alignItems: 'flex-end', padding: 8,
+          }}>
+            <span style={{ fontSize: 9, color: t.cream, opacity: 0.85, letterSpacing: '0.04em' }}>{p.label}</span>
           </div>
-          <div style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 10, opacity: 0.55 }}>
-            <span>A</span><span style={{ width: 60, height: 3, background: `${t.cream}55`, borderRadius: 2, position: 'relative' }}>
-              <span style={{ position: 'absolute', left: '55%', top: -3, width: 9, height: 9, borderRadius: '50%', background: t.cream }} />
-            </span><span style={{ fontSize: 14 }}>A</span>
-          </div>
+        ))}
+      </div>
+
+      {/* floating overlay window — always on top, no chrome */}
+      <div style={{
+        position: 'absolute', left: 28, bottom: 22, width: 280,
+        background: `${KELAPPA_BROWN}f2`,
+        backdropFilter: 'blur(8px)',
+        color: t.cream,
+        borderRadius: 14,
+        padding: '12px 14px',
+        boxShadow: '0 18px 40px -10px rgba(0,0,0,0.55)',
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        border: `1px solid ${t.cream}1a`,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', opacity: 0.7, marginBottom: 8 }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: t.coral }} />
+            always on top
+          </span>
+          <span>0:42</span>
+        </div>
+        <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 11, lineHeight: 1.35, opacity: 0.35 }}>
+          Hi everyone, thanks for jumping on.
+        </div>
+        <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 15, lineHeight: 1.3, letterSpacing: '-0.01em', color: t.cream, marginTop: 4 }}>
+          Three updates today — shipping, hiring, and the Bali offsite.
+        </div>
+        <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 11, lineHeight: 1.35, opacity: 0.55, marginTop: 4 }}>
+          First — the bot is live in beta.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10 }}>
+          <span style={{ width: 16, height: 16, borderRadius: '50%', background: t.coral, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ width: 0, height: 0, borderTop: '3px solid transparent', borderBottom: '3px solid transparent', borderLeft: `5px solid ${t.cream}`, marginLeft: 1 }} />
+          </span>
+          <span style={{ flex: 1, height: 3, background: `${t.cream}33`, borderRadius: 2, position: 'relative' }}>
+            <span style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '38%', background: t.coral, borderRadius: 2 }} />
+          </span>
+          <span style={{ fontSize: 9, opacity: 0.65 }}>⌥⇧·hide</span>
         </div>
       </div>
     </ScreenFrame>
@@ -300,5 +376,5 @@ function TeleprompterMock({ t }) {
 }
 
 Object.assign(window, {
-  ScreenFrame, CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock,
+  ScreenFrame, CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock, TelesuflerMock,
 });

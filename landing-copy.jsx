@@ -74,6 +74,13 @@ const COPY = {
           platforms: ['Web'],
           status: 'Available',
         },
+        {
+          name: 'Telesufler', sub: 'floating script overlay',
+          tagline: 'Your script. Always on top.',
+          desc: 'A small window that floats over Zoom, Meet, or your camera app on macOS — no physical rig needed. Paste your notes, hit play, and read while looking into your built-in camera. Toggle hide with ⌥⇧.',
+          platforms: ['macOS'],
+          status: 'Available',
+        },
       ],
       cta: 'Open on the App Store',
     },
@@ -88,7 +95,7 @@ const COPY = {
     footer: {
       tag: 'A small studio crafting calm apps for Apple platforms.',
       cols: [
-        { h: 'Apps', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter'] },
+        { h: 'Apps', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter', 'Telesufler'] },
       ],
       legal: '© 2026 Kelappa · Made slowly in Ubud · kelappa.studio',
     },
@@ -165,6 +172,13 @@ const COPY = {
           platforms: ['Web'],
           status: 'Доступно',
         },
+        {
+          name: 'Telesufler', sub: 'плавающее окно со скриптом',
+          tagline: 'Ваш текст. Всегда сверху.',
+          desc: 'Маленькое окно, которое держится поверх Zoom, Meet или камеры — без физической подставки. Вставьте заметки, нажмите play и читайте, глядя во встроенную камеру. Скрыть/показать — ⌥⇧.',
+          platforms: ['macOS'],
+          status: 'Доступно',
+        },
       ],
       cta: 'Открыть в App Store',
     },
@@ -179,7 +193,7 @@ const COPY = {
     footer: {
       tag: 'Маленькая студия, делающая спокойные приложения для платформ Apple.',
       cols: [
-        { h: 'Приложения', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter'] },
+        { h: 'Приложения', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter', 'Telesufler'] },
       ],
       legal: '© 2026 Kelappa · Сделано медленно в Убуде · kelappa.studio',
     },
