@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+<meta name="referrer" content="no-referrer" />
+<title>Stats — Kelappa</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesque:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --cream:   oklch(0.965 0.014 82);
+    --shell:   oklch(0.915 0.030 78);
+    --sand:    oklch(0.875 0.045 75);
+    --coral:   oklch(0.795 0.108 38);
+    --palm:    oklch(0.795 0.070 155);
+    --husk:    oklch(0.430 0.045 52);
+    --ink:     oklch(0.225 0.020 60);
+  }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--cream); color: var(--ink);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  main {
+    max-width: 720px; margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+  .eyebrow {
+    font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--husk); font-weight: 600;
+  }
+  h1 {
+    font-family: 'Hanken Grotesque', sans-serif;
+    font-weight: 700; font-size: clamp(40px, 8vw, 72px);
+    letter-spacing: -0.04em; line-height: 1.02;
+    margin: 12px 0 0;
+  }
+  .block {
+    background: var(--shell);
+    border-radius: 22px; padding: 32px;
+    margin-top: 28px;
+  }
+  .visits {
+    font-family: 'Hanken Grotesque', sans-serif;
+    font-weight: 700; font-size: clamp(56px, 14vw, 120px);
+    letter-spacing: -0.04em; line-height: 1;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .label {
+    font-size: 13px; color: var(--husk);
+    margin-top: 8px;
+  }
+  ul {
+    list-style: none; padding: 0; margin: 16px 0 0;
+    display: flex; flex-direction: column;
+  }
+  li {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 14px 0; border-bottom: 1px solid rgba(80, 50, 20, 0.08);
+    gap: 16px;
+  }
+  li:last-child { border-bottom: none; }
+  .name { font-weight: 500; color: var(--ink); }
+  .sub  { font-size: 12px; color: var(--husk); margin-left: 8px; font-weight: 400; }
+  .count {
+    font-family: 'Hanken Grotesque', sans-serif;
+    font-weight: 700; font-size: 26px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .meta {
+    margin-top: 32px;
+    font-size: 12px; color: var(--husk);
+    line-height: 1.6;
+  }
+  .meta code {
+    font-family: ui-monospace, Menlo, monospace;
+    background: rgba(80, 50, 20, 0.06);
+    padding: 1px 6px; border-radius: 4px;
+  }
+  .pulse {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--coral); margin-right: 8px;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Kelappa · internal</div>
+  <h1>Статистика</h1>
+
+  <div class="block">
+    <div class="visits" id="visits">—</div>
+    <div class="label"><span class="pulse"></span>загрузок главной страницы (всего)</div>
+  </div>
+
+  <div class="block">
+    <div class="eyebrow">Клики по приложениям</div>
+    <ul>
+      <li><span><span class="name">CCV</span><span class="sub">→ /ccv/</span></span><span class="count" data-key="dl-ccv">—</span></li>
+      <li><span><span class="name">FloFi</span><span class="sub">→ flofi.online</span></span><span class="count" data-key="dl-flofi">—</span></li>
+      <li><span><span class="name">EN-RU Switcher</span><span class="sub">→ DMG</span></span><span class="count" data-key="dl-switcher">—</span></li>
+      <li><span><span class="name">Teleprompter</span><span class="sub">→ free-teleprompter.online</span></span><span class="count" data-key="dl-teleprompter">—</span></li>
+      <li><span><span class="name">Telesufler</span><span class="sub">→ DMG</span></span><span class="count" data-key="dl-telesufler">—</span></li>
+    </ul>
+  </div>
+
+  <p class="meta">
+    Счётчики живут на <code>abacus.jasoncameron.dev</code> (бесплатный no-auth pageview counter).
+    Каждый клик считается отдельно — uniqueness не отслеживается, перезагрузка считается новой view.
+    Страница исключена из индексации через <code>noindex,nofollow</code>; на неё нет ссылок с сайта.
+  </p>
+</main>
+
+<script>
+  const NS = 'kelappa-2026';
+  const KEYS = ['visits', 'dl-ccv', 'dl-flofi', 'dl-switcher', 'dl-teleprompter', 'dl-telesufler'];
+
+  const fetchCount = async (key) => {
+    try {
+      const res = await fetch(`https://abacus.jasoncameron.dev/get/${NS}/${key}`);
+      if (!res.ok) throw new Error(res.status);
+      const data = await res.json();
+      return data.value ?? 0;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  (async () => {
+    const results = await Promise.all(KEYS.map(fetchCount));
+    KEYS.forEach((key, i) => {
+      const v = results[i];
+      const text = v === null ? '?' : v.toLocaleString('en-US');
+      if (key === 'visits') {
+        document.getElementById('visits').textContent = text;
+      } else {
+        const el = document.querySelector(`[data-key="${key}"]`);
+        if (el) el.textContent = text;
+      }
+    });
+  })();
+</script>
+</body>
+</html>

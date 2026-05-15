@@ -2,6 +2,17 @@
 
 const { useState: useStateL } = React;
 
+// ── Counter (abacus.jasoncameron.dev — no-auth pageview counter) ─
+const COUNTER_NS = 'kelappa-2026';
+const counterHit = (key) => {
+  const url = `https://abacus.jasoncameron.dev/hit/${COUNTER_NS}/${key}`;
+  if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+    navigator.sendBeacon(url);
+  } else {
+    fetch(url, { method: 'POST', keepalive: true }).catch(() => {});
+  }
+};
+
 // ── Responsive: <768px counts as mobile ─────────────────────
 function useIsMobile(bp = 768) {
   const [m, setM] = React.useState(
@@ -101,12 +112,12 @@ function Nav({ t, copy, lang, setLang }) {
 function Hero({ t, copy }) {
   const isMobile = useIsMobile();
   const apps = [
-    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            sub: 'macOS · DMG',   href: 'https://kelappa.com/ccv/' },
-    { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText',          sub: 'macOS · DMG'    },
-    { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          sub: 'iOS · web',     href: 'https://flofi.online' },
-    { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG',   href: '/switcher/EN-RU-Switcher.dmg' },
-    { bg: t.palm,         mark: t.cream,       dots: KELAPPA_BROWN, name: 'Teleprompter',   sub: 'web',           href: 'https://www.free-teleprompter.online' },
-    { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     sub: 'macOS · DMG',   href: '/teleprompter/Telesufler.dmg' },
+    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            sub: 'macOS · DMG',   href: 'https://kelappa.com/ccv/',                  track: 'dl-ccv' },
+    { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText',          sub: 'macOS · DMG'                                                                       },
+    { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          sub: 'iOS · web',     href: 'https://flofi.online',                      track: 'dl-flofi' },
+    { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG',   href: '/switcher/EN-RU-Switcher.dmg',              track: 'dl-switcher' },
+    { bg: t.palm,         mark: t.cream,       dots: KELAPPA_BROWN, name: 'Teleprompter',   sub: 'web',           href: 'https://www.free-teleprompter.online',     track: 'dl-teleprompter' },
+    { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     sub: 'macOS · DMG',   href: '/teleprompter/Telesufler.dmg',              track: 'dl-telesufler' },
   ];
   return (
     <Sec bg={t.cream} color={t.ink} pad="80px 40px 100px" padMobile="56px 20px 72px" id="top">
@@ -146,7 +157,9 @@ function Hero({ t, copy }) {
         <div style={{ display: 'grid', gap: 12, gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(auto-fit, minmax(200px, 1fr))' }}>
           {apps.map((a) => {
             const Tag = a.href ? 'a' : 'div';
-            const linkProps = a.href ? { href: a.href, target: '_blank', rel: 'noopener noreferrer' } : {};
+            const linkProps = a.href
+              ? { href: a.href, target: '_blank', rel: 'noopener noreferrer', onClick: () => a.track && counterHit(a.track) }
+              : {};
             return (
               <Tag key={a.name} {...linkProps} style={{
                 display: 'flex', alignItems: 'center', gap: 12,
@@ -367,6 +380,7 @@ function Footer({ t, copy }) {
 function Landing({ t }) {
   const [lang, setLang] = React.useState('en');
   const copy = COPY[lang];
+  React.useEffect(() => { counterHit('visits'); }, []);
   return (
     <div style={{ background: t.cream, color: t.ink, minHeight: '100vh' }}>
       <Nav t={t} copy={copy} lang={lang} setLang={setLang} />
