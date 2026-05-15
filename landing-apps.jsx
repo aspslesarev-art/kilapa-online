@@ -242,6 +242,63 @@ function SwitcherMock({ t }) {
   );
 }
 
+// ── Teleprompter · script reader (web · tablet/phone) ──────
+function TeleprompterMock({ t }) {
+  return (
+    <ScreenFrame device="mac" width={460} height={290}>
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: '#0a0a0a',
+        padding: '22px 32px',
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        color: t.cream,
+        display: 'flex', flexDirection: 'column',
+      }}>
+        {/* top bar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.65 }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: t.coral }} />
+            REC · 0:42
+          </span>
+          <span>120 wpm</span>
+        </div>
+
+        {/* scrolling script */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10, marginTop: 16 }}>
+          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 16, lineHeight: 1.35, opacity: 0.28 }}>
+            …and that's why we built this in the first place.
+          </div>
+          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 22, lineHeight: 1.25, letterSpacing: '-0.02em', color: t.cream, position: 'relative', padding: '6px 0' }}>
+            <span style={{ position: 'absolute', left: -18, top: '50%', transform: 'translateY(-50%)', width: 6, height: 6, borderRadius: '50%', background: t.coral }} />
+            Today we're walking through three things you can ship by Friday.
+          </div>
+          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 16, lineHeight: 1.35, opacity: 0.55 }}>
+            One — pick the smallest version that still feels finished.
+          </div>
+          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 15, lineHeight: 1.35, opacity: 0.28 }}>
+            Two — write it down before you touch the camera.
+          </div>
+        </div>
+
+        {/* bottom control */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ width: 26, height: 26, borderRadius: '50%', background: t.coral, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ width: 0, height: 0, borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: `8px solid ${t.cream}`, marginLeft: 2 }} />
+            </span>
+            <span style={{ fontSize: 11, opacity: 0.75 }}>play · mirror on</span>
+          </div>
+          <div style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 10, opacity: 0.55 }}>
+            <span>A</span><span style={{ width: 60, height: 3, background: `${t.cream}55`, borderRadius: 2, position: 'relative' }}>
+              <span style={{ position: 'absolute', left: '55%', top: -3, width: 9, height: 9, borderRadius: '50%', background: t.cream }} />
+            </span><span style={{ fontSize: 14 }}>A</span>
+          </div>
+        </div>
+      </div>
+    </ScreenFrame>
+  );
+}
+
 Object.assign(window, {
-  ScreenFrame, CCVMock, VTextMock, FluffyMock, SwitcherMock,
+  ScreenFrame, CCVMock, VTextMock, FluffyMock, SwitcherMock, TeleprompterMock,
 });

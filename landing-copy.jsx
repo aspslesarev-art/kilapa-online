@@ -36,8 +36,8 @@ const COPY = {
     },
     apps: {
       eyebrow: 'Our apps',
-      h: 'Four small tools that get out of your way.',
-      sub: 'Each one removes one piece of daily friction that an ADHD brain runs into ten times a day. All four are on the App Store now.',
+      h: 'Small tools that get out of your way.',
+      sub: 'Each one removes one piece of daily friction that an ADHD brain runs into ten times a day. All of them are available now.',
       items: [
         {
           name: 'CCV', sub: 'the notch · file portal',
@@ -67,6 +67,13 @@ const COPY = {
           platforms: ['macOS'],
           status: 'Available',
         },
+        {
+          name: 'Teleprompter', sub: 'read · stay on camera',
+          tagline: 'Read it aloud. Nobody can tell.',
+          desc: 'Drop your text in, mount your phone or tablet in a teleprompter rig, and read at your own pace while looking straight into the lens. Long scripts, talking-head videos, podcasts — without memorising a word.',
+          platforms: ['Web'],
+          status: 'Available',
+        },
       ],
       cta: 'Open on the App Store',
     },
@@ -81,7 +88,7 @@ const COPY = {
     footer: {
       tag: 'A small studio crafting calm apps for Apple platforms.',
       cols: [
-        { h: 'Apps', l: ['CCV', 'VText', 'Fluffy', 'Switcher'] },
+        { h: 'Apps', l: ['CCV', 'VText', 'Fluffy', 'Switcher', 'Teleprompter'] },
       ],
       legal: '© 2026 Kelappa · Made slowly in Ubud · kelappa.studio',
     },
@@ -120,8 +127,8 @@ const COPY = {
     },
     apps: {
       eyebrow: 'Наши приложения',
-      h: 'Четыре маленьких инструмента, которые не мешают.',
-      sub: 'Каждый убирает одну ежедневную точку трения, в которую мозг с СДВГ упирается десять раз в день. Все четыре уже в App Store.',
+      h: 'Маленькие инструменты, которые не мешают.',
+      sub: 'Каждый убирает одну ежедневную точку трения, в которую мозг с СДВГ упирается десять раз в день. Все уже доступны.',
       items: [
         {
           name: 'CCV', sub: 'портал в чёлке',
@@ -151,6 +158,13 @@ const COPY = {
           platforms: ['macOS'],
           status: 'Доступно',
         },
+        {
+          name: 'Teleprompter', sub: 'читайте · смотрите в камеру',
+          tagline: 'Читайте вслух. Никто не догадается.',
+          desc: 'Загрузите текст, положите телефон или планшет в подставку-суфлёр перед камерой и читайте в своём темпе, глядя прямо в объектив. Длинные сценарии, говорящая голова, подкасты — без зубрёжки.',
+          platforms: ['Web'],
+          status: 'Доступно',
+        },
       ],
       cta: 'Открыть в App Store',
     },
@@ -165,7 +179,7 @@ const COPY = {
     footer: {
       tag: 'Маленькая студия, делающая спокойные приложения для платформ Apple.',
       cols: [
-        { h: 'Приложения', l: ['CCV', 'VText', 'Fluffy', 'Switcher'] },
+        { h: 'Приложения', l: ['CCV', 'VText', 'Fluffy', 'Switcher', 'Teleprompter'] },
       ],
       legal: '© 2026 Kelappa · Сделано медленно в Убуде · kelappa.studio',
     },
