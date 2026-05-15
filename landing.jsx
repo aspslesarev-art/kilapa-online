@@ -217,7 +217,7 @@ function Principles({ t, copy }) {
 // ── APPS ──────────────────────────────────────────────────
 function AppsSection({ t, copy }) {
   const isMobile = useIsMobile();
-  const mocks = [CCVMock, VTextMock, FluffyMock, SwitcherMock, TeleprompterMock];
+  const mocks = [CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock];
   const bgs   = ['husk',  'coral', 'lagoon', 'saffron', 'palm'];
   const marks = ['cream', 'cream', 'brown',  'brown',   'cream'];
   const dots  = ['husk',  'coral', 'cream',  'cream',   'brown'];

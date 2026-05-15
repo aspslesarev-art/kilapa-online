@@ -54,7 +54,7 @@ const COPY = {
           status: 'Available',
         },
         {
-          name: 'Fluffy', sub: 'finance, gently',
+          name: 'FloFi', sub: 'finance, gently',
           tagline: 'Money you can actually look at.',
           desc: 'Track and plan your money without the spreadsheet panic. Calm categories, no judgement, no scary red. Built for brains that forget Tuesday existed.',
           platforms: ['iOS', 'macOS'],
@@ -88,7 +88,7 @@ const COPY = {
     footer: {
       tag: 'A small studio crafting calm apps for Apple platforms.',
       cols: [
-        { h: 'Apps', l: ['CCV', 'VText', 'Fluffy', 'Switcher', 'Teleprompter'] },
+        { h: 'Apps', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter'] },
       ],
       legal: '© 2026 Kelappa · Made slowly in Ubud · kelappa.studio',
     },
@@ -145,7 +145,7 @@ const COPY = {
           status: 'Доступно',
         },
         {
-          name: 'Fluffy', sub: 'финансы, мягко',
+          name: 'FloFi', sub: 'финансы, мягко',
           tagline: 'Деньги, на которые не страшно смотреть.',
           desc: 'Учёт и планирование без табличной паники. Спокойные категории, ноль осуждения, никакого пугающего красного. Для мозгов, которые забывают, что вторник был.',
           platforms: ['iOS', 'macOS'],
@@ -179,7 +179,7 @@ const COPY = {
     footer: {
       tag: 'Маленькая студия, делающая спокойные приложения для платформ Apple.',
       cols: [
-        { h: 'Приложения', l: ['CCV', 'VText', 'Fluffy', 'Switcher', 'Teleprompter'] },
+        { h: 'Приложения', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter'] },
       ],
       legal: '© 2026 Kelappa · Сделано медленно в Убуде · kelappa.studio',
     },

@@ -1,5 +1,5 @@
 // Kelappa Landing — mock app screenshots for the real product lineup:
-// CCV, VText, Fluffy, Switcher.
+// CCV, VText, FloFi, Switcher.
 
 function ScreenFrame({ device = 'iphone', children, width, height }) {
   if (device === 'iphone') {
@@ -155,8 +155,8 @@ function VTextMock({ t }) {
   );
 }
 
-// ── Fluffy · finance (iOS) ─────────────────────────────────
-function FluffyMock({ t }) {
+// ── FloFi · finance (iOS) ─────────────────────────────────
+function FloFiMock({ t }) {
   return (
     <ScreenFrame device="iphone" width={220} height={460}>
       <div style={{ width: '100%', height: '100%', background: t.cream, padding: '46px 20px 22px', display: 'flex', flexDirection: 'column', gap: 16, fontFamily: "'Plus Jakarta Sans', sans-serif", color: t.ink }}>
@@ -300,5 +300,5 @@ function TeleprompterMock({ t }) {
 }
 
 Object.assign(window, {
-  ScreenFrame, CCVMock, VTextMock, FluffyMock, SwitcherMock, TeleprompterMock,
+  ScreenFrame, CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock,
 });
