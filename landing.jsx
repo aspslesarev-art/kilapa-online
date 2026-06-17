@@ -65,7 +65,7 @@ function H({ children, size = 72, color, weight = 700, ls = '-0.035em', lh = 1.0
 }
 
 // ── NAV ────────────────────────────────────────────────────
-function Nav({ t, copy, lang, setLang }) {
+function Nav({ t, copy }) {
   const [scrolled, setScrolled] = React.useState(false);
   const isMobile = useIsMobile();
   React.useEffect(() => {
@@ -86,23 +86,6 @@ function Nav({ t, copy, lang, setLang }) {
         <a href="#top" style={{ textDecoration: 'none' }}>
           <KelappaLogo size={22} fg={t.ink} mark={KELAPPA_BROWN} dots={t.cream} accent={t.coral} gap={10} />
         </a>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginLeft: 'auto' }}>
-          {/* Lang toggle */}
-          <div style={{ display: 'flex', background: t.shell, borderRadius: 999, padding: 3, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 11.5, fontWeight: 600 }}>
-            {['en', 'ru'].map((L) => (
-              <button key={L} onClick={() => setLang(L)} style={{
-                border: 'none', cursor: 'pointer',
-                padding: '5px 10px', borderRadius: 999,
-                background: lang === L ? t.cream : 'transparent',
-                color: lang === L ? t.ink : t.husk,
-                boxShadow: lang === L ? '0 1px 2px rgba(80,40,10,0.12)' : 'none',
-                fontFamily: 'inherit', fontWeight: 600, fontSize: 'inherit',
-                textTransform: 'uppercase', letterSpacing: '0.1em',
-              }}>{L}</button>
-            ))}
-          </div>
-        </div>
       </div>
     </nav>
   );
@@ -274,7 +257,7 @@ function AppsSection({ t, copy }) {
                       <span key={p} style={{ fontSize: 11, padding: '5px 11px', borderRadius: 999, background: t.cream, color: t.husk, border: `1px solid ${t.sand}`, fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500 }}>{p}</span>
                     ))}
                   </div>
-                  <span style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: a.status === 'Available' || a.status === 'Доступно' ? t.palm : t.husk, fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600 }}>{a.status}</span>
+                  <span style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: a.status === 'Available' ? t.palm : t.husk, fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600 }}>{a.status}</span>
                 </div>
                 <a href="#" style={{
                   display: 'inline-block', marginTop: 22,
@@ -378,12 +361,11 @@ function Footer({ t, copy }) {
 
 // ── PAGE ROOT ─────────────────────────────────────────────
 function Landing({ t }) {
-  const [lang, setLang] = React.useState('en');
-  const copy = COPY[lang];
+  const copy = COPY.en;
   React.useEffect(() => { counterHit('visits'); }, []);
   return (
     <div style={{ background: t.cream, color: t.ink, minHeight: '100vh' }}>
-      <Nav t={t} copy={copy} lang={lang} setLang={setLang} />
+      <Nav t={t} copy={copy} />
       <Hero t={t} copy={copy} />
       <Manifesto t={t} copy={copy} />
       <AppsSection t={t} copy={copy} />
