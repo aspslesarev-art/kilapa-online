@@ -1,186 +1,539 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>VText — Hold. Speak. Done.</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #faf9f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-    #__bundler_loading { position: fixed; bottom: 20px; right: 20px; font: 13px/1.4 -apple-system, BlinkMacSystemFont, sans-serif; color: #666; background: #fff; padding: 8px 14px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); z-index: 10000; }
-    #__bundler_thumbnail { position: fixed; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #faf9f5; z-index: 9999; }
-    #__bundler_thumbnail svg { width: 100%; height: 100%; object-fit: contain; }
-    #__bundler_placeholder { color: #999; font-size: 14px; }
-  </style>
-  <noscript>
-    <style>#__bundler_loading { display: none; }</style>
-    <div style="position:fixed;bottom:12px;left:12px;font:13px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#999;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.08);z-index:10000;">
-      This page requires JavaScript to display.
-    </div>
-  </noscript>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VText — Hold. Speak. Done.</title>
+<style>
+  :root {
+    --paper: oklch(0.976 0.014 82);
+    --paper-2: oklch(0.945 0.026 78);
+    --card: oklch(0.995 0.006 90);
+    --ink: oklch(0.245 0.045 45);
+    --ink-soft: oklch(0.42 0.045 48);
+    --muted: oklch(0.56 0.035 55);
+    --amber: oklch(0.605 0.19 45);
+    --amber-strong: oklch(0.55 0.205 42);
+    --coral: oklch(0.57 0.20 30);
+    --honey: oklch(0.82 0.13 78);
+    --line: oklch(0.90 0.02 72);
+    --line-soft: oklch(0.93 0.015 74);
+    --shadow: 0 30px 70px -30px oklch(0.35 0.08 45 / 0.35);
+    --font-display: -apple-system, "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
+    --font-body: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+    --maxw: 1180px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  h1, h2, h3, .display { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+  section { position: relative; }
+
+  /* ── glyph / app icon ─────────────────────────────────────── */
+  .app-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--amber); border-radius: 24%;
+    box-shadow: 0 6px 16px -6px oklch(0.55 0.2 42 / 0.6);
+  }
+  .app-icon svg { width: 68%; height: 68%; color: var(--paper); }
+
+  /* ── buttons ──────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-body); font-weight: 600; font-size: 16px;
+    padding: 14px 24px; border-radius: 13px; border: none; cursor: pointer;
+    transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--amber); color: var(--paper);
+    box-shadow: 0 10px 24px -10px oklch(0.55 0.2 42 / 0.7);
+  }
+  .btn-primary:hover { background: var(--amber-strong); transform: translateY(-2px); box-shadow: 0 16px 30px -12px oklch(0.55 0.2 42 / 0.75); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn svg.apple { width: 17px; height: 17px; }
+
+  /* ── nav ──────────────────────────────────────────────────── */
+  #nav {
+    position: sticky; top: 0; z-index: 60;
+    transition: background .25s ease, border-color .25s ease, backdrop-filter .25s ease;
+    border-bottom: 1px solid transparent;
+  }
+  #nav.scrolled {
+    background: oklch(0.976 0.014 82 / 0.82);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    border-bottom-color: var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 11px; font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; }
+  .brand .app-icon { width: 34px; height: 34px; }
+  .nav-links { display: flex; align-items: center; gap: 30px; }
+  .nav-links a.link { font-size: 15px; font-weight: 500; color: var(--ink-soft); transition: color .15s; }
+  .nav-links a.link:hover { color: var(--ink); }
+  .btn-sm { padding: 10px 18px; font-size: 15px; border-radius: 11px; }
+
+  /* language switcher */
+  .lang { position: relative; }
+  .lang-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid var(--line); color: var(--ink-soft); font-family: var(--font-body); font-weight: 600; font-size: 14px; padding: 8px 12px; border-radius: 10px; cursor: pointer; transition: border-color .15s, color .15s; }
+  .lang-btn:hover { border-color: var(--muted); color: var(--ink); }
+  .lang-btn .chev { transition: transform .2s; }
+  .lang.open .lang-btn .chev { transform: rotate(180deg); }
+  .lang-menu { position: absolute; top: calc(100% + 8px); right: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 6px; min-width: 172px; box-shadow: 0 20px 44px -16px oklch(0.35 0.08 45 / 0.4); display: none; flex-direction: column; gap: 2px; z-index: 80; }
+  .lang.open .lang-menu { display: flex; }
+  .lang-opt { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 8px; font-size: 14.5px; font-weight: 500; color: var(--ink); cursor: pointer; background: transparent; border: none; text-align: left; font-family: var(--font-body); width: 100%; }
+  .lang-opt:hover { background: var(--paper-2); }
+  .lang-opt .tick { color: var(--amber); opacity: 0; font-size: 13px; }
+  .lang-opt.active { color: var(--amber-strong); font-weight: 600; }
+  .lang-opt.active .tick { opacity: 1; }
+  [dir="rtl"] .lang-menu { right: auto; left: 0; }
+  [dir="rtl"] .lang-opt { text-align: right; }
+  [dir="rtl"] .hero .sub, [dir="rtl"] .sec-head p { max-width: none; }
+
+  /* ── hero ─────────────────────────────────────────────────── */
+  .hero { padding: 74px 0 90px; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(60% 55% at 82% 20%, oklch(0.8 0.13 66 / 0.5) 0%, transparent 62%),
+      radial-gradient(50% 50% at 8% 92%, oklch(0.72 0.14 40 / 0.3) 0%, transparent 60%);
+  }
+  .hero .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: 1.02fr 1fr; gap: 60px; align-items: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13.5px; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--amber-strong); background: oklch(0.9 0.06 66 / 0.6);
+    padding: 6px 13px; border-radius: 999px; margin-bottom: 24px;
+    border: 1px solid oklch(0.8 0.08 60 / 0.5);
+  }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+  .hero h1 { font-size: clamp(48px, 6.4vw, 82px); font-weight: 800; }
+  .hero h1 .b { color: var(--amber); }
+  .hero .sub { font-size: 20px; color: var(--ink-soft); margin: 24px 0 34px; max-width: 30ch; }
+  .hero-cta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .hero-meta { font-size: 14px; color: var(--muted); }
+  .hero-meta b { color: var(--ink-soft); font-weight: 600; }
+
+  /* ── hero mockup ──────────────────────────────────────────── */
+  .hero-stage { position: relative; z-index: 1; }
+  .mac-window {
+    position: relative; background: var(--card); border-radius: 16px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    overflow: visible;
+  }
+  .menubar {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 30px; padding: 0 12px;
+    background: oklch(0.99 0.005 90 / 0.9);
+    border-bottom: 1px solid var(--line-soft);
+    border-radius: 16px 16px 0 0;
+    font-size: 12.5px; color: var(--ink-soft);
+  }
+  .mb-left { display: flex; align-items: center; gap: 14px; }
+  .mb-left .app { font-weight: 700; }
+  .mb-left .mi { color: var(--muted); font-weight: 500; }
+  .mb-right { display: flex; align-items: center; gap: 13px; color: var(--ink-soft); }
+  .mb-right .vt-mb {
+    width: 19px; height: 19px; border-radius: 5px; background: var(--amber);
+    display: inline-flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .mb-right .vt-mb svg { width: 72%; height: 72%; color: var(--paper); }
+  .mb-right .vt-mb::after {
+    content: ""; position: absolute; inset: -4px; border-radius: 8px;
+    border: 2px solid var(--amber); opacity: 0; transition: opacity .3s;
+  }
+  [data-phase="recording"] .mb-right .vt-mb::after,
+  [data-phase="processing"] .mb-right .vt-mb::after { opacity: 0.5; }
+  .mb-ic { opacity: 0.7; }
+
+  .chat { padding: 20px 20px 18px; }
+  .chat-head { display: flex; align-items: center; gap: 9px; padding-bottom: 14px; border-bottom: 1px solid var(--line-soft); margin-bottom: 16px; }
+  .chat-head .ava { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, oklch(0.7 0.13 55), oklch(0.6 0.16 30)); }
+  .chat-head .who { font-weight: 600; font-size: 14.5px; }
+  .chat-head .stat { font-size: 12px; color: oklch(0.6 0.13 150); }
+  .messages { display: flex; flex-direction: column; gap: 9px; min-height: 128px; justify-content: flex-end; }
+  .msg { max-width: 82%; padding: 9px 13px; border-radius: 15px; font-size: 14px; line-height: 1.4; }
+  .msg.in { align-self: flex-start; background: var(--paper-2); color: var(--ink); border-bottom-left-radius: 5px; }
+  .msg.out { align-self: flex-end; background: var(--amber); color: var(--paper); border-bottom-right-radius: 5px; }
+  .msg.fresh { animation: pop .32s cubic-bezier(.2,.9,.3,1.2); }
+  @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: none; } }
+
+  .composer {
+    margin-top: 14px; display: flex; align-items: center; gap: 9px;
+    border: 1.5px solid var(--line); border-radius: 13px; padding: 7px 7px 7px 15px;
+    transition: border-color .25s;
+  }
+  [data-phase="writing"] .composer { border-color: var(--amber); }
+  .input { flex: 1; font-size: 14.5px; min-height: 22px; color: var(--ink); }
+  .input.placeholder { color: oklch(0.72 0.02 70); }
+  .input.typing::after { content: "▏"; color: var(--amber); animation: blink 1s steps(1) infinite; margin-left: -2px; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .send { width: 30px; height: 30px; border-radius: 9px; border: none; background: var(--paper-2); color: var(--muted); font-size: 15px; display: grid; place-items: center; cursor: default; transition: background .2s, color .2s; }
+  [data-phase="writing"] .send, [data-phase="sent"] .send { background: var(--amber); color: var(--paper); }
+
+  /* floating pill */
+  .pill {
+    position: absolute; left: 50%; bottom: 74px; transform: translate(-50%, 10px);
+    display: flex; align-items: center; gap: 11px;
+    background: oklch(0.24 0.045 45 / 0.96); color: var(--paper);
+    padding: 10px 16px; border-radius: 999px;
+    box-shadow: 0 18px 40px -14px oklch(0.2 0.05 45 / 0.6);
+    opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s ease;
+    z-index: 5; white-space: nowrap;
+  }
+  [data-phase="recording"] .pill, [data-phase="processing"] .pill { opacity: 1; transform: translate(-50%, 0); }
+  .rec-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--coral); animation: recpulse 1.3s ease-in-out infinite; }
+  @keyframes recpulse { 50% { opacity: .4; transform: scale(1.25); } }
+  [data-phase="processing"] .rec-dot { background: var(--honey); }
+  .wave { display: flex; align-items: center; gap: 2.5px; height: 22px; }
+  .wbar { width: 3px; height: 8%; background: var(--honey); border-radius: 2px; transition: height .08s linear; }
+  .pill-label { font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em; }
+
+  /* raw caption */
+  .raw-cap {
+    position: absolute; left: 20px; right: 20px; bottom: -14px;
+    transform: translateY(100%);
+    display: flex; gap: 10px; align-items: baseline;
+    font-size: 13px; color: var(--muted); opacity: 0; transition: opacity .3s;
+  }
+  .raw-tag { flex: 0 0 auto; font-weight: 600; color: var(--coral); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; padding-top: 1px; }
+  .raw-text { font-style: italic; line-height: 1.4; }
+  .mode-badge {
+    position: absolute; top: 42px; right: 16px;
+    background: var(--amber); color: var(--paper);
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em;
+    padding: 4px 10px; border-radius: 999px; opacity: 0;
+    transform: translateY(-4px); transition: opacity .3s, transform .3s;
+  }
+  [data-phase="writing"] .mode-badge, [data-phase="sent"] .mode-badge { opacity: 1; transform: none; }
+
+  /* ── section scaffolding ──────────────────────────────────── */
+  .band { padding: 96px 0; }
+  .band.paper2 { background: var(--paper-2); }
+  .band.ink { background: var(--ink); color: var(--paper); }
+  .sec-head { max-width: 640px; margin-bottom: 52px; }
+  .sec-tag { font-size: 13.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--amber-strong); margin-bottom: 14px; }
+  .band.ink .sec-tag { color: var(--honey); }
+  .sec-head h2 { font-size: clamp(32px, 4vw, 46px); }
+  .sec-head p { font-size: 18.5px; color: var(--ink-soft); margin: 16px 0 0; }
+  .band.ink .sec-head p { color: oklch(0.82 0.03 72); }
+
+  [data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+  [data-reveal].in { opacity: 1; transform: none; }
+  [data-reveal][data-d="1"] { transition-delay: .08s; }
+  [data-reveal][data-d="2"] { transition-delay: .16s; }
+  [data-reveal][data-d="3"] { transition-delay: .24s; }
+  [data-reveal][data-d="4"] { transition-delay: .32s; }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .step { }
+  .step .n { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--amber); width: 34px; height: 34px; border: 1.5px solid var(--amber); border-radius: 50%; display: grid; place-items: center; margin-bottom: 20px; }
+  .step h3 { font-size: 21px; margin-bottom: 9px; }
+  .step p { color: var(--ink-soft); font-size: 16px; margin: 0; }
+  .step .kbd { display: inline-block; font-family: var(--font-body); font-weight: 600; font-size: 13px; background: var(--card); border: 1px solid var(--line); border-radius: 7px; padding: 2px 8px; color: var(--ink); }
+
+  /* modes */
+  .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .mode {
+    background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+    padding: 34px 32px; position: relative; overflow: hidden;
+  }
+  .mode .micon { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 22px; }
+  .mode.t .micon { background: oklch(0.9 0.05 240 / 0.5); color: oklch(0.5 0.13 250); }
+  .mode.s .micon { background: oklch(0.9 0.07 66 / 0.7); color: var(--amber-strong); }
+  .mode h3 { font-size: 25px; margin-bottom: 12px; }
+  .mode p { color: var(--ink-soft); font-size: 16.5px; margin: 0 0 22px; }
+  .mode .demo-line { font-size: 14px; border-top: 1px dashed var(--line); padding-top: 16px; }
+  .mode .demo-line .lab { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--muted); display: block; margin-bottom: 5px; }
+  .mode .demo-line .said { color: var(--muted); font-style: italic; margin-bottom: 12px; }
+  .mode .demo-line .got { color: var(--ink); font-weight: 500; }
+  .modes-note { text-align: center; margin-top: 28px; color: var(--ink-soft); font-size: 15.5px; }
+  .modes-note .kbd { font-weight: 600; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 7px; padding: 2px 8px; font-size: 13px; }
+
+  /* facts */
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .fact { background: var(--paper); padding: 26px 24px; }
+  .fact .fi { color: var(--amber); margin-bottom: 14px; display: block; }
+  .fact .fi svg { width: 24px; height: 24px; display: block; }
+  .fact h3 { font-size: 17.5px; margin-bottom: 7px; letter-spacing: -0.01em; }
+  .fact p { font-size: 14.5px; color: var(--ink-soft); margin: 0; line-height: 1.45; }
+
+  /* who — dark */
+  .who { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .who-card { border: 1px solid oklch(0.4 0.05 50); border-radius: 16px; padding: 26px 24px; background: oklch(0.29 0.05 45); }
+  .who-card h3 { font-size: 19px; margin-bottom: 8px; color: var(--paper); }
+  .who-card p { font-size: 15px; color: oklch(0.82 0.03 72); margin: 0; }
+  .who-card .em { color: var(--honey); font-weight: 600; }
+
+  /* inside / screenshots */
+  .inside-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+  .inside-grid .shot { display: flex; flex-direction: column; gap: 12px; }
+  .inside-grid image-slot { width: 100%; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  .inside-cap { font-size: 14px; color: var(--muted); }
+  .inside-cap b { color: var(--ink-soft); font-weight: 600; }
+
+  /* final cta */
+  .cta-band { background: linear-gradient(150deg, var(--amber) 0%, var(--coral) 118%); color: var(--paper); padding: 92px 0; text-align: center; }
+  .cta-band h2 { font-size: clamp(34px, 4.6vw, 56px); font-weight: 800; max-width: 16ch; margin: 0 auto; }
+  .cta-band p { font-size: 19px; margin: 20px auto 34px; max-width: 44ch; color: oklch(0.98 0.02 85 / 0.92); }
+  .cta-band .btn-primary { background: var(--paper); color: var(--amber-strong); box-shadow: 0 14px 34px -12px oklch(0.3 0.1 40 / 0.5); }
+  .cta-band .btn-primary:hover { background: var(--card); }
+  .cta-band .fine { font-size: 13.5px; color: oklch(0.98 0.02 85 / 0.8); margin-top: 20px; }
+
+  /* footer */
+  footer { background: var(--ink); color: oklch(0.8 0.03 72); padding: 54px 0 46px; }
+  .foot { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; flex-wrap: wrap; }
+  .foot .brand { color: var(--paper); }
+  .foot .app-icon { width: 32px; height: 32px; }
+  .foot-note { max-width: 40ch; font-size: 14.5px; line-height: 1.5; }
+  .goodtoknow { font-size: 13px; color: oklch(0.68 0.03 72); margin-top: 16px; }
+  .goodtoknow b { color: var(--honey); font-weight: 600; }
+
+  /* responsive */
+  @media (max-width: 940px) {
+    .hero .wrap { grid-template-columns: 1fr; gap: 44px; }
+    .steps { grid-template-columns: 1fr; gap: 30px; }
+    .facts { grid-template-columns: repeat(2, 1fr); }
+    .modes, .inside-grid { grid-template-columns: 1fr; }
+    .who { grid-template-columns: 1fr; }
+    .nav-links a.link { display: none; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 20px; }
+    .facts { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 44px; }
+    .band { padding: 68px 0; }
+  }
+</style>
 </head>
 <body>
-  <div id="__bundler_thumbnail">
+
+<template id="__bundler_thumbnail">
   <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-    <rect width="512" height="512" rx="114" fill="#c8541a"></rect>
+    <rect width="512" height="512" rx="114" fill="#c8541a" />
     <g fill="#fbf3e8">
-      <rect x="151" y="196" width="24" height="120" rx="12"></rect>
-      <rect x="196" y="166" width="24" height="180" rx="12"></rect>
-      <rect x="241" y="216" width="24" height="80" rx="12"></rect>
-      <rect x="286" y="181" width="24" height="150" rx="12"></rect>
-      <rect x="330" y="226" width="86" height="24" rx="12"></rect>
-      <rect x="330" y="266" width="66" height="24" rx="12"></rect>
+      <rect x="151" y="196" width="24" height="120" rx="12" />
+      <rect x="196" y="166" width="24" height="180" rx="12" />
+      <rect x="241" y="216" width="24" height="80" rx="12" />
+      <rect x="286" y="181" width="24" height="150" rx="12" />
+      <rect x="330" y="226" width="86" height="24" rx="12" />
+      <rect x="330" y="266" width="66" height="24" rx="12" />
     </g>
   </svg>
-</div>
-  <div id="__bundler_loading">Unpacking...</div>
+</template>
 
-  <script>
-    
-document.addEventListener('DOMContentLoaded', async function() {
-  const loading = document.getElementById('__bundler_loading');
-  function setStatus(msg) { if (loading) loading.textContent = msg; }
+<!-- glyph symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="vt-glyph" viewBox="0 0 512 512">
+    <g fill="currentColor">
+      <rect x="117" y="181" width="18" height="150" rx="9" />
+      <rect x="151" y="144" width="18" height="224" rx="9" />
+      <rect x="185" y="208" width="18" height="96" rx="9" />
+      <rect x="219" y="161" width="18" height="190" rx="9" />
+      <rect x="286" y="196" width="112" height="20" rx="10" />
+      <rect x="286" y="246" width="96" height="20" rx="10" />
+      <rect x="286" y="296" width="70" height="20" rx="10" />
+    </g>
+  </symbol>
+</svg>
 
-  // Error sink persists across replaceWith since it's on window, not the DOM.
-  window.addEventListener('error', function(e) {
-    var p = document.body || document.documentElement;
-    var d = document.getElementById('__bundler_err') || p.appendChild(document.createElement('div'));
-    d.id = '__bundler_err';
-    d.style.cssText = 'position:fixed;bottom:12px;left:12px;right:12px;font:12px/1.4 ui-monospace,monospace;background:#2a1215;color:#ff8a80;padding:10px 14px;border-radius:8px;border:1px solid #5c2b2e;z-index:99999;white-space:pre-wrap;max-height:40vh;overflow:auto';
-    d.textContent = (d.textContent ? d.textContent + String.fromCharCode(10) : '') +
-      '[bundle] ' + (e.message || e.type) +
-      (e.filename ? ' (' + e.filename.slice(0, 60) + ':' + e.lineno + ')' : '');
-  }, true);
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <span class="app-icon"><svg><use href="#vt-glyph"></use></svg></span>
+      VText
+    </a>
+    <div class="nav-links">
+      <div class="lang" id="lang">
+        <button class="lang-btn" id="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.9 2.6 15.1 0 18M12 3c-2.6 2.9-2.6 15.1 0 18"/></svg>
+          <span id="lang-cur">EN</span>
+          <svg class="chev" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="lang-menu" id="lang-menu" role="menu"></div>
+      </div>
+      <a class="btn btn-primary btn-sm" href="VText.dmg" download><span data-i18n="nav.download">Download</span></a>
+    </div>
+  </div>
+</nav>
 
-  try {
-    const manifestEl = document.querySelector('script[type="__bundler/manifest"]');
-    const templateEl = document.querySelector('script[type="__bundler/template"]');
-    if (!manifestEl || !templateEl) {
-      setStatus('Error: missing bundle data');
-      console.error('[bundler] Missing script tags — manifestEl:', !!manifestEl, 'templateEl:', !!templateEl);
-      return;
-    }
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="dot"></span> <span data-i18n="hero.eyebrow">macOS menu-bar app</span></span>
+      <h1><span data-i18n="hero.h1_1">Don't type.</span><br /><span class="b" data-i18n="hero.h1_2">Just talk.</span></h1>
+      <p class="sub" data-i18n="hero.sub">VText sits in your menu bar. Press your shortcut, talk, and clean text appears right where your cursor is — no window, no app-switching, no typing it out.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="VText.dmg" download id="download">
+          <svg class="apple" viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.417 2.2-1.11 2.985-.744.85-1.96 1.51-3.05 1.42-.13-1.1.44-2.27 1.12-3.02.76-.84 2.06-1.47 3.04-1.5.02.04.02.08 0 .12zM20.5 17.13c-.55 1.27-.82 1.84-1.53 2.96-1 1.57-2.4 3.52-4.14 3.53-1.55.02-1.95-1-4.05-.99-2.1.01-2.54 1.01-4.09.99-1.74-.02-3.07-1.78-4.06-3.34C-.02 16.9-.3 11.7 1.63 8.94c1.06-1.53 2.73-2.5 4.3-2.5 1.6 0 2.6 1.01 3.92 1.01 1.28 0 2.06-1.01 3.9-1.01 1.4 0 2.88.76 3.94 2.08-3.46 1.9-2.9 6.85.31 8.61z"/></svg>
+          <span data-i18n="hero.download">Download for macOS</span>
+        </a>
+        <span class="hero-meta"><b data-i18n="hero.metaFree">Free</b> <span data-i18n="hero.metaRest">· macOS 12+ · no account</span></span>
+      </div>
+    </div>
 
-    const manifest = JSON.parse(manifestEl.textContent);
-    let template = JSON.parse(templateEl.textContent);
+    <div class="hero-stage" data-reveal>
+      <div class="mac-window" id="demo" data-phase="idle">
+        <div class="menubar">
+          <div class="mb-left">
+            <span class="app" data-i18n="demo.appName">Messages</span>
+            <span class="mi" data-i18n="demo.file">File</span><span class="mi" data-i18n="demo.edit">Edit</span><span class="mi" data-i18n="demo.view">View</span>
+          </div>
+          <div class="mb-right">
+            <span class="vt-mb"><svg><use href="#vt-glyph"></use></svg></span>
+            <svg class="mb-ic" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 019 9h-2a7 7 0 00-7-7V3zm0 4a5 5 0 015 5h-2a3 3 0 00-3-3V7z"/><circle cx="12" cy="12" r="2"/></svg>
+            <svg class="mb-ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M20 10v4"/></svg>
+            <span style="font-variant-numeric:tabular-nums;">9:41</span>
+          </div>
+        </div>
 
-    const uuids = Object.keys(manifest);
-    setStatus('Unpacking ' + uuids.length + ' assets...');
+        <div class="chat">
+          <div class="chat-head">
+            <span class="ava"></span>
+            <div>
+              <div class="who" data-i18n="demo.contact">Alex Rivera</div>
+              <div class="stat" data-i18n="demo.online">online</div>
+            </div>
+          </div>
+          <div class="messages" id="demo-messages">
+            <div class="msg in" data-i18n="demo.incoming">Morning! Did you get a chance to look at the schedule?</div>
+          </div>
+          <div class="composer">
+            <div class="input placeholder" id="demo-input">Message</div>
+            <button class="send" aria-label="Send">↑</button>
+          </div>
+        </div>
 
-    const blobUrls = {};
-    await Promise.all(uuids.map(async (uuid) => {
-      const entry = manifest[uuid];
-      try {
-        const binaryStr = atob(entry.data);
-        const bytes = new Uint8Array(binaryStr.length);
-        for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
+        <span class="mode-badge" id="demo-mode">Shorten</span>
 
-        let finalBytes = bytes;
-        if (entry.compressed) {
-          if (typeof DecompressionStream !== 'undefined') {
-            const ds = new DecompressionStream('gzip');
-            const writer = ds.writable.getWriter();
-            const reader = ds.readable.getReader();
-            writer.write(bytes);
-            writer.close();
-            const chunks = [];
-            let totalLen = 0;
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
-              chunks.push(value);
-              totalLen += value.length;
-            }
-            finalBytes = new Uint8Array(totalLen);
-            let offset = 0;
-            for (const chunk of chunks) { finalBytes.set(chunk, offset); offset += chunk.length; }
-          } else {
-            console.warn('DecompressionStream not available, asset ' + uuid + ' may not render');
-          }
-        }
+        <div class="pill">
+          <span class="rec-dot"></span>
+          <div class="wave" id="demo-wave"></div>
+          <span class="pill-label" id="demo-pill-label">Listening</span>
+        </div>
 
-        blobUrls[uuid] = URL.createObjectURL(new Blob([finalBytes], { type: entry.mime }));
-      } catch (err) {
-        console.error('Failed to decode asset ' + uuid + ':', err);
-        blobUrls[uuid] = URL.createObjectURL(new Blob([], { type: entry.mime }));
-      }
-    }));
+        <div class="raw-cap" id="demo-raw-wrap">
+          <span class="raw-tag" data-i18n="demo.raw">You said</span>
+          <span class="raw-text" id="demo-raw"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-    const extResEl = document.querySelector('script[type="__bundler/ext_resources"]');
-    const extResources = extResEl ? JSON.parse(extResEl.textContent) : [];
-    const resourceMap = {};
-    for (const entry of extResources) {
-      if (blobUrls[entry.uuid]) resourceMap[entry.id] = blobUrls[entry.uuid];
-    }
+<!-- MODES -->
+<section class="band paper2" id="modes">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="sec-tag" data-i18n="modes.tag">Two ways</div>
+      <h2 data-i18n="modes.h2">Say it however it comes out.</h2>
+    </div>
+    <div class="modes">
+      <div class="mode t" data-reveal data-d="1">
+        <div class="micon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7V5h16v2M9 5v14M15 5v14M7 19h4M13 19h4"/></svg>
+        </div>
+        <h3 data-i18n="modes.tH">Every word, no typos</h3>
+        <p data-i18n="modes.tP">Get exactly what you said — spelled right, with punctuation. You don't fix a thing.</p>
+      </div>
+      <div class="mode s" data-reveal data-d="2">
+        <div class="micon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h6"/><path d="M15 16l3 3 4-5"/></svg>
+        </div>
+        <h3 data-i18n="modes.sH">Ramble, get clarity</h3>
+        <p data-i18n="modes.sP">Talk as long and messy as you want. VText makes it short, simple and clear — perfect when your thoughts race ahead.</p>
+        <div class="demo-line">
+          <span class="lab" data-i18n="modes.sYouSaid">You said</span>
+          <div class="said" data-i18n="modes.sSaidText">"um so like maybe we could move the meeting to Thursday if that works, cause mornings are kinda crazy…"</div>
+          <span class="lab" data-i18n="modes.sWrote">VText wrote</span>
+          <div class="got" data-i18n="modes.sWroteText">"Can we move the meeting to Thursday afternoon? Mornings are packed for me."</div>
+        </div>
+      </div>
+    </div>
+    <p class="modes-note" data-i18n="modes.note">Both shortcuts are fully configurable — hold <span class="kbd">⌥Space</span> for one, <span class="kbd">⌥⇧Space</span> for the other, or whatever fits your hands.</p>
+  </div>
+</section>
 
-    setStatus('Rendering...');
-    for (const uuid of uuids) template = template.split(uuid).join(blobUrls[uuid]);
+<!-- WHY / FACTS -->
+<section class="band" id="why">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="sec-tag" data-i18n="why.tag">Good to know</div>
+      <h2 data-i18n="why.h2">Simple, and out of your way.</h2>
+    </div>
+    <div class="facts" data-reveal>
+      <div class="fact">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M12 3v18"/><circle cx="12" cy="12" r="9"/></svg></span>
+        <h3 data-i18n="why.f1h">Works everywhere</h3>
+        <p data-i18n="why.f1p">Inserts text wherever your cursor is, in any app. If it can't, the text is on your clipboard.</p>
+      </div>
+      <div class="fact">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v3M6 8a6 6 0 0112 0v3a6 6 0 01-12 0z"/><path d="M8 19h8M12 15v4"/></svg></span>
+        <h3 data-i18n="why.f3h">Any language</h3>
+        <p data-i18n="why.f3p">Talk in the language you want.</p>
+      </div>
+      <div class="fact">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></span>
+        <h3 data-i18n="why.f4h">Free</h3>
+        <p data-i18n="why.f4p">No sign-up. Just download and go.</p>
+      </div>
+      <div class="fact">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 014 4v4M8 11V7a4 4 0 014-4"/><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M4 4l16 16"/></svg></span>
+        <h3 data-i18n="why.f5h">Yours stays yours</h3>
+        <p data-i18n="why.f5p">Your words aren't saved or shared.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    // Strip integrity + crossorigin — blob URLs from a file:// document inherit
-    // a null origin, so crossorigin forces a CORS fetch that SRI then rejects.
-    // The manifest bytes are ours; SRI protects against CDN compromise, not this.
-    template = template.replace(/\s+integrity="[^"]*"/gi, '').replace(/\s+crossorigin="[^"]*"/gi, '');
+<!-- FINAL CTA -->
+<section class="cta-band">
+  <div class="wrap" data-reveal>
+    <h2 data-i18n="cta.h2">Stop typing what you could say.</h2>
+    <p data-i18n="cta.sub">Install VText, pick a shortcut, and get your next message out in one breath.</p>
+    <a class="btn btn-primary" href="VText.dmg" download>
+      <svg class="apple" viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.417 2.2-1.11 2.985-.744.85-1.96 1.51-3.05 1.42-.13-1.1.44-2.27 1.12-3.02.76-.84 2.06-1.47 3.04-1.5.02.04.02.08 0 .12zM20.5 17.13c-.55 1.27-.82 1.84-1.53 2.96-1 1.57-2.4 3.52-4.14 3.53-1.55.02-1.95-1-4.05-.99-2.1.01-2.54 1.01-4.09.99-1.74-.02-3.07-1.78-4.06-3.34C-.02 16.9-.3 11.7 1.63 8.94c1.06-1.53 2.73-2.5 4.3-2.5 1.6 0 2.6 1.01 3.92 1.01 1.28 0 2.06-1.01 3.9-1.01 1.4 0 2.88.76 3.94 2.08-3.46 1.9-2.9 6.85.31 8.61z"/></svg>
+      <span data-i18n="cta.button">Download for macOS</span>
+    </a>
+    <div class="fine" data-i18n="cta.fine">Free while in beta · macOS only · needs an internet connection</div>
+  </div>
+</section>
 
-    const resourceScript = '<script>window.__resources = ' +
-      JSON.stringify(resourceMap).split('</' + 'script>').join('<\\/' + 'script>') +
-      ';</' + 'script>';
-    // Inject after <head> so the DOCTYPE stays first; prepending the script
-    // would push the parser into quirks mode. DOMParser always emits a <head>
-    // (synthesizing one if the source HTML omitted it) but may carry
-    // attributes through, so match the full opening tag. slice() rather than
-    // replace() keeps us clear of $-pattern substitution in resourceScript.
-    const headOpen = template.match(/<head[^>]*>/i);
-    if (headOpen) {
-      const i = headOpen.index + headOpen[0].length;
-      template = template.slice(0, i) + resourceScript + template.slice(i);
-    }
+<!-- FOOTER -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="brand">
+        <span class="app-icon"><svg><use href="#vt-glyph"></use></svg></span>
+        VText
+      </div>
+      <p class="foot-note" data-i18n="footer.note">A small, precise utility that turns your voice into text you can send — and otherwise stays out of your way.</p>
+    </div>
+    <div class="goodtoknow" data-i18n="footer.goodtoknow">
+      <b>Good to know:</b> macOS only · needs internet · free for now.<br />
+      Questions or a bug? Message the developer straight from the app.
+    </div>
+  </div>
+</footer>
 
-    // Parse the template and swap the root element. Scripts inserted via
-    // DOMParser/replaceWith are inert per spec — re-create each with
-    // createElement so they execute, awaiting onload for src scripts to
-    // preserve ordering (React before ReactDOM before Babel before text/babel).
-    const doc = new DOMParser().parseFromString(template, 'text/html');
-    document.documentElement.replaceWith(doc.documentElement);
-    const dead = Array.from(document.scripts);
-    for (const old of dead) {
-      const s = document.createElement('script');
-      for (const a of old.attributes) s.setAttribute(a.name, a.value);
-      s.textContent = old.textContent;
-      // text/babel scripts with a src: fetch and inline. transformScriptTags
-      // does XHR against the src, but blob:null/ from a file:// origin is
-      // silently dropped. Inlining makes it a plain inline babel script,
-      // which transformScriptTags handles unconditionally.
-      if ((s.type === 'text/babel' || s.type === 'text/jsx') && s.src) {
-        const r = await fetch(s.src);
-        s.textContent = await r.text();
-        s.removeAttribute('src');
-      }
-      const p = s.src ? new Promise(function(r) { s.onload = s.onerror = r; }) : null;
-      old.replaceWith(s);
-      if (p) await p;
-    }
-    // Babel standalone auto-transforms type=text/babel on DOMContentLoaded,
-    // which fired before we swapped the document. Trigger manually if present.
-    if (window.Babel && typeof window.Babel.transformScriptTags === 'function') {
-      window.Babel.transformScriptTags();
-    }
-  } catch (err) {
-    setStatus('Error unpacking: ' + err.message);
-    console.error('Bundle unpack error:', err);
-  }
-});
+<script src="i18n.js"></script>
+<script src="landing.js"></script>
 
-  </script>
-
-  <script type="__bundler/manifest">
-{"48659cb4-e3d3-4610-94e3-a5b9be477f4d":{"mime":"application/javascript","compressed":true,"data":"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"},"a2a156d4-7de5-4505-898f-3b4225406cc7":{"mime":"application/javascript","compressed":true,"data":"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"}}
-  </script>
-
-  <script type="__bundler/ext_resources">
-[]
-  </script>
-
-  <script type="__bundler/template">
-"<!DOCTYPE html>\n<html lang=\"en\"><head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>VText — Hold. Speak. Done.<\u002Ftitle>\n<style>\n  :root {\n    --paper: oklch(0.976 0.014 82);\n    --paper-2: oklch(0.945 0.026 78);\n    --card: oklch(0.995 0.006 90);\n    --ink: oklch(0.245 0.045 45);\n    --ink-soft: oklch(0.42 0.045 48);\n    --muted: oklch(0.56 0.035 55);\n    --amber: oklch(0.605 0.19 45);\n    --amber-strong: oklch(0.55 0.205 42);\n    --coral: oklch(0.57 0.20 30);\n    --honey: oklch(0.82 0.13 78);\n    --line: oklch(0.90 0.02 72);\n    --line-soft: oklch(0.93 0.015 74);\n    --shadow: 0 30px 70px -30px oklch(0.35 0.08 45 / 0.35);\n    --font-display: -apple-system, \"SF Pro Display\", \"Helvetica Neue\", system-ui, sans-serif;\n    --font-body: -apple-system, \"SF Pro Text\", \"Helvetica Neue\", system-ui, sans-serif;\n    --maxw: 1180px;\n  }\n\n  * { box-sizing: border-box; }\n  html { scroll-behavior: smooth; }\n  body {\n    margin: 0;\n    font-family: var(--font-body);\n    color: var(--ink);\n    background: var(--paper);\n    -webkit-font-smoothing: antialiased;\n    font-size: 17px;\n    line-height: 1.55;\n  }\n  h1, h2, h3, .display { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; margin: 0; }\n  a { color: inherit; text-decoration: none; }\n  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }\n  section { position: relative; }\n\n  /* ── glyph / app icon ─────────────────────────────────────── */\n  .app-icon {\n    display: inline-flex; align-items: center; justify-content: center;\n    background: var(--amber); border-radius: 24%;\n    box-shadow: 0 6px 16px -6px oklch(0.55 0.2 42 / 0.6);\n  }\n  .app-icon svg { width: 68%; height: 68%; color: var(--paper); }\n\n  /* ── buttons ──────────────────────────────────────────────── */\n  .btn {\n    display: inline-flex; align-items: center; gap: 10px;\n    font-family: var(--font-body); font-weight: 600; font-size: 16px;\n    padding: 14px 24px; border-radius: 13px; border: none; cursor: pointer;\n    transition: transform .12s ease, box-shadow .2s ease, background .2s ease;\n    white-space: nowrap;\n  }\n  .btn-primary {\n    background: var(--amber); color: var(--paper);\n    box-shadow: 0 10px 24px -10px oklch(0.55 0.2 42 / 0.7);\n  }\n  .btn-primary:hover { background: var(--amber-strong); transform: translateY(-2px); box-shadow: 0 16px 30px -12px oklch(0.55 0.2 42 / 0.75); }\n  .btn-primary:active { transform: translateY(0); }\n  .btn svg.apple { width: 17px; height: 17px; }\n\n  /* ── nav ──────────────────────────────────────────────────── */\n  #nav {\n    position: sticky; top: 0; z-index: 60;\n    transition: background .25s ease, border-color .25s ease, backdrop-filter .25s ease;\n    border-bottom: 1px solid transparent;\n  }\n  #nav.scrolled {\n    background: oklch(0.976 0.014 82 / 0.82);\n    backdrop-filter: blur(14px) saturate(1.1);\n    -webkit-backdrop-filter: blur(14px) saturate(1.1);\n    border-bottom-color: var(--line);\n  }\n  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }\n  .brand { display: flex; align-items: center; gap: 11px; font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; }\n  .brand .app-icon { width: 34px; height: 34px; }\n  .nav-links { display: flex; align-items: center; gap: 30px; }\n  .nav-links a.link { font-size: 15px; font-weight: 500; color: var(--ink-soft); transition: color .15s; }\n  .nav-links a.link:hover { color: var(--ink); }\n  .btn-sm { padding: 10px 18px; font-size: 15px; border-radius: 11px; }\n\n  /* language switcher */\n  .lang { position: relative; }\n  .lang-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid var(--line); color: var(--ink-soft); font-family: var(--font-body); font-weight: 600; font-size: 14px; padding: 8px 12px; border-radius: 10px; cursor: pointer; transition: border-color .15s, color .15s; }\n  .lang-btn:hover { border-color: var(--muted); color: var(--ink); }\n  .lang-btn .chev { transition: transform .2s; }\n  .lang.open .lang-btn .chev { transform: rotate(180deg); }\n  .lang-menu { position: absolute; top: calc(100% + 8px); right: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 6px; min-width: 172px; box-shadow: 0 20px 44px -16px oklch(0.35 0.08 45 / 0.4); display: none; flex-direction: column; gap: 2px; z-index: 80; }\n  .lang.open .lang-menu { display: flex; }\n  .lang-opt { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 8px; font-size: 14.5px; font-weight: 500; color: var(--ink); cursor: pointer; background: transparent; border: none; text-align: left; font-family: var(--font-body); width: 100%; }\n  .lang-opt:hover { background: var(--paper-2); }\n  .lang-opt .tick { color: var(--amber); opacity: 0; font-size: 13px; }\n  .lang-opt.active { color: var(--amber-strong); font-weight: 600; }\n  .lang-opt.active .tick { opacity: 1; }\n  [dir=\"rtl\"] .lang-menu { right: auto; left: 0; }\n  [dir=\"rtl\"] .lang-opt { text-align: right; }\n  [dir=\"rtl\"] .hero .sub, [dir=\"rtl\"] .sec-head p { max-width: none; }\n\n  /* ── hero ─────────────────────────────────────────────────── */\n  .hero { padding: 74px 0 90px; overflow: hidden; }\n  .hero::before {\n    content: \"\"; position: absolute; inset: 0; z-index: 0; pointer-events: none;\n    background:\n      radial-gradient(60% 55% at 82% 20%, oklch(0.8 0.13 66 / 0.5) 0%, transparent 62%),\n      radial-gradient(50% 50% at 8% 92%, oklch(0.72 0.14 40 / 0.3) 0%, transparent 60%);\n  }\n  .hero .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: 1.02fr 1fr; gap: 60px; align-items: center; }\n  .eyebrow {\n    display: inline-flex; align-items: center; gap: 8px;\n    font-size: 13.5px; font-weight: 600; letter-spacing: 0.02em;\n    color: var(--amber-strong); background: oklch(0.9 0.06 66 / 0.6);\n    padding: 6px 13px; border-radius: 999px; margin-bottom: 24px;\n    border: 1px solid oklch(0.8 0.08 60 / 0.5);\n  }\n  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }\n  .hero h1 { font-size: clamp(48px, 6.4vw, 82px); font-weight: 800; }\n  .hero h1 .b { color: var(--amber); }\n  .hero .sub { font-size: 20px; color: var(--ink-soft); margin: 24px 0 34px; max-width: 30ch; }\n  .hero-cta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }\n  .hero-meta { font-size: 14px; color: var(--muted); }\n  .hero-meta b { color: var(--ink-soft); font-weight: 600; }\n\n  /* ── hero mockup ──────────────────────────────────────────── */\n  .hero-stage { position: relative; z-index: 1; }\n  .mac-window {\n    position: relative; background: var(--card); border-radius: 16px;\n    border: 1px solid var(--line);\n    box-shadow: var(--shadow);\n    overflow: visible;\n  }\n  .menubar {\n    display: flex; align-items: center; justify-content: space-between;\n    height: 30px; padding: 0 12px;\n    background: oklch(0.99 0.005 90 / 0.9);\n    border-bottom: 1px solid var(--line-soft);\n    border-radius: 16px 16px 0 0;\n    font-size: 12.5px; color: var(--ink-soft);\n  }\n  .mb-left { display: flex; align-items: center; gap: 14px; }\n  .mb-left .app { font-weight: 700; }\n  .mb-left .mi { color: var(--muted); font-weight: 500; }\n  .mb-right { display: flex; align-items: center; gap: 13px; color: var(--ink-soft); }\n  .mb-right .vt-mb {\n    width: 19px; height: 19px; border-radius: 5px; background: var(--amber);\n    display: inline-flex; align-items: center; justify-content: center;\n    position: relative;\n  }\n  .mb-right .vt-mb svg { width: 72%; height: 72%; color: var(--paper); }\n  .mb-right .vt-mb::after {\n    content: \"\"; position: absolute; inset: -4px; border-radius: 8px;\n    border: 2px solid var(--amber); opacity: 0; transition: opacity .3s;\n  }\n  [data-phase=\"recording\"] .mb-right .vt-mb::after,\n  [data-phase=\"processing\"] .mb-right .vt-mb::after { opacity: 0.5; }\n  .mb-ic { opacity: 0.7; }\n\n  .chat { padding: 20px 20px 18px; }\n  .chat-head { display: flex; align-items: center; gap: 9px; padding-bottom: 14px; border-bottom: 1px solid var(--line-soft); margin-bottom: 16px; }\n  .chat-head .ava { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, oklch(0.7 0.13 55), oklch(0.6 0.16 30)); }\n  .chat-head .who { font-weight: 600; font-size: 14.5px; }\n  .chat-head .stat { font-size: 12px; color: oklch(0.6 0.13 150); }\n  .messages { display: flex; flex-direction: column; gap: 9px; min-height: 128px; justify-content: flex-end; }\n  .msg { max-width: 82%; padding: 9px 13px; border-radius: 15px; font-size: 14px; line-height: 1.4; }\n  .msg.in { align-self: flex-start; background: var(--paper-2); color: var(--ink); border-bottom-left-radius: 5px; }\n  .msg.out { align-self: flex-end; background: var(--amber); color: var(--paper); border-bottom-right-radius: 5px; }\n  .msg.fresh { animation: pop .32s cubic-bezier(.2,.9,.3,1.2); }\n  @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: none; } }\n\n  .composer {\n    margin-top: 14px; display: flex; align-items: center; gap: 9px;\n    border: 1.5px solid var(--line); border-radius: 13px; padding: 7px 7px 7px 15px;\n    transition: border-color .25s;\n  }\n  [data-phase=\"writing\"] .composer { border-color: var(--amber); }\n  .input { flex: 1; font-size: 14.5px; min-height: 22px; color: var(--ink); }\n  .input.placeholder { color: oklch(0.72 0.02 70); }\n  .input.typing::after { content: \"▏\"; color: var(--amber); animation: blink 1s steps(1) infinite; margin-left: -2px; }\n  @keyframes blink { 50% { opacity: 0; } }\n  .send { width: 30px; height: 30px; border-radius: 9px; border: none; background: var(--paper-2); color: var(--muted); font-size: 15px; display: grid; place-items: center; cursor: default; transition: background .2s, color .2s; }\n  [data-phase=\"writing\"] .send, [data-phase=\"sent\"] .send { background: var(--amber); color: var(--paper); }\n\n  /* floating pill */\n  .pill {\n    position: absolute; left: 50%; bottom: 74px; transform: translate(-50%, 10px);\n    display: flex; align-items: center; gap: 11px;\n    background: oklch(0.24 0.045 45 / 0.96); color: var(--paper);\n    padding: 10px 16px; border-radius: 999px;\n    box-shadow: 0 18px 40px -14px oklch(0.2 0.05 45 / 0.6);\n    opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s ease;\n    z-index: 5; white-space: nowrap;\n  }\n  [data-phase=\"recording\"] .pill, [data-phase=\"processing\"] .pill { opacity: 1; transform: translate(-50%, 0); }\n  .rec-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--coral); animation: recpulse 1.3s ease-in-out infinite; }\n  @keyframes recpulse { 50% { opacity: .4; transform: scale(1.25); } }\n  [data-phase=\"processing\"] .rec-dot { background: var(--honey); }\n  .wave { display: flex; align-items: center; gap: 2.5px; height: 22px; }\n  .wbar { width: 3px; height: 8%; background: var(--honey); border-radius: 2px; transition: height .08s linear; }\n  .pill-label { font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em; }\n\n  /* raw caption */\n  .raw-cap {\n    position: absolute; left: 20px; right: 20px; bottom: -14px;\n    transform: translateY(100%);\n    display: flex; gap: 10px; align-items: baseline;\n    font-size: 13px; color: var(--muted); opacity: 0; transition: opacity .3s;\n  }\n  .raw-tag { flex: 0 0 auto; font-weight: 600; color: var(--coral); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; padding-top: 1px; }\n  .raw-text { font-style: italic; line-height: 1.4; }\n  .mode-badge {\n    position: absolute; top: 42px; right: 16px;\n    background: var(--amber); color: var(--paper);\n    font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em;\n    padding: 4px 10px; border-radius: 999px; opacity: 0;\n    transform: translateY(-4px); transition: opacity .3s, transform .3s;\n  }\n  [data-phase=\"writing\"] .mode-badge, [data-phase=\"sent\"] .mode-badge { opacity: 1; transform: none; }\n\n  /* ── section scaffolding ──────────────────────────────────── */\n  .band { padding: 96px 0; }\n  .band.paper2 { background: var(--paper-2); }\n  .band.ink { background: var(--ink); color: var(--paper); }\n  .sec-head { max-width: 640px; margin-bottom: 52px; }\n  .sec-tag { font-size: 13.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--amber-strong); margin-bottom: 14px; }\n  .band.ink .sec-tag { color: var(--honey); }\n  .sec-head h2 { font-size: clamp(32px, 4vw, 46px); }\n  .sec-head p { font-size: 18.5px; color: var(--ink-soft); margin: 16px 0 0; }\n  .band.ink .sec-head p { color: oklch(0.82 0.03 72); }\n\n  [data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }\n  [data-reveal].in { opacity: 1; transform: none; }\n  [data-reveal][data-d=\"1\"] { transition-delay: .08s; }\n  [data-reveal][data-d=\"2\"] { transition-delay: .16s; }\n  [data-reveal][data-d=\"3\"] { transition-delay: .24s; }\n  [data-reveal][data-d=\"4\"] { transition-delay: .32s; }\n\n  /* steps */\n  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }\n  .step { }\n  .step .n { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--amber); width: 34px; height: 34px; border: 1.5px solid var(--amber); border-radius: 50%; display: grid; place-items: center; margin-bottom: 20px; }\n  .step h3 { font-size: 21px; margin-bottom: 9px; }\n  .step p { color: var(--ink-soft); font-size: 16px; margin: 0; }\n  .step .kbd { display: inline-block; font-family: var(--font-body); font-weight: 600; font-size: 13px; background: var(--card); border: 1px solid var(--line); border-radius: 7px; padding: 2px 8px; color: var(--ink); }\n\n  /* modes */\n  .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }\n  .mode {\n    background: var(--card); border: 1px solid var(--line); border-radius: 20px;\n    padding: 34px 32px; position: relative; overflow: hidden;\n  }\n  .mode .micon { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 22px; }\n  .mode.t .micon { background: oklch(0.9 0.05 240 / 0.5); color: oklch(0.5 0.13 250); }\n  .mode.s .micon { background: oklch(0.9 0.07 66 / 0.7); color: var(--amber-strong); }\n  .mode h3 { font-size: 25px; margin-bottom: 12px; }\n  .mode p { color: var(--ink-soft); font-size: 16.5px; margin: 0 0 22px; }\n  .mode .demo-line { font-size: 14px; border-top: 1px dashed var(--line); padding-top: 16px; }\n  .mode .demo-line .lab { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--muted); display: block; margin-bottom: 5px; }\n  .mode .demo-line .said { color: var(--muted); font-style: italic; margin-bottom: 12px; }\n  .mode .demo-line .got { color: var(--ink); font-weight: 500; }\n  .modes-note { text-align: center; margin-top: 28px; color: var(--ink-soft); font-size: 15.5px; }\n  .modes-note .kbd { font-weight: 600; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 7px; padding: 2px 8px; font-size: 13px; }\n\n  /* facts */\n  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }\n  .fact { background: var(--paper); padding: 26px 24px; }\n  .fact .fi { color: var(--amber); margin-bottom: 14px; display: block; }\n  .fact .fi svg { width: 24px; height: 24px; display: block; }\n  .fact h3 { font-size: 17.5px; margin-bottom: 7px; letter-spacing: -0.01em; }\n  .fact p { font-size: 14.5px; color: var(--ink-soft); margin: 0; line-height: 1.45; }\n\n  /* who — dark */\n  .who { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }\n  .who-card { border: 1px solid oklch(0.4 0.05 50); border-radius: 16px; padding: 26px 24px; background: oklch(0.29 0.05 45); }\n  .who-card h3 { font-size: 19px; margin-bottom: 8px; color: var(--paper); }\n  .who-card p { font-size: 15px; color: oklch(0.82 0.03 72); margin: 0; }\n  .who-card .em { color: var(--honey); font-weight: 600; }\n\n  /* inside / screenshots */\n  .inside-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }\n  .inside-grid .shot { display: flex; flex-direction: column; gap: 12px; }\n  .inside-grid image-slot { width: 100%; box-shadow: var(--shadow); border: 1px solid var(--line); }\n  .inside-cap { font-size: 14px; color: var(--muted); }\n  .inside-cap b { color: var(--ink-soft); font-weight: 600; }\n\n  /* final cta */\n  .cta-band { background: linear-gradient(150deg, var(--amber) 0%, var(--coral) 118%); color: var(--paper); padding: 92px 0; text-align: center; }\n  .cta-band h2 { font-size: clamp(34px, 4.6vw, 56px); font-weight: 800; max-width: 16ch; margin: 0 auto; }\n  .cta-band p { font-size: 19px; margin: 20px auto 34px; max-width: 44ch; color: oklch(0.98 0.02 85 / 0.92); }\n  .cta-band .btn-primary { background: var(--paper); color: var(--amber-strong); box-shadow: 0 14px 34px -12px oklch(0.3 0.1 40 / 0.5); }\n  .cta-band .btn-primary:hover { background: var(--card); }\n  .cta-band .fine { font-size: 13.5px; color: oklch(0.98 0.02 85 / 0.8); margin-top: 20px; }\n\n  /* footer */\n  footer { background: var(--ink); color: oklch(0.8 0.03 72); padding: 54px 0 46px; }\n  .foot { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; flex-wrap: wrap; }\n  .foot .brand { color: var(--paper); }\n  .foot .app-icon { width: 32px; height: 32px; }\n  .foot-note { max-width: 40ch; font-size: 14.5px; line-height: 1.5; }\n  .goodtoknow { font-size: 13px; color: oklch(0.68 0.03 72); margin-top: 16px; }\n  .goodtoknow b { color: var(--honey); font-weight: 600; }\n\n  /* responsive */\n  @media (max-width: 940px) {\n    .hero .wrap { grid-template-columns: 1fr; gap: 44px; }\n    .steps { grid-template-columns: 1fr; gap: 30px; }\n    .facts { grid-template-columns: repeat(2, 1fr); }\n    .modes, .inside-grid { grid-template-columns: 1fr; }\n    .who { grid-template-columns: 1fr; }\n    .nav-links a.link { display: none; }\n  }\n  @media (max-width: 560px) {\n    .wrap { padding: 0 20px; }\n    .facts { grid-template-columns: 1fr; }\n    .hero h1 { font-size: 44px; }\n    .band { padding: 68px 0; }\n  }\n<\u002Fstyle>\n<\u002Fhead>\n<body>\n\n\n\n<!-- glyph symbol -->\n<svg width=\"0\" height=\"0\" style=\"position:absolute\" aria-hidden=\"true\">\n  <symbol id=\"vt-glyph\" viewBox=\"0 0 512 512\">\n    <g fill=\"currentColor\">\n      <rect x=\"117\" y=\"181\" width=\"18\" height=\"150\" rx=\"9\"><\u002Frect>\n      <rect x=\"151\" y=\"144\" width=\"18\" height=\"224\" rx=\"9\"><\u002Frect>\n      <rect x=\"185\" y=\"208\" width=\"18\" height=\"96\" rx=\"9\"><\u002Frect>\n      <rect x=\"219\" y=\"161\" width=\"18\" height=\"190\" rx=\"9\"><\u002Frect>\n      <rect x=\"286\" y=\"196\" width=\"112\" height=\"20\" rx=\"10\"><\u002Frect>\n      <rect x=\"286\" y=\"246\" width=\"96\" height=\"20\" rx=\"10\"><\u002Frect>\n      <rect x=\"286\" y=\"296\" width=\"70\" height=\"20\" rx=\"10\"><\u002Frect>\n    <\u002Fg>\n  <\u002Fsymbol>\n<\u002Fsvg>\n\n<!-- NAV -->\n<nav id=\"nav\">\n  <div class=\"wrap nav-inner\">\n    <a class=\"brand\" href=\"#top\">\n      <span class=\"app-icon\"><svg><use href=\"#vt-glyph\"><\u002Fuse><\u002Fsvg><\u002Fspan>\n      VText\n    <\u002Fa>\n    <div class=\"nav-links\">\n      <div class=\"lang\" id=\"lang\">\n        <button class=\"lang-btn\" id=\"lang-btn\" aria-haspopup=\"true\" aria-expanded=\"false\" aria-label=\"Language\">\n          <svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"9\"><\u002Fcircle><path d=\"M3 12h18\"><\u002Fpath><path d=\"M12 3c2.6 2.9 2.6 15.1 0 18M12 3c-2.6 2.9-2.6 15.1 0 18\"><\u002Fpath><\u002Fsvg>\n          <span id=\"lang-cur\">EN<\u002Fspan>\n          <svg class=\"chev\" viewBox=\"0 0 24 24\" width=\"12\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><path d=\"M6 9l6 6 6-6\"><\u002Fpath><\u002Fsvg>\n        <\u002Fbutton>\n        <div class=\"lang-menu\" id=\"lang-menu\" role=\"menu\"><\u002Fdiv>\n      <\u002Fdiv>\n      <a class=\"btn btn-primary btn-sm\" href=\"VText.dmg\" download><span data-i18n=\"nav.download\">Download<\u002Fspan><\u002Fa>\n    <\u002Fdiv>\n  <\u002Fdiv>\n<\u002Fnav>\n\n<!-- HERO -->\n<header class=\"hero\" id=\"top\">\n  <div class=\"wrap\">\n    <div class=\"hero-copy\">\n      <span class=\"eyebrow\"><span class=\"dot\"><\u002Fspan> <span data-i18n=\"hero.eyebrow\">macOS menu-bar app<\u002Fspan><\u002Fspan>\n      <h1><span data-i18n=\"hero.h1_1\">Don't type.<\u002Fspan><br><span class=\"b\" data-i18n=\"hero.h1_2\">Just talk.<\u002Fspan><\u002Fh1>\n      <p class=\"sub\" data-i18n=\"hero.sub\">VText sits in your menu bar. Press your shortcut, talk, and clean text appears right where your cursor is — no window, no app-switching, no typing it out.<\u002Fp>\n      <div class=\"hero-cta\">\n        <a class=\"btn btn-primary\" href=\"VText.dmg\" download id=\"download\">\n          <svg class=\"apple\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M16.365 1.43c0 1.14-.417 2.2-1.11 2.985-.744.85-1.96 1.51-3.05 1.42-.13-1.1.44-2.27 1.12-3.02.76-.84 2.06-1.47 3.04-1.5.02.04.02.08 0 .12zM20.5 17.13c-.55 1.27-.82 1.84-1.53 2.96-1 1.57-2.4 3.52-4.14 3.53-1.55.02-1.95-1-4.05-.99-2.1.01-2.54 1.01-4.09.99-1.74-.02-3.07-1.78-4.06-3.34C-.02 16.9-.3 11.7 1.63 8.94c1.06-1.53 2.73-2.5 4.3-2.5 1.6 0 2.6 1.01 3.92 1.01 1.28 0 2.06-1.01 3.9-1.01 1.4 0 2.88.76 3.94 2.08-3.46 1.9-2.9 6.85.31 8.61z\"><\u002Fpath><\u002Fsvg>\n          <span data-i18n=\"hero.download\">Download for macOS<\u002Fspan>\n        <\u002Fa>\n        <span class=\"hero-meta\"><b data-i18n=\"hero.metaFree\">Free<\u002Fb> <span data-i18n=\"hero.metaRest\">· macOS 12+ · no account<\u002Fspan><\u002Fspan>\n      <\u002Fdiv>\n    <\u002Fdiv>\n\n    <div class=\"hero-stage\" data-reveal=\"\">\n      <div class=\"mac-window\" id=\"demo\" data-phase=\"idle\">\n        <div class=\"menubar\">\n          <div class=\"mb-left\">\n            <span class=\"app\" data-i18n=\"demo.appName\">Messages<\u002Fspan>\n            <span class=\"mi\" data-i18n=\"demo.file\">File<\u002Fspan><span class=\"mi\" data-i18n=\"demo.edit\">Edit<\u002Fspan><span class=\"mi\" data-i18n=\"demo.view\">View<\u002Fspan>\n          <\u002Fdiv>\n          <div class=\"mb-right\">\n            <span class=\"vt-mb\"><svg><use href=\"#vt-glyph\"><\u002Fuse><\u002Fsvg><\u002Fspan>\n            <svg class=\"mb-ic\" width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 3a9 9 0 019 9h-2a7 7 0 00-7-7V3zm0 4a5 5 0 015 5h-2a3 3 0 00-3-3V7z\"><\u002Fpath><circle cx=\"12\" cy=\"12\" r=\"2\"><\u002Fcircle><\u002Fsvg>\n            <svg class=\"mb-ic\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"2\" y=\"7\" width=\"16\" height=\"10\" rx=\"2\"><\u002Frect><path d=\"M20 10v4\"><\u002Fpath><\u002Fsvg>\n            <span style=\"font-variant-numeric:tabular-nums;\">9:41<\u002Fspan>\n          <\u002Fdiv>\n        <\u002Fdiv>\n\n        <div class=\"chat\">\n          <div class=\"chat-head\">\n            <span class=\"ava\"><\u002Fspan>\n            <div>\n              <div class=\"who\" data-i18n=\"demo.contact\">Alex Rivera<\u002Fdiv>\n              <div class=\"stat\" data-i18n=\"demo.online\">online<\u002Fdiv>\n            <\u002Fdiv>\n          <\u002Fdiv>\n          <div class=\"messages\" id=\"demo-messages\">\n            <div class=\"msg in\" data-i18n=\"demo.incoming\">Morning! Did you get a chance to look at the schedule?<\u002Fdiv>\n          <\u002Fdiv>\n          <div class=\"composer\">\n            <div class=\"input placeholder\" id=\"demo-input\">Message<\u002Fdiv>\n            <button class=\"send\" aria-label=\"Send\">↑<\u002Fbutton>\n          <\u002Fdiv>\n        <\u002Fdiv>\n\n        <span class=\"mode-badge\" id=\"demo-mode\">Shorten<\u002Fspan>\n\n        <div class=\"pill\">\n          <span class=\"rec-dot\"><\u002Fspan>\n          <div class=\"wave\" id=\"demo-wave\"><\u002Fdiv>\n          <span class=\"pill-label\" id=\"demo-pill-label\">Listening<\u002Fspan>\n        <\u002Fdiv>\n\n        <div class=\"raw-cap\" id=\"demo-raw-wrap\">\n          <span class=\"raw-tag\" data-i18n=\"demo.raw\">You said<\u002Fspan>\n          <span class=\"raw-text\" id=\"demo-raw\"><\u002Fspan>\n        <\u002Fdiv>\n      <\u002Fdiv>\n    <\u002Fdiv>\n  <\u002Fdiv>\n<\u002Fheader>\n\n<!-- MODES -->\n<section class=\"band paper2\" id=\"modes\">\n  <div class=\"wrap\">\n    <div class=\"sec-head\" data-reveal=\"\">\n      <div class=\"sec-tag\" data-i18n=\"modes.tag\">Two ways<\u002Fdiv>\n      <h2 data-i18n=\"modes.h2\">Say it however it comes out.<\u002Fh2>\n    <\u002Fdiv>\n    <div class=\"modes\">\n      <div class=\"mode t\" data-reveal=\"\" data-d=\"1\">\n        <div class=\"micon\">\n          <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M4 7V5h16v2M9 5v14M15 5v14M7 19h4M13 19h4\"><\u002Fpath><\u002Fsvg>\n        <\u002Fdiv>\n        <h3 data-i18n=\"modes.tH\">Every word, no typos<\u002Fh3>\n        <p data-i18n=\"modes.tP\">Get exactly what you said — spelled right, with punctuation. You don't fix a thing.<\u002Fp>\n      <\u002Fdiv>\n      <div class=\"mode s\" data-reveal=\"\" data-d=\"2\">\n        <div class=\"micon\">\n          <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 6h16M4 12h10M4 18h6\"><\u002Fpath><path d=\"M15 16l3 3 4-5\"><\u002Fpath><\u002Fsvg>\n        <\u002Fdiv>\n        <h3 data-i18n=\"modes.sH\">Ramble, get clarity<\u002Fh3>\n        <p data-i18n=\"modes.sP\">Talk as long and messy as you want. VText makes it short, simple and clear — perfect when your thoughts race ahead.<\u002Fp>\n        <div class=\"demo-line\">\n          <span class=\"lab\" data-i18n=\"modes.sYouSaid\">You said<\u002Fspan>\n          <div class=\"said\" data-i18n=\"modes.sSaidText\">\"um so like maybe we could move the meeting to Thursday if that works, cause mornings are kinda crazy…\"<\u002Fdiv>\n          <span class=\"lab\" data-i18n=\"modes.sWrote\">VText wrote<\u002Fspan>\n          <div class=\"got\" data-i18n=\"modes.sWroteText\">\"Can we move the meeting to Thursday afternoon? Mornings are packed for me.\"<\u002Fdiv>\n        <\u002Fdiv>\n      <\u002Fdiv>\n    <\u002Fdiv>\n    <p class=\"modes-note\" data-i18n=\"modes.note\">Both shortcuts are fully configurable — hold <span class=\"kbd\">⌥Space<\u002Fspan> for one, <span class=\"kbd\">⌥⇧Space<\u002Fspan> for the other, or whatever fits your hands.<\u002Fp>\n  <\u002Fdiv>\n<\u002Fsection>\n\n<!-- WHY / FACTS -->\n<section class=\"band\" id=\"why\">\n  <div class=\"wrap\">\n    <div class=\"sec-head\" data-reveal=\"\">\n      <div class=\"sec-tag\" data-i18n=\"why.tag\">Good to know<\u002Fdiv>\n      <h2 data-i18n=\"why.h2\">Simple, and out of your way.<\u002Fh2>\n    <\u002Fdiv>\n    <div class=\"facts\" data-reveal=\"\">\n      <div class=\"fact\">\n        <span class=\"fi\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M3 12h18M12 3v18\"><\u002Fpath><circle cx=\"12\" cy=\"12\" r=\"9\"><\u002Fcircle><\u002Fsvg><\u002Fspan>\n        <h3 data-i18n=\"why.f1h\">Works everywhere<\u002Fh3>\n        <p data-i18n=\"why.f1p\">Inserts text wherever your cursor is, in any app. If it can't, the text is on your clipboard.<\u002Fp>\n      <\u002Fdiv>\n      <div class=\"fact\">\n        <span class=\"fi\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M12 3v3M6 8a6 6 0 0112 0v3a6 6 0 01-12 0z\"><\u002Fpath><path d=\"M8 19h8M12 15v4\"><\u002Fpath><\u002Fsvg><\u002Fspan>\n        <h3 data-i18n=\"why.f3h\">Any language<\u002Fh3>\n        <p data-i18n=\"why.f3p\">Talk in the language you want.<\u002Fp>\n      <\u002Fdiv>\n      <div class=\"fact\">\n        <span class=\"fi\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z\"><\u002Fpath><\u002Fsvg><\u002Fspan>\n        <h3 data-i18n=\"why.f4h\">Free<\u002Fh3>\n        <p data-i18n=\"why.f4p\">No sign-up. Just download and go.<\u002Fp>\n      <\u002Fdiv>\n      <div class=\"fact\">\n        <span class=\"fi\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3a4 4 0 014 4v4M8 11V7a4 4 0 014-4\"><\u002Fpath><rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\"><\u002Frect><path d=\"M4 4l16 16\"><\u002Fpath><\u002Fsvg><\u002Fspan>\n        <h3 data-i18n=\"why.f5h\">Yours stays yours<\u002Fh3>\n        <p data-i18n=\"why.f5p\">Your words aren't saved or shared.<\u002Fp>\n      <\u002Fdiv>\n    <\u002Fdiv>\n  <\u002Fdiv>\n<\u002Fsection>\n\n<!-- FINAL CTA -->\n<section class=\"cta-band\">\n  <div class=\"wrap\" data-reveal=\"\">\n    <h2 data-i18n=\"cta.h2\">Stop typing what you could say.<\u002Fh2>\n    <p data-i18n=\"cta.sub\">Install VText, pick a shortcut, and get your next message out in one breath.<\u002Fp>\n    <a class=\"btn btn-primary\" href=\"VText.dmg\" download>\n      <svg class=\"apple\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M16.365 1.43c0 1.14-.417 2.2-1.11 2.985-.744.85-1.96 1.51-3.05 1.42-.13-1.1.44-2.27 1.12-3.02.76-.84 2.06-1.47 3.04-1.5.02.04.02.08 0 .12zM20.5 17.13c-.55 1.27-.82 1.84-1.53 2.96-1 1.57-2.4 3.52-4.14 3.53-1.55.02-1.95-1-4.05-.99-2.1.01-2.54 1.01-4.09.99-1.74-.02-3.07-1.78-4.06-3.34C-.02 16.9-.3 11.7 1.63 8.94c1.06-1.53 2.73-2.5 4.3-2.5 1.6 0 2.6 1.01 3.92 1.01 1.28 0 2.06-1.01 3.9-1.01 1.4 0 2.88.76 3.94 2.08-3.46 1.9-2.9 6.85.31 8.61z\"><\u002Fpath><\u002Fsvg>\n      <span data-i18n=\"cta.button\">Download for macOS<\u002Fspan>\n    <\u002Fa>\n    <div class=\"fine\" data-i18n=\"cta.fine\">Free while in beta · macOS only · needs an internet connection<\u002Fdiv>\n  <\u002Fdiv>\n<\u002Fsection>\n\n<!-- FOOTER -->\n<footer>\n  <div class=\"wrap foot\">\n    <div>\n      <div class=\"brand\">\n        <span class=\"app-icon\"><svg><use href=\"#vt-glyph\"><\u002Fuse><\u002Fsvg><\u002Fspan>\n        VText\n      <\u002Fdiv>\n      <p class=\"foot-note\" data-i18n=\"footer.note\">A small, precise utility that turns your voice into text you can send — and otherwise stays out of your way.<\u002Fp>\n    <\u002Fdiv>\n    <div class=\"goodtoknow\" data-i18n=\"footer.goodtoknow\">\n      <b>Good to know:<\u002Fb> macOS only · needs internet · free for now.<br>\n      Questions or a bug? Message the developer straight from the app.\n    <\u002Fdiv>\n  <\u002Fdiv>\n<\u002Ffooter>\n\n<script src=\"a2a156d4-7de5-4505-898f-3b4225406cc7\"><\u002Fscript>\n<script src=\"48659cb4-e3d3-4610-94e3-a5b9be477f4d\"><\u002Fscript>\n\n\n\n<\u002Fbody><\u002Fhtml>"
-  </script>
 </body>
 </html>
