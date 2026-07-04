@@ -112,6 +112,7 @@
     <div class="eyebrow">Скачивания приложений (.dmg)</div>
     <ul>
       <li><span><span class="name">CCV</span><span class="sub">→ CCV.dmg</span></span><span class="count" data-key="dl-ccv">—</span></li>
+      <li><span><span class="name">VText</span><span class="sub">→ VText.dmg</span></span><span class="count" data-key="dl-vtext">—</span></li>
       <li><span><span class="name">EN-RU Switcher</span><span class="sub">→ EN-RU-Switcher.dmg</span></span><span class="count" data-key="dl-switcher">—</span></li>
       <li><span><span class="name">Telesufler</span><span class="sub">→ Telesufler.dmg</span></span><span class="count" data-key="dl-telesufler">—</span></li>
     </ul>
@@ -126,10 +127,11 @@
   </div>
 
   <div class="block">
-    <div class="eyebrow">Открытия страницы CCV</div>
+    <div class="eyebrow">Открытия страниц</div>
     <ul>
       <li><span><span class="name">Заходов на /ccv/</span><span class="sub">прямые + любые</span></span><span class="count" data-key="visit-ccv">—</span></li>
-      <li><span><span class="name">Переходов с главной</span><span class="sub">клик по плитке CCV</span></span><span class="count" data-key="open-ccv">—</span></li>
+      <li><span><span class="name">Переходов на CCV с главной</span><span class="sub">клик по плитке CCV</span></span><span class="count" data-key="open-ccv">—</span></li>
+      <li><span><span class="name">Заходов на /vtext/</span><span class="sub">прямые + любые</span></span><span class="count" data-key="visit-vtext">—</span></li>
     </ul>
   </div>
 
@@ -142,7 +144,7 @@
 
 <script>
   const NS = 'kelappa-2026';
-  const KEYS = ['visits', 'dl-ccv', 'dl-switcher', 'dl-telesufler', 'dl-flofi', 'dl-teleprompter', 'visit-ccv', 'open-ccv'];
+  const KEYS = ['visits', 'dl-ccv', 'dl-vtext', 'dl-switcher', 'dl-telesufler', 'dl-flofi', 'dl-teleprompter', 'visit-ccv', 'open-ccv', 'visit-vtext'];
 
   const fetchCount = async (key) => {
     try {

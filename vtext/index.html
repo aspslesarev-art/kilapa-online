@@ -535,5 +535,21 @@
 <script src="i18n.js"></script>
 <script src="landing.js"></script>
 
+<!-- Download analytics: abacus counter (GET-only). Counts /vtext/ visits and VText.dmg downloads. -->
+<script>
+(function () {
+  var NS = 'kelappa-2026';
+  var hit = function (key) {
+    try {
+      new Image().src = 'https://abacus.jasoncameron.dev/hit/' + NS + '/' + key + '?t=' + Date.now();
+    } catch (e) { /* best-effort */ }
+  };
+  hit('visit-vtext');
+  document.querySelectorAll('a[href$="VText.dmg"]').forEach(function (a) {
+    a.addEventListener('click', function () { hit('dl-vtext'); });
+  });
+})();
+</script>
+
 </body>
 </html>
