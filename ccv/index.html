@@ -1232,5 +1232,21 @@ if (stageEl) ReactDOM.createRoot(stageEl).render(<HeroAnim />);
   </svg>
 </template>
 
+<!-- Download analytics: abacus counter (GET-only). Counts /ccv/ visits and CCV.dmg downloads. -->
+<script>
+(function () {
+  var NS = 'kelappa-2026';
+  var hit = function (key) {
+    try {
+      new Image().src = 'https://abacus.jasoncameron.dev/hit/' + NS + '/' + key + '?t=' + Date.now();
+    } catch (e) { /* best-effort */ }
+  };
+  hit('visit-ccv');
+  document.querySelectorAll('a[href$="CCV.dmg"]').forEach(function (a) {
+    a.addEventListener('click', function () { hit('dl-ccv'); });
+  });
+})();
+</script>
+
 </body>
 </html>

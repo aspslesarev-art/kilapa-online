@@ -5,11 +5,13 @@ const { useState: useStateL } = React;
 // ── Counter (abacus.jasoncameron.dev — no-auth pageview counter) ─
 const COUNTER_NS = 'kelappa-2026';
 const counterHit = (key) => {
-  const url = `https://abacus.jasoncameron.dev/hit/${COUNTER_NS}/${key}`;
-  if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
-    navigator.sendBeacon(url);
-  } else {
-    fetch(url, { method: 'POST', keepalive: true }).catch(() => {});
+  // abacus increments on GET only (POST / sendBeacon are ignored). Use an
+  // Image so the request still fires while the browser navigates away on a
+  // download or outbound-link click.
+  try {
+    new Image().src = `https://abacus.jasoncameron.dev/hit/${COUNTER_NS}/${key}?t=${Date.now()}`;
+  } catch (_) {
+    /* counting is best-effort — never block the click */
   }
 };
 
@@ -95,7 +97,7 @@ function Nav({ t, copy }) {
 function Hero({ t, copy }) {
   const isMobile = useIsMobile();
   const apps = [
-    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            sub: 'macOS · DMG',   href: 'https://kelappa.com/ccv/',                  track: 'dl-ccv' },
+    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            sub: 'macOS · DMG',   href: 'https://kelappa.com/ccv/',                  track: 'open-ccv' },
     { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText',          sub: 'macOS · DMG'                                                                       },
     { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          sub: 'iOS · web',     href: 'https://flofi.online',                      track: 'dl-flofi' },
     { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG',   href: '/switcher/EN-RU-Switcher.dmg',              track: 'dl-switcher' },

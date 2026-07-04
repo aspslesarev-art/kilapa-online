@@ -109,13 +109,27 @@
   </div>
 
   <div class="block">
-    <div class="eyebrow">Клики по приложениям</div>
+    <div class="eyebrow">Скачивания приложений (.dmg)</div>
     <ul>
-      <li><span><span class="name">CCV</span><span class="sub">→ /ccv/</span></span><span class="count" data-key="dl-ccv">—</span></li>
+      <li><span><span class="name">CCV</span><span class="sub">→ CCV.dmg</span></span><span class="count" data-key="dl-ccv">—</span></li>
+      <li><span><span class="name">EN-RU Switcher</span><span class="sub">→ EN-RU-Switcher.dmg</span></span><span class="count" data-key="dl-switcher">—</span></li>
+      <li><span><span class="name">Telesufler</span><span class="sub">→ Telesufler.dmg</span></span><span class="count" data-key="dl-telesufler">—</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <div class="eyebrow">Переходы на внешние приложения</div>
+    <ul>
       <li><span><span class="name">FloFi</span><span class="sub">→ flofi.online</span></span><span class="count" data-key="dl-flofi">—</span></li>
-      <li><span><span class="name">EN-RU Switcher</span><span class="sub">→ DMG</span></span><span class="count" data-key="dl-switcher">—</span></li>
       <li><span><span class="name">Teleprompter</span><span class="sub">→ free-teleprompter.online</span></span><span class="count" data-key="dl-teleprompter">—</span></li>
-      <li><span><span class="name">Telesufler</span><span class="sub">→ DMG</span></span><span class="count" data-key="dl-telesufler">—</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <div class="eyebrow">Открытия страницы CCV</div>
+    <ul>
+      <li><span><span class="name">Заходов на /ccv/</span><span class="sub">прямые + любые</span></span><span class="count" data-key="visit-ccv">—</span></li>
+      <li><span><span class="name">Переходов с главной</span><span class="sub">клик по плитке CCV</span></span><span class="count" data-key="open-ccv">—</span></li>
     </ul>
   </div>
 
@@ -128,7 +142,7 @@
 
 <script>
   const NS = 'kelappa-2026';
-  const KEYS = ['visits', 'dl-ccv', 'dl-flofi', 'dl-switcher', 'dl-teleprompter', 'dl-telesufler'];
+  const KEYS = ['visits', 'dl-ccv', 'dl-switcher', 'dl-telesufler', 'dl-flofi', 'dl-teleprompter', 'visit-ccv', 'open-ccv'];
 
   const fetchCount = async (key) => {
     try {
