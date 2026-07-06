@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clipdeck — расширенный буфер обмена для Mac</title>
+<meta name="description" content="Вся история копирований и сохранённые заготовки в одной панели по ⌥⌘C. Клик — и текст вставлен туда, где курсор.">
+<style>
+  :root{
+    --violet:#7B3FD4; --magenta:#A13A9C; --coral:#E0704A;
+    --deep:#5A2A8C; --ink:#1D1D1F; --muted:#6b6b70; --line:#e9e9ee;
+    --grad:linear-gradient(135deg,#7B3FD4 0%,#A13A9C 48%,#E0704A 100%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,sans-serif;
+    color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+  a{color:inherit}
+
+  /* Hero */
+  header{text-align:center;padding:46px 0 34px}
+  .brand{display:inline-flex;align-items:center;gap:11px;margin-bottom:26px}
+  .brand img{width:40px;height:40px;border-radius:10px}
+  .brand span{font-size:20px;font-weight:700;letter-spacing:-.2px}
+  h1{font-size:clamp(30px,6vw,44px);font-weight:800;letter-spacing:-.8px;line-height:1.08}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:clamp(16px,3.4vw,19px);color:var(--muted);max-width:560px;margin:16px auto 0}
+
+  .cta{display:inline-flex;align-items:center;gap:9px;margin-top:26px;padding:14px 24px;border-radius:13px;
+    background:var(--grad);color:#fff;font-size:16px;font-weight:600;text-decoration:none;
+    box-shadow:0 10px 26px -10px rgba(123,63,212,.6);transition:transform .12s,box-shadow .12s}
+  .cta:hover{transform:translateY(-1px);box-shadow:0 14px 30px -10px rgba(123,63,212,.7)}
+  .sub{margin-top:11px;font-size:13px;color:var(--muted)}
+
+  /* Value props */
+  .props{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:6px 0 40px}
+  .prop{border:1px solid var(--line);border-radius:14px;padding:16px 15px;text-align:left}
+  .prop .ic{font-size:20px}
+  .prop h3{font-size:14.5px;font-weight:700;margin:9px 0 4px}
+  .prop p{font-size:13px;color:var(--muted);line-height:1.45}
+
+  /* Steps */
+  .steps{border-top:1px solid var(--line);padding:34px 0 46px}
+  .steps h2{font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:18px;text-align:center}
+  .step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:0}
+  .num{flex:none;width:28px;height:28px;border-radius:9px;background:var(--grad);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+  .step .t{font-size:15px}
+  .step .t b{font-weight:700}
+  .step .t .why{display:block;margin-top:4px;font-size:13.5px;color:var(--muted)}
+  kbd{font-family:inherit;background:#f0eef7;border:1px solid #e3def0;border-radius:6px;padding:1px 7px;font-size:13px;font-weight:600}
+
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 0 40px}
+
+  @media (max-width:560px){ .props{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand"><img src="./icon.png" alt="Clipdeck"><span>Clipdeck</span></div>
+    <h1>Буфер обмена, <span class="g">который помнит всё</span></h1>
+    <p class="lead">Вся история копирований и сохранённые заготовки — в одной панели по <kbd>⌥⌘C</kbd>. Клик — и текст вставлен туда, где стоит курсор.</p>
+    <a class="cta" href="../Clipdeck.dmg" download>↓ Скачать для macOS</a>
+    <div class="sub">macOS 14+ · бесплатно · 1.8 МБ</div>
+  </header>
+
+  <section class="props">
+    <div class="prop"><div class="ic">📋</div><h3>История буфера</h3><p>Текст, ссылки, цвета, код, картинки, файлы — ничего не теряется, всё под поиском.</p></div>
+    <div class="prop"><div class="ic">🔖</div><h3>Заготовки</h3><p>Почта, реквизиты, карты — с маскированием. Вставка в один клик.</p></div>
+    <div class="prop"><div class="ic">⚡</div><h3>Быстро</h3><p>Вызов <kbd>⌥⌘C</kbd> (можно сменить), поиск и вставка в любое приложение.</p></div>
+  </section>
+
+  <section class="steps">
+    <h2>Как начать</h2>
+    <div class="step">
+      <div class="num">1</div>
+      <div class="t"><b>Установи.</b> Открой Clipdeck.dmg и перетащи Clipdeck в «Программы». Первый запуск — правый клик по иконке → «Открыть» (приложение пока без подписи Apple, это нормально).</div>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <div class="t"><b>Разреши «Универсальный доступ».</b> При запуске macOS попросит доступ — нажми «Разрешить».
+        <span class="why">Зачем это нужно: только с этим разрешением Clipdeck может вставлять выбранное <b>прямо туда, где курсор</b> — он нажимает <kbd>⌘V</kbd> за тебя. Без него приложение лишь копирует в буфер, а вставлять придётся вручную. Никаких других данных доступ не даёт.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <div class="t"><b>Нажми <kbd>⌥⌘C</kbd>.</b> Откроется панель с историей и заготовками. Клик по записи — вставка, наведение — иконка «копировать». Готово.</div>
+    </div>
+  </section>
+
+  <footer>Clipdeck · сделано для macOS · <a href="mailto:asp.slesarev@gmail.com">написать разработчику</a></footer>
+
+</div>
+
+<script>
+  function hit(k){ try{ new Image().src = 'https://abacus.jasoncameron.dev/hit/kelappa-2026/'+k+'?t='+Date.now(); }catch(e){} }
+  hit('visit-clipdeck');
+  document.querySelectorAll('a[href$="Clipdeck.dmg"]').forEach(function(a){
+    a.addEventListener('click', function(){ hit('dl-clipdeck'); });
+  });
+</script>
+</body>
+</html>
