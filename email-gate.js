@@ -3,11 +3,13 @@
  *
  * Drop `<script defer src="/email-gate.js"></script>` on any landing page.
  * The script intercepts clicks on `a[href$=".dmg"]` (capture phase, so it also
- * covers React-rendered anchors), collects the address, ships it to the Google
- * Apps Script endpoint below, then starts the download itself.
+ * covers React-rendered anchors) and asks for an address before letting the
+ * download through.
  *
- * Failure never blocks the download: if the endpoint is unreachable the lead is
- * parked in localStorage and retried on the next page load.
+ * The download never waits on the network: the moment the address validates,
+ * the file starts and the lead flies to the Google Apps Script endpoint in the
+ * background. If that request fails, the lead is parked in localStorage and
+ * retried on the next page load.
  */
 (function () {
   'use strict';
@@ -23,7 +25,9 @@
   var STORAGE_EMAIL = 'kelappa_email';
   var STORAGE_PENDING = 'kelappa_gate_pending';
   var PENDING_MAX = 20;
-  var SEND_TIMEOUT_MS = 5000;
+  // Generous: nothing waits on this request, and a premature abort would park a
+  // lead that actually landed, duplicating the row on the retry.
+  var SEND_TIMEOUT_MS = 30000;
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   // Filename → { app label, abacus counter key }
@@ -38,55 +42,55 @@
   var STRINGS = {
     en: {
       title: 'Download {app}', sub: 'Leave your email — the download starts right after.',
-      ph: 'you@example.com', cta: 'Download', sending: 'Sending…',
+      ph: 'you@example.com', cta: 'Download',
       invalid: 'That email looks off. Mind checking it?',
       note: 'Only update notices. No spam, no sharing.', close: 'Close'
     },
     ru: {
       title: 'Скачать {app}', sub: 'Оставьте email — скачивание начнётся сразу после.',
-      ph: 'you@example.com', cta: 'Скачать', sending: 'Отправляем…',
+      ph: 'you@example.com', cta: 'Скачать',
       invalid: 'Кажется, в email опечатка.',
       note: 'Пишем только про обновления. Без спама.', close: 'Закрыть'
     },
     es: {
       title: 'Descargar {app}', sub: 'Deja tu email: la descarga empieza justo después.',
-      ph: 'tu@ejemplo.com', cta: 'Descargar', sending: 'Enviando…',
+      ph: 'tu@ejemplo.com', cta: 'Descargar',
       invalid: 'Ese email no parece válido.',
       note: 'Solo avisos de novedades. Sin spam.', close: 'Cerrar'
     },
     fr: {
       title: 'Télécharger {app}', sub: 'Laissez votre email — le téléchargement démarre juste après.',
-      ph: 'vous@exemple.com', cta: 'Télécharger', sending: 'Envoi…',
+      ph: 'vous@exemple.com', cta: 'Télécharger',
       invalid: 'Cet email semble incorrect.',
       note: 'Uniquement les mises à jour. Pas de spam.', close: 'Fermer'
     },
     de: {
       title: '{app} laden', sub: 'E-Mail eintragen — der Download startet direkt danach.',
-      ph: 'du@beispiel.com', cta: 'Laden', sending: 'Senden…',
+      ph: 'du@beispiel.com', cta: 'Laden',
       invalid: 'Diese E-Mail sieht nicht richtig aus.',
       note: 'Nur Update-Infos. Kein Spam.', close: 'Schließen'
     },
     pt: {
       title: 'Baixar {app}', sub: 'Deixe seu email — o download começa logo em seguida.',
-      ph: 'voce@exemplo.com', cta: 'Baixar', sending: 'Enviando…',
+      ph: 'voce@exemplo.com', cta: 'Baixar',
       invalid: 'Esse email parece inválido.',
       note: 'Só avisos de atualização. Sem spam.', close: 'Fechar'
     },
     zh: {
       title: '下载 {app}', sub: '留下邮箱，随后立即开始下载。',
-      ph: 'you@example.com', cta: '下载', sending: '发送中…',
+      ph: 'you@example.com', cta: '下载',
       invalid: '邮箱格式好像不对。',
       note: '仅用于更新通知，绝不发垃圾邮件。', close: '关闭'
     },
     ja: {
       title: '{app} をダウンロード', sub: 'メールを入力すると、すぐにダウンロードが始まります。',
-      ph: 'you@example.com', cta: 'ダウンロード', sending: '送信中…',
+      ph: 'you@example.com', cta: 'ダウンロード',
       invalid: 'メールアドレスに誤りがあるようです。',
       note: 'アップデートのお知らせのみ。スパムは送りません。', close: '閉じる'
     },
     ar: {
       title: 'تنزيل {app}', sub: 'اترك بريدك الإلكتروني — يبدأ التنزيل بعده مباشرة.',
-      ph: 'you@example.com', cta: 'تنزيل', sending: 'جارٍ الإرسال…',
+      ph: 'you@example.com', cta: 'تنزيل',
       invalid: 'يبدو أن البريد الإلكتروني غير صحيح.',
       note: 'إشعارات التحديثات فقط. بدون رسائل مزعجة.', close: 'إغلاق'
     }
@@ -363,14 +367,14 @@
         return;
       }
       parts.err.textContent = '';
-      parts.btn.disabled = true;
-      parts.btn.textContent = s.sending;
       writeStore(STORAGE_EMAIL, email);
-      sendLead(buildPayload(email, app)).then(function () {
-        closeModal();
-        countDownload(app);
-        startDownload(href);
-      });
+      // Fire and forget: Apps Script can take seconds to answer, and nobody
+      // should watch a spinner for that. The request survives on keepalive,
+      // and a failed one is parked for the next page load.
+      sendLead(buildPayload(email, app));
+      closeModal();
+      countDownload(app);
+      startDownload(href);
     });
   }
 
