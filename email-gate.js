@@ -13,10 +13,11 @@
   'use strict';
 
   // ── Config ────────────────────────────────────────────────────────────────
-  // Apps Script web-app URL (Deploy → New deployment → Web app → Anyone).
-  // While this is a placeholder the gate stays disarmed and downloads behave
-  // exactly as they did before.
-  var ENDPOINT = 'https://script.google.com/macros/s/REPLACE_ME/exec';
+  // Apps Script web app that appends every lead to the "Kelappa leads" sheet.
+  // Source and redeploy instructions: apps-script/ next to this file.
+  // Swapping this back to a REPLACE_ME placeholder disarms the gate — downloads
+  // then behave exactly as they did before it existed.
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyEEk8BqF0Ep-HLXEUJWZ8vfteTao3bOUQB3dhMrcLflGEXlLl0TTn9kdP80c9FUBzp/exec';
 
   var COUNTER_NS = 'kelappa-2026';
   var STORAGE_EMAIL = 'kelappa_email';

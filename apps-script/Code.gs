@@ -2,10 +2,14 @@
  * Kelappa lead collector — Google Apps Script web app.
  *
  * Receives the JSON payload from /email-gate.js and appends one row per
- * download to the bound spreadsheet. Deploy as: Web app → Execute as "Me" →
- * Who has access "Anyone". See README.md next to this file.
+ * download to the "Kelappa leads" spreadsheet. This is a standalone script
+ * (not bound to the sheet), so it opens the target by id.
+ *
+ * Deployed as: Web app → Execute as "Me" → Who has access "Anyone".
+ * See README.md next to this file.
  */
 
+var SHEET_ID = '1keWRNoi1SiiNVG7CLP_UB1OeQWyxF1qmdfONbqG4HZ4';
 var SHEET_NAME = 'Leads';
 var HEADERS = [
   'ts', 'email', 'app', 'page', 'lang',
@@ -61,7 +65,7 @@ function appendLead(payload) {
 }
 
 function getSheet() {
-  var book = SpreadsheetApp.getActiveSpreadsheet();
+  var book = SpreadsheetApp.openById(SHEET_ID);
   var sheet = book.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = book.insertSheet(SHEET_NAME);
