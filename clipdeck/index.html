@@ -8,6 +8,8 @@
 <link rel="icon" href="brand/clipdeck-favicon.svg" type="image/svg+xml">
 <style>
   *{box-sizing:border-box}
+  /* email gate accent (see /email-gate.js) */
+  :root{--kg-accent:#7B3FD4;--kg-accent-fg:#fff}
   html{scroll-behavior:smooth}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",system-ui,sans-serif;-webkit-font-smoothing:antialiased;background:#fff;color:#1d1d1f;}
   @keyframes floatUp{0%{opacity:0;transform:translateY(24px)}100%{opacity:1;transform:none}}
@@ -239,5 +241,8 @@
   hit('visit-clipdeck');
   document.querySelectorAll('a[href$="Clipdeck.dmg"]').forEach(function(a){ a.addEventListener('click', function(){ hit('dl-clipdeck'); }); });
 </script>
+
+<!-- Email gate: every .dmg click asks for an email before the download starts. -->
+<script defer src="/email-gate.js"></script>
 </body>
 </html>

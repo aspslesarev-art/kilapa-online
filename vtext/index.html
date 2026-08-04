@@ -19,6 +19,9 @@
     --line: oklch(0.90 0.02 72);
     --line-soft: oklch(0.93 0.015 74);
     --shadow: 0 30px 70px -30px oklch(0.35 0.08 45 / 0.35);
+    /* email gate accent (see /email-gate.js) */
+    --kg-accent: oklch(0.605 0.19 45);
+    --kg-accent-fg: oklch(0.976 0.014 82);
     --font-display: -apple-system, "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
     --font-body: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
     --maxw: 1180px;
@@ -550,6 +553,9 @@
   });
 })();
 </script>
+
+<!-- Email gate: every .dmg click asks for an email before the download starts. -->
+<script defer src="/email-gate.js"></script>
 
 </body>
 </html>

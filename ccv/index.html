@@ -19,6 +19,9 @@
     --muted: #888581;
     --line: rgba(255,255,255,0.08);
     --line-strong: rgba(255,255,255,0.18);
+    /* email gate accent (see /email-gate.js) */
+    --kg-accent: #0a0a0a;
+    --kg-accent-fg: #f4f3f1;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -1247,6 +1250,9 @@ if (stageEl) ReactDOM.createRoot(stageEl).render(<HeroAnim />);
   });
 })();
 </script>
+
+<!-- Email gate: every .dmg click asks for an email before the download starts. -->
+<script defer src="/email-gate.js"></script>
 
 </body>
 </html>
