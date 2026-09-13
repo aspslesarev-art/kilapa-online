@@ -258,7 +258,6 @@ function AppsSection({ t, copy }) {
       <div style={{ maxWidth: 780, marginBottom: isMobile ? 36 : 64 }}>
         <Eyebrow color={t.husk}>{copy.apps.eyebrow}</Eyebrow>
         <H color={t.ink} size={56} style={{ marginTop: 16 }}>{copy.apps.h}</H>
-        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? 16 : 18, lineHeight: 1.55, color: t.husk, marginTop: 22 }}>{copy.apps.sub}</p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 16 : 22 }}>

@@ -19,8 +19,8 @@ const COPY = {
     manifesto: {
       eyebrow: 'Why we exist',
       h: 'We live with ADHD ourselves.',
-      p1: 'These days everyone says they have a bit of ADHD. But when you actually live with it, there is nothing to compare it to. The dumb slip-ups drive you mad. It drives you mad that they annoy other people. It drives you mad that they eat into your life.',
-      p2: 'So we build apps for ourselves\u00a0— to keep up with the world on equal terms. And we share them with you, because we have been where you are and we know how it feels. Most of those slip-ups can be fixed with technology and AI.',
+      p1: 'These days everyone says they have a bit of ADHD. But when you live with it every day, there is no mistaking it. And it drives you mad when dumb slip-ups get in the way of a normal life.',
+      p2: 'So we build ourselves crutches\u00a0— apps that take those slip-ups off our hands. And we share them with you.',
       p3: 'Someone with ADHD, AI and the right crutches might just be a superhuman. No promises, though.',
     },
     principles: {
@@ -37,8 +37,7 @@ const COPY = {
     },
     apps: {
       eyebrow: 'Our apps',
-      h: 'Small tools that get out of your way.',
-      sub: 'Each one removes one piece of daily friction that an ADHD brain runs into ten times a day. Most of them you can use today.',
+      h: 'Apps that help with ADHD.',
       items: [
         {
           name: 'CCV', sub: 'the notch · file portal',
@@ -160,8 +159,8 @@ const COPY = {
     manifesto: {
       eyebrow: 'Зачем мы\u00a0это делаем',
       h: 'Мы\u00a0сами живём с\u00a0СДВГ.',
-      p1: 'Сейчас модно говорить, что СДВГ у\u00a0всех. Но\u00a0когда живёшь с\u00a0этим каждый день, это ни\u00a0с\u00a0чем не\u00a0спутаешь. Бесят глупые косяки. Бесит, что они бесят других. Бесит, что они мешают нормально жить.',
-      p2: 'Поэтому мы\u00a0делаем приложения для себя\u00a0— чтобы жить и\u00a0работать наравне со\u00a0всеми. И\u00a0делимся ими с\u00a0вами: мы\u00a0были на\u00a0вашем месте и\u00a0понимаем, что вы\u00a0чувствуете. Большую часть этих косяков можно закрыть технологиями и\u00a0искусственным интеллектом.',
+      p1: 'Сейчас модно говорить, что СДВГ у\u00a0всех. Но\u00a0когда живёшь с\u00a0этим каждый день, это ни\u00a0с\u00a0чем не\u00a0спутаешь. И\u00a0бесит, когда глупые косяки мешают нормально жить.',
+      p2: 'Поэтому мы\u00a0делаем себе костыли\u00a0— приложения, которые берут эти косяки на\u00a0себя. И\u00a0делимся ими с\u00a0вами.',
       p3: 'СДВГшник с\u00a0ИИ\u00a0и\u00a0правильными костылями\u00a0— возможно, суперчеловек. Но\u00a0это не\u00a0точно.',
     },
     principles: {
@@ -178,8 +177,7 @@ const COPY = {
     },
     apps: {
       eyebrow: 'Наши приложения',
-      h: 'Небольшие инструменты, которые не\u00a0мешают.',
-      sub: 'Каждое убирает одну мелкую помеху, об\u00a0которую мозг с\u00a0СДВГ спотыкается по\u00a0десять раз на\u00a0дню. Большинством можно пользоваться уже сегодня.',
+      h: 'Приложения, которые помогут при СДВГ.',
       items: [
         {
           name: 'CCV', sub: 'чёлка · портал для файлов',
