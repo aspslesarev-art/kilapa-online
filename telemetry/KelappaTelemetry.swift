@@ -158,11 +158,25 @@ enum Telemetry {
         request.setValue("text/plain;charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.httpBody = body
 
-        URLSession.shared.dataTask(with: request) { _, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             let status = (response as? HTTPURLResponse)?.statusCode ?? 0
-            let delivered = error == nil && (200..<400).contains(status)
-            if !delivered { park(body) }
+            let reached = error == nil && (200..<400).contains(status)
+            // The collector answers 200 with {"ok":false} when it refuses the
+            // row — an endpoint that has not been redeployed yet, say. Park it
+            // and let the next launch try again, rather than losing the event.
+            if reached && accepted(data) { return }
+            park(body)
         }.resume()
+    }
+
+    /// A body we cannot parse counts as accepted: better one lost event than a
+    /// queue that never drains.
+    private static func accepted(_ data: Data?) -> Bool {
+        guard let data,
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let ok = json["ok"] as? Bool
+        else { return true }
+        return ok
     }
 
     private static let queueLimit = 20

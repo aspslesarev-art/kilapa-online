@@ -79,7 +79,14 @@
       body: body,
       keepalive: true,
       mode: 'cors'
-    }).then(function (res) { return res.ok; }).catch(function () { return false; });
+    }).then(function (res) {
+      if (!res.ok) return false;
+      // 200 with {"ok":false} means the collector refused the row (an endpoint
+      // that has not been redeployed yet, say) — park it and retry later.
+      return res.json().then(function (data) {
+        return !data || data.ok !== false;
+      }).catch(function () { return true; });
+    }).catch(function () { return false; });
   }
 
   function beacon(body) {
