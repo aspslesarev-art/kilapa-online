@@ -88,13 +88,11 @@
 
   /* sections */
   section{padding-block:var(--s9)}
-  .band{background:var(--black);color:var(--white)}
-  .band .eyebrow{color:rgb(255 255 255 / .7)}
   h2{font-size:2rem;line-height:1.2;max-width:22ch;text-wrap:balance}
 
   .steps{list-style:none;margin:var(--s5) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5)}
-  .steps li{border:1px solid rgb(255 255 255 / .22);border-radius:var(--r2);padding:var(--s6);display:flex;flex-direction:column;gap:var(--s5)}
-  .num{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--white);color:var(--black);font-weight:600;font-size:0.875rem}
+  .steps li{border:1px solid var(--line);border-radius:var(--r2);padding:var(--s6);display:flex;flex-direction:column;gap:var(--s5)}
+  .num{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--black);color:var(--white);font-weight:600;font-size:0.875rem}
   .steps h3{font-size:1.5rem;line-height:1.2;text-wrap:balance}
 
   .cards{list-style:none;margin:var(--s7) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5)}
@@ -194,7 +192,7 @@
     </figure>
   </div>
 
-  <section class="band" id="how">
+  <section id="how" style="padding-bottom:0">
     <div class="wrap">
       <p class="eyebrow">Как это работает</p>
       <ol class="steps">
@@ -259,7 +257,7 @@
   // Demo loop: focus → wander off into a messenger → back. Each time you
   // wander off it is a different app, and the headline names the same one.
   (function () {
-    var APPS = ['Telegram', 'YouTube', 'WhatsApp', 'ChatGPT'];
+    var APPS = ['Telegram', 'YouTube', 'Instagram', 'WhatsApp', 'TikTok', 'ChatGPT'];
     var FOCUS_MS = 4000, AWAY_MS = 3500, SWAP_MS = 200;
     var $ = function (id) { return document.getElementById(id); };
     var screen = $('screen'), timer = $('timer'), away = $('away'), caption = $('caption');
