@@ -37,7 +37,7 @@ const COPY = {
     apps: {
       eyebrow: 'Our apps',
       h: 'Small tools that get out of your way.',
-      sub: 'Each one removes one piece of daily friction that an ADHD brain runs into ten times a day. All of them are available now.',
+      sub: 'Each one removes one piece of daily friction that an ADHD brain runs into ten times a day. Most of them you can use today.',
       items: [
         {
           name: 'CCV', sub: 'the notch · file portal',
@@ -81,6 +81,13 @@ const COPY = {
           platforms: ['macOS'],
           status: 'Available',
         },
+        {
+          name: 'Onit', sub: 'one task · always in sight',
+          tagline: 'Remember what you sat down to do.',
+          desc: 'Write the task once and it parks in the corner of your screen, above every window. Wander off into Telegram and it turns red and starts to breathe — it reminds, it does not punish. Press done, say in one line how it went, and it lands in your success diary: by the evening you can see what the day actually was, instead of wondering where it went.',
+          platforms: ['macOS'],
+          status: 'Coming soon',
+        },
       ],
       cta: 'Open',
     },
@@ -95,7 +102,7 @@ const COPY = {
     footer: {
       tag: 'A small studio crafting calm apps for Apple platforms.',
       cols: [
-        { h: 'Apps', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter', 'Telesufler'] },
+        { h: 'Apps', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter', 'Telesufler', 'Onit'] },
       ],
       legal: '© 2026 Kelappa · Made slowly in Ubud · kelappa.studio',
     },

@@ -421,6 +421,102 @@ function TelesuflerMock({ t }) {
   );
 }
 
+// ── Onit · current-task plate + success diary (macOS) ──────
+function OnitMock({ t }) {
+  const diary = [
+    { name: 'Q3 plan — three bets', time: '1h 20m', result: 'sent to the team, two bets cut' },
+    { name: 'Reply to Nyoman',      time: '12m',    result: 'invoice moved to Monday' },
+    { name: 'Fix the villa feed',   time: '2h 05m', result: null },
+  ];
+
+  const plate = {
+    position: 'absolute', right: 12, width: 218,
+    borderRadius: 13, padding: '8px 10px',
+    display: 'flex', alignItems: 'center', gap: 9,
+    fontFamily: "'Plus Jakarta Sans', sans-serif",
+    boxShadow: '0 14px 30px -8px rgba(0,0,0,0.42)',
+  };
+
+  return (
+    <ScreenFrame device="mac" width={460} height={290}>
+      {/* the work itself, underneath — the plate never steals focus from it */}
+      <div style={{ position: 'absolute', inset: 0, background: '#f3eedf', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <div style={{ position: 'absolute', inset: 10, background: t.cream, borderRadius: 8, padding: '14px 18px', color: t.ink }}>
+          <div style={{ fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: t.husk, opacity: 0.8 }}>draft · q3 plan</div>
+          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 20, letterSpacing: '-0.025em', marginTop: 8 }}>Three bets for Q3</div>
+          <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 6, width: 170 }}>
+            {[1, 0.85, 0.62, 0.9, 0.48].map((w, i) => (
+              <span key={i} style={{ height: 6, width: `${w * 100}%`, background: t.shell, borderRadius: 3 }} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* the plate — one task, above every window, on every desktop */}
+      <div style={{ ...plate, top: 12, background: KELAPPA_BROWN, color: t.cream, border: '1px solid rgba(255,255,255,0.12)' }}>
+        <span style={{ position: 'relative', width: 11, height: 11, borderRadius: '50%', background: t.palm, flexShrink: 0 }}>
+          <span style={{ position: 'absolute', inset: -4, borderRadius: '50%', boxShadow: `0 0 0 1.5px ${t.palm}`, opacity: 0.45 }} />
+        </span>
+        <div style={{ minWidth: 0, flex: 1, display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
+          <span style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Write the Q3 plan</span>
+          <span style={{ fontSize: 8.5, opacity: 0.6, letterSpacing: '0.1em', fontVariantNumeric: 'tabular-nums' }}>24:08 · running</span>
+        </div>
+        {['❙❙', '✓'].map((b, i) => (
+          <span key={b} style={{
+            width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
+            background: i === 1 ? t.palm : 'rgba(255,255,255,0.16)',
+            color: i === 1 ? KELAPPA_BROWN : t.cream,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: i === 1 ? 10 : 7, fontWeight: 700,
+          }}>{b}</span>
+        ))}
+      </div>
+
+      {/* same plate, after you have wandered off into a messenger */}
+      <div style={{ ...plate, top: 62, background: t.coral, color: t.cream, border: '1px solid rgba(255,255,255,0.22)' }}>
+        <span style={{ width: 11, height: 11, borderRadius: '50%', background: t.cream, flexShrink: 0, opacity: 0.9 }} />
+        <div style={{ minWidth: 0, flex: 1, display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
+          <span style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: '-0.01em' }}>Telegram · 1:12</span>
+          <span style={{ fontSize: 8.5, opacity: 0.85, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>still on: Write the Q3 plan</span>
+        </div>
+      </div>
+      <div style={{ position: 'absolute', right: 12, top: 106, width: 218, textAlign: 'right', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', color: t.husk, fontFamily: "'Plus Jakarta Sans', sans-serif", opacity: 0.9 }}>
+        after 15 s in a messenger
+      </div>
+
+      {/* end of the day — the success diary */}
+      <div style={{
+        position: 'absolute', left: 12, bottom: 12, width: 244,
+        background: t.cream, border: `1px solid ${t.sand}`, borderRadius: 12,
+        padding: '10px 12px', fontFamily: "'Plus Jakarta Sans', sans-serif",
+        boxShadow: '0 14px 30px -12px rgba(60,30,10,0.32)',
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
+          <span style={{ fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: t.husk }}>success diary · today</span>
+          <span style={{ fontSize: 9.5, fontWeight: 600, color: t.ink, fontVariantNumeric: 'tabular-nums' }}>3h 37m</span>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          {diary.map((r) => (
+            <div key={r.name} style={{ display: 'flex', gap: 7, alignItems: 'flex-start' }}>
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: r.result ? t.palm : t.sand, marginTop: 4, flexShrink: 0 }} />
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+                  <span style={{ fontSize: 10, fontWeight: 600, color: t.ink, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.name}</span>
+                  <span style={{ fontSize: 9, color: t.husk, fontVariantNumeric: 'tabular-nums', flexShrink: 0 }}>{r.time}</span>
+                </div>
+                <div style={{ fontSize: 9, lineHeight: 1.35, marginTop: 1, color: r.result ? t.husk : t.coral }}>
+                  {r.result ?? '✎ what came out of it?'}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </ScreenFrame>
+  );
+}
+
 Object.assign(window, {
   ScreenFrame, CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock, TelesuflerMock,
+  OnitMock,
 });
