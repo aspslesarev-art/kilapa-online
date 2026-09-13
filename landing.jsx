@@ -133,18 +133,29 @@ function Nav({ t, copy, lang, setLang }) {
 // ── Where each app's button leads (order matches COPY.*.apps.items) ──
 // `track` is an abacus key that must already exist — see /stats/.
 const APP_LINKS = [
-  { href: 'https://kelappa.com/ccv/',      track: 'open-ccv' },
-  { href: '/vtext/' },
-  { href: 'https://flofi.online',          track: 'dl-flofi' },
+  { href: 'https://kelappa.com/ccv/',      track: 'open-ccv',      icon: '/icons/ccv.png' },
+  { href: '/vtext/',                                              icon: '/icons/vtext.png' },
+  { href: 'https://flofi.online',          track: 'dl-flofi',      icon: '/icons/flofi.svg', tile: true },
   { href: '/switcher/EN-RU-Switcher.dmg',  track: 'dl-switcher' },
   { href: '/teleprompter/Telesufler.dmg',  track: 'dl-telesufler' },
-  { href: 'https://kelappa.com/onit/',     track: 'open-onit' },
+  { href: 'https://kelappa.com/onit/',     track: 'open-onit',     icon: '/icons/onit.png' },
 ];
 const isDownload = (href) => href.endsWith('.dmg');
 const appLinkProps = (link) => ({
   href: link.href, target: '_blank', rel: 'noopener noreferrer',
   onClick: () => link.track && counterHit(link.track),
 });
+
+// Real app icon when the app has one; the Kelappa mark otherwise.
+// `tile` icons are free-form artwork (not a macOS squircle) and sit on a card.
+function AppIcon({ link, name, size, t, fallback }) {
+  if (!link.icon) return fallback;
+  const img = <img src={link.icon} alt={`${name} icon`} width={size} height={size} loading="lazy" decoding="async" style={{ display: 'block', width: '100%', height: '100%', objectFit: 'contain' }} />;
+  if (!link.tile) return <div style={{ width: size, height: size, flexShrink: 0 }}>{img}</div>;
+  return (
+    <div style={{ width: size, height: size, flexShrink: 0, borderRadius: size * 0.225, background: t.cream, border: `1px solid ${t.sand}`, padding: size * 0.14, boxSizing: 'border-box' }}>{img}</div>
+  );
+}
 
 // ── HERO ───────────────────────────────────────────────────
 function Hero({ t, copy }) {
@@ -162,8 +173,9 @@ function Hero({ t, copy }) {
             <SmileSpan color={t.coral} height={isMobile ? 14 : 22}>{copy.hero.h_hl}</SmileSpan>{copy.hero.h_post}
           </span>
         </h1>
-        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? 16 : 19, lineHeight: 1.55, color: t.husk, marginTop: isMobile ? 24 : 36, maxWidth: 640 }}>
-          {copy.hero.sub}
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? 18 : 22, lineHeight: 1.5, color: t.husk, marginTop: isMobile ? 24 : 32, maxWidth: 560 }}>
+          <span style={{ display: 'block' }}>{copy.hero.sub_q}</span>
+          <span style={{ display: 'block', color: t.ink }}>{copy.hero.sub_a}</span>
         </p>
         <div style={{ marginTop: 36, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <a href="#apps" style={{
@@ -261,13 +273,14 @@ function AppsSection({ t, copy }) {
             }}>
               <div style={{ order: reverse ? 2 : 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 18 }}>
-                  <FinalIcon size={isMobile ? 56 : 72} bg={resolve(bgs[i])} mark={resolve(marks[i])} dots={resolve(dots[i])} />
+                  <AppIcon link={APP_LINKS[i]} name={a.name} size={isMobile ? 56 : 72} t={t}
+                    fallback={<FinalIcon size={isMobile ? 56 : 72} bg={resolve(bgs[i])} mark={resolve(marks[i])} dots={resolve(dots[i])} />} />
                   <div>
                     <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: isMobile ? 22 : 28, color: t.ink, letterSpacing: '-0.025em' }}>{a.name}</div>
                     <div style={{ fontSize: 11.5, color: t.husk, letterSpacing: '0.04em', marginTop: 2 }}>{a.sub}</div>
                   </div>
                 </div>
-                <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: isMobile ? 24 : 32, lineHeight: 1.15, letterSpacing: '-0.025em', color: t.ink }}>
+                <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: isMobile ? 24 : 32, lineHeight: 1.15, letterSpacing: '-0.025em', color: t.ink, textWrap: 'balance' }}>
                   {a.tagline}
                 </div>
                 <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? 15 : 16, lineHeight: 1.6, color: t.husk, marginTop: 18, maxWidth: 480 }}>{a.desc}</p>
