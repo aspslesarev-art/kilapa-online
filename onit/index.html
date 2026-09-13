@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Onit — задача перед глазами, поверх всех окон</title>
 <meta name="description" content="Сел делать одно — очнулся в Телеге. Onit держит твою задачу поверх всех окон и краснеет, когда ты уплыл в мессенджер. Бесплатно, для Mac.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23775a44'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2394c4a4'/%3E%3C/svg%3E">
+<link rel="icon" href="/onit/icon-128.png" type="image/png">
+<link rel="apple-touch-icon" href="/onit/icon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesque:wght@600&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -43,8 +44,8 @@
   nav{position:sticky;top:0;z-index:10;background:oklch(0.965 0.014 82 / .9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--shell)}
   nav .wrap{height:64px;display:flex;align-items:center;justify-content:space-between;gap:var(--s4)}
   .brand{display:flex;align-items:center;gap:var(--s3);text-decoration:none;font-family:"Hanken Grotesque",system-ui,sans-serif;font-weight:600;font-size:1.25rem;letter-spacing:-0.02em}
-  .mark{width:32px;height:32px;border-radius:8px;background:var(--brown);display:grid;place-items:center;flex:none}
-  .mark::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--palm)}
+  .mark{width:32px;height:32px;display:block;flex:none}
+  .app-icon{width:80px;height:80px;display:block;margin-bottom:var(--s5)}
   .brand .by{font-family:"Plus Jakarta Sans",system-ui,sans-serif;font-weight:400;font-size:0.875rem;color:var(--husk);letter-spacing:0}
 
   /* buttons */
@@ -144,7 +145,7 @@
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="/"><span class="mark" aria-hidden="true"></span>Onit <span class="by">от Kelappa</span></a>
+    <a class="brand" href="/"><img class="mark" src="/onit/icon-128.png" alt="" width="32" height="32">Onit <span class="by">от Kelappa</span></a>
     <a class="btn-sm" href="/onit/Onit.dmg">Скачать</a>
   </div>
 </nav>
@@ -152,6 +153,7 @@
 <main>
   <div class="wrap hero">
     <div>
+      <img class="app-icon" src="/onit/icon-256.png" alt="Иконка Onit" width="80" height="80">
       <p class="eyebrow">Для Mac · для головы с СДВГ</p>
       <h1>Сел делать одно. <span>Очнулся в&nbsp;Телеге.</span></h1>
       <p class="lead">Onit вешает твою задачу поверх всех окон. Уплыл в мессенджер — она краснеет и зовёт обратно.</p>
