@@ -101,7 +101,6 @@ function Hero({ t, copy }) {
     { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText',          sub: 'macOS · DMG'                                                                       },
     { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          sub: 'iOS · web',     href: 'https://flofi.online',                      track: 'dl-flofi' },
     { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG',   href: '/switcher/EN-RU-Switcher.dmg',              track: 'dl-switcher' },
-    { bg: t.palm,         mark: t.cream,       dots: KELAPPA_BROWN, name: 'Teleprompter',   sub: 'web',           href: 'https://www.free-teleprompter.online',     track: 'dl-teleprompter' },
     { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     sub: 'macOS · DMG',   href: '/teleprompter/Telesufler.dmg',              track: 'dl-telesufler' },
     { bg: t.sand,         mark: KELAPPA_BROWN, dots: t.cream,       name: 'Onit',           sub: 'macOS · soon'                                                      },
   ];
@@ -217,10 +216,10 @@ function Principles({ t, copy }) {
 // ── APPS ──────────────────────────────────────────────────
 function AppsSection({ t, copy }) {
   const isMobile = useIsMobile();
-  const mocks = [CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock, TelesuflerMock, OnitMock];
-  const bgs   = ['husk',  'coral', 'lagoon', 'saffron', 'palm',  'ink',   'sand'];
-  const marks = ['cream', 'cream', 'brown',  'brown',   'cream', 'coral', 'brown'];
-  const dots  = ['husk',  'coral', 'cream',  'cream',   'brown', 'cream', 'cream'];
+  const mocks = [CCVMock, VTextMock, FloFiMock, SwitcherMock, TelesuflerMock, OnitMock];
+  const bgs   = ['husk',  'coral', 'lagoon', 'saffron', 'ink',   'sand'];
+  const marks = ['cream', 'cream', 'brown',  'brown',   'coral', 'brown'];
+  const dots  = ['husk',  'coral', 'cream',  'cream',   'cream', 'cream'];
 
   const resolve = (key) => key === 'brown' ? KELAPPA_BROWN : t[key];
 

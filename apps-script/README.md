@@ -1,11 +1,15 @@
-# Kelappa email gate → Google Sheets
+# Kelappa collector → Google Sheets
 
-Каждая кнопка «Скачать» на kelappa.com сначала спрашивает email, потом отдаёт `.dmg`.
-Адреса падают строками в Google-таблицу через веб-приложение Apps Script.
+Один веб-апп Apps Script принимает две вещи и отдаёт одну.
 
 ```
-браузер → /email-gate.js → POST JSON → Apps Script (/exec) → лист «Leads»
+браузер     → /email-gate.js          → POST {type:"lead"}  → лист «Leads»
+приложения  → /telemetry клиенты      → POST {type:"usage"} → лист «Usage»
+kelappa.com/stats/ ← GET ?report=usage ← агрегат по листу «Usage»
 ```
+
+Лиды — кто скачал; usage — кто установил и кто реально пользуется. Формат и
+смысл событий: [`telemetry/README.md`](../telemetry/README.md).
 
 ## Что где живёт
 
@@ -56,6 +60,44 @@
 ```
 =QUERY(Leads!A2:C; "select B, min(A), count(C) where B is not null group by B order by min(A) desc label min(A) 'first seen', count(C) 'downloads'")
 ```
+
+## Лист «Usage» — телеметрия приложений
+
+Строка на каждое событие приложения (`install` / `launch` / `active`):
+
+| колонка | пример | смысл |
+|---|---|---|
+| `ts` | `2026-09-13T04:10:02.113Z` | серверное время записи |
+| `clientTs` | `2026-09-13T04:10:01Z` | время по часам клиента |
+| `app` | `Onit` | какое приложение |
+| `event` | `active` | `install`, `launch` или `active` |
+| `installId` | `9F2C…` | случайный UUID копии приложения |
+| `version` | `1.0 (1)` | версия приложения |
+| `platform` | `macOS 15.3.1` | или `web` |
+| `locale` | `ru-RU` | язык системы |
+| `userAgent` | `Mozilla/5.0…` | только у веб-клиента |
+
+Ничего персонального: `installId` — случайный id копии, не человека.
+Как часто кто говорит — решает клиент, сервер просто дописывает строку.
+
+### Отчёт для /stats/
+
+```
+GET  …/exec?report=usage           # агрегат, кэш 5 минут
+GET  …/exec?report=usage&nocache=1 # пересчитать сразу
+```
+
+```json
+{ "ok": true, "generatedAt": "…", "totals": { "installs": 128, "activeToday": 31, … },
+  "apps": [ { "app": "Onit", "installs": 42, "newLast7": 9, "activeToday": 11,
+              "active7": 25, "active30": 38, "launches30": 190,
+              "versions": { "1.0 (1)": 57 }, "lastSeen": "…" } ] }
+```
+
+`installs` — сколько разных копий вообще подавали голос; `activeToday/7/30` —
+сколько из них заходили за период. Отчёт читает последние 50 000 строк листа
+(`REPORT_MAX_ROWS`); если лист перерастёт этот размер, в ответе будет
+`truncated: true` — тогда старые строки пора архивировать на отдельный лист.
 
 ## Поведение гейта
 

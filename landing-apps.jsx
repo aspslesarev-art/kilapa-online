@@ -242,71 +242,6 @@ function SwitcherMock({ t }) {
   );
 }
 
-// ── Teleprompter · tablet inside a rig (web) ───────────────
-function TeleprompterMock({ t }) {
-  // Outer black "rig" with a tilted glass over a horizontal tablet.
-  return (
-    <div style={{ position: 'relative', width: 460, height: 290 }}>
-      {/* rig base */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: '#0a0a0a',
-        borderRadius: 14,
-        boxShadow: '0 30px 60px -20px rgba(60,30,10,0.35)',
-      }} />
-      {/* lens hole on the rig front */}
-      <div style={{
-        position: 'absolute', top: 14, left: '50%', transform: 'translateX(-50%)',
-        width: 28, height: 28, borderRadius: '50%',
-        background: '#1d1d1d', border: '2px solid #2a2a2a',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <span style={{ width: 10, height: 10, borderRadius: '50%', background: t.coral, opacity: 0.85 }} />
-      </div>
-
-      {/* glass + tablet area */}
-      <div style={{
-        position: 'absolute', left: 20, right: 20, top: 50, bottom: 20,
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 100%)',
-        borderRadius: 8,
-        padding: 14,
-        display: 'flex', flexDirection: 'column',
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        color: t.cream,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.55 }}>
-          <span>tablet · landscape</span>
-          <span>120 wpm · mirror on</span>
-        </div>
-
-        {/* scrolling script — mirrored hint via transform */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 8, padding: '6px 22px' }}>
-          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 14, lineHeight: 1.35, opacity: 0.28 }}>
-            …and that's why we built this in the first place.
-          </div>
-          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: 20, lineHeight: 1.25, letterSpacing: '-0.02em', color: t.cream, position: 'relative' }}>
-            <span style={{ position: 'absolute', left: -16, top: '50%', transform: 'translateY(-50%)', width: 6, height: 6, borderRadius: '50%', background: t.coral }} />
-            Today we're shipping three things by Friday.
-          </div>
-          <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 500, fontSize: 14, lineHeight: 1.35, opacity: 0.5 }}>
-            One — the smallest version that still feels finished.
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 10, opacity: 0.7 }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ width: 20, height: 20, borderRadius: '50%', background: t.coral, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ width: 0, height: 0, borderTop: '4px solid transparent', borderBottom: '4px solid transparent', borderLeft: `6px solid ${t.cream}`, marginLeft: 1 }} />
-            </span>
-            play
-          </span>
-          <span>read into the lens →</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ── Telesufler · floating overlay (macOS) ──────────────────
 function TelesuflerMock({ t }) {
   return (
@@ -517,6 +452,6 @@ function OnitMock({ t }) {
 }
 
 Object.assign(window, {
-  ScreenFrame, CCVMock, VTextMock, FloFiMock, SwitcherMock, TeleprompterMock, TelesuflerMock,
+  ScreenFrame, CCVMock, VTextMock, FloFiMock, SwitcherMock, TelesuflerMock,
   OnitMock,
 });

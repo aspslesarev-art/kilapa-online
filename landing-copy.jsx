@@ -68,13 +68,6 @@ const COPY = {
           status: 'Available',
         },
         {
-          name: 'Teleprompter', sub: 'read · stay on camera',
-          tagline: 'Read it aloud. Nobody can tell.',
-          desc: 'Drop your text in, mount your phone or tablet in a teleprompter rig, and read at your own pace while looking straight into the lens. Long scripts, talking-head videos, podcasts — without memorising a word.',
-          platforms: ['Web'],
-          status: 'Available',
-        },
-        {
           name: 'Telesufler', sub: 'floating script · for your eyes only',
           tagline: 'Your script. Hidden when you share.',
           desc: 'Park a small window just under your built-in camera and read from it while looking into the lens. It floats over Zoom and Meet — and when you turn screen sharing on, viewers never see it. Toggle hide with ⌥⇧.',
@@ -102,7 +95,7 @@ const COPY = {
     footer: {
       tag: 'A small studio crafting calm apps for Apple platforms.',
       cols: [
-        { h: 'Apps', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Teleprompter', 'Telesufler', 'Onit'] },
+        { h: 'Apps', l: ['CCV', 'VText', 'FloFi', 'Switcher', 'Telesufler', 'Onit'] },
       ],
       legal: '© 2026 Kelappa · Made slowly in Ubud · kelappa.studio',
     },
