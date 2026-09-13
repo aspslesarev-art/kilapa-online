@@ -344,9 +344,8 @@ function CtaSection({ t, copy }) {
         <Eyebrow color={t.husk}>{copy.cta.eyebrow}</Eyebrow>
         <h2 style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 700, fontSize: 'clamp(34px, 7vw, 80px)', letterSpacing: '-0.04em', lineHeight: 1.02, color: t.ink, margin: '20px 0 0' }}>
           {copy.cta.h_pre}{' '}
-          <span style={{ whiteSpace: 'nowrap' }}>
-            <SmileSpan color={t.coral} height={20}>{copy.cta.h_hl}</SmileSpan>{copy.cta.h_post}
-          </span>
+          {/* no nowrap around h_post: "одно приложение сегодня." is wider than a phone */}
+          <SmileSpan color={t.coral} height={20}>{copy.cta.h_hl}</SmileSpan>{copy.cta.h_post}
         </h2>
         <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 18, lineHeight: 1.55, color: t.husk, marginTop: 28, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>{copy.cta.sub}</p>
         <a href="#apps" style={{
