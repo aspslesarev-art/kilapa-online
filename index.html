@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Kelappa — Calm apps for restless minds</title>
+<title>Kelappa — Apps for people with ADHD</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,7 +16,15 @@
   html { scroll-behavior: smooth; }
   /* email gate accent (see /email-gate.js) */
   :root { --kg-accent: oklch(0.460 0.060 55); --kg-accent-fg: oklch(0.965 0.014 82); }
+  /* language switcher (see LangSwitch in landing.jsx) */
+  .k-lang-btn[aria-pressed="false"]:hover { color: oklch(0.225 0.020 60) !important; background: oklch(0.875 0.045 75) !important; }
+  .k-lang-btn:active { transform: scale(0.96); }
+  .k-lang-btn:focus-visible { outline: 2px solid oklch(0.460 0.060 55); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .k-lang-btn { transition: none !important; } .k-lang-btn:active { transform: none; } }
 </style>
+
+<!-- Site language (EN/RU): sets <html lang> before anything renders. -->
+<script src="/lang.js"></script>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>

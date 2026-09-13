@@ -66,8 +66,44 @@ function H({ children, size = 72, color, weight = 700, ls = '-0.035em', lh = 1.0
   );
 }
 
+// ── LANGUAGE SWITCHER (EN / RU, top-right) ─────────────────
+const LANG_EASE = 'cubic-bezier(.2,.8,.2,1)';
+
+function LangSwitch({ t, lang, onChange, label }) {
+  return (
+    <div role="group" aria-label={label} className="k-lang" style={{
+      display: 'flex', padding: 4, gap: 4, borderRadius: 999,
+      background: t.shell, border: `1px solid ${t.sand}`,
+      fontFamily: "'Plus Jakarta Sans', sans-serif",
+    }}>
+      {KelappaLang.SUPPORTED.map((code) => {
+        const isActive = lang === code;
+        return (
+          <button
+            key={code}
+            type="button"
+            aria-pressed={isActive}
+            onClick={() => onChange(code)}
+            className="k-lang-btn"
+            style={{
+              border: 'none', cursor: isActive ? 'default' : 'pointer',
+              minWidth: 40, height: 28, padding: '0 12px', borderRadius: 999,
+              background: isActive ? t.cream : 'transparent',
+              color: isActive ? t.ink : t.husk,
+              boxShadow: isActive ? '0 1px 2px rgb(80 40 10 / .08), 0 2px 6px rgb(80 40 10 / .06)' : 'none',
+              fontFamily: 'inherit', fontWeight: 600, fontSize: 12,
+              letterSpacing: '0.08em', textTransform: 'uppercase',
+              transition: `background-color 120ms ${LANG_EASE}, color 120ms ${LANG_EASE}`,
+            }}
+          >{code}</button>
+        );
+      })}
+    </div>
+  );
+}
+
 // ── NAV ────────────────────────────────────────────────────
-function Nav({ t, copy }) {
+function Nav({ t, copy, lang, setLang }) {
   const [scrolled, setScrolled] = React.useState(false);
   const isMobile = useIsMobile();
   React.useEffect(() => {
@@ -79,7 +115,7 @@ function Nav({ t, copy }) {
   return (
     <nav style={{
       position: 'sticky', top: 0, zIndex: 50,
-      background: scrolled ? `${t.cream}f2` : 'transparent',
+      background: scrolled ? `${withAlpha(t.cream, 'f2')}` : 'transparent',
       backdropFilter: scrolled ? 'blur(10px)' : 'none',
       borderBottom: scrolled ? `1px solid ${t.sand}` : '1px solid transparent',
       transition: 'all 200ms ease',
@@ -88,22 +124,31 @@ function Nav({ t, copy }) {
         <a href="#top" style={{ textDecoration: 'none' }}>
           <KelappaLogo size={22} fg={t.ink} mark={KELAPPA_BROWN} dots={t.cream} accent={t.coral} gap={10} />
         </a>
+        <LangSwitch t={t} lang={lang} onChange={setLang} label={copy.nav.lang} />
       </div>
     </nav>
   );
 }
 
+// ── Where each app's button leads (order matches COPY.*.apps.items) ──
+// `track` is an abacus key that must already exist — see /stats/.
+const APP_LINKS = [
+  { href: 'https://kelappa.com/ccv/',      track: 'open-ccv' },
+  { href: '/vtext/' },
+  { href: 'https://flofi.online',          track: 'dl-flofi' },
+  { href: '/switcher/EN-RU-Switcher.dmg',  track: 'dl-switcher' },
+  { href: '/teleprompter/Telesufler.dmg',  track: 'dl-telesufler' },
+  { href: 'https://kelappa.com/onit/',     track: 'open-onit' },
+];
+const isDownload = (href) => href.endsWith('.dmg');
+const appLinkProps = (link) => ({
+  href: link.href, target: '_blank', rel: 'noopener noreferrer',
+  onClick: () => link.track && counterHit(link.track),
+});
+
 // ── HERO ───────────────────────────────────────────────────
 function Hero({ t, copy }) {
   const isMobile = useIsMobile();
-  const apps = [
-    { bg: KELAPPA_BROWN,  mark: t.cream,       dots: KELAPPA_BROWN, name: 'CCV',            sub: 'macOS · DMG',   href: 'https://kelappa.com/ccv/',                  track: 'open-ccv' },
-    { bg: t.coral,        mark: t.cream,       dots: t.coral,       name: 'VText',          sub: 'macOS · DMG'                                                                       },
-    { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          sub: 'iOS · web',     href: 'https://flofi.online',                      track: 'dl-flofi' },
-    { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG',   href: '/switcher/EN-RU-Switcher.dmg',              track: 'dl-switcher' },
-    { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     sub: 'macOS · DMG',   href: '/teleprompter/Telesufler.dmg',              track: 'dl-telesufler' },
-    { bg: t.sand,         mark: KELAPPA_BROWN, dots: t.cream,       name: 'Onit',           sub: 'macOS · DMG',   href: 'https://kelappa.com/onit/',                 track: 'open-onit' },
-  ];
   return (
     <Sec bg={t.cream} color={t.ink} pad="80px 40px 100px" padMobile="56px 20px 72px" id="top">
       {/* gradient blobs */}
@@ -127,42 +172,13 @@ function Hero({ t, copy }) {
             fontWeight: 500, whiteSpace: 'nowrap',
           }}>{copy.hero.cta_primary} →</a>
           <a href="#manifesto" style={{
-            border: `1px solid ${t.husk}40`, color: t.ink, fontSize: 15, padding: '15px 24px',
+            border: `1px solid ${withAlpha(t.husk, '40')}`, color: t.ink, fontSize: 15, padding: '15px 24px',
             borderRadius: 999, textDecoration: 'none', fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontWeight: 500, whiteSpace: 'nowrap',
           }}>{copy.hero.cta_secondary}</a>
         </div>
       </div>
 
-      {/* app strip */}
-      <div style={{ position: 'relative', marginTop: isMobile ? 56 : 96 }}>
-        <div style={{ fontSize: 11, letterSpacing: '0.24em', textTransform: 'uppercase', color: t.husk, fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600, marginBottom: 18 }}>
-          {copy.hero.strip_label}
-        </div>
-        <div style={{ display: 'grid', gap: 12, gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(auto-fit, minmax(200px, 1fr))' }}>
-          {apps.map((a) => {
-            const Tag = a.href ? 'a' : 'div';
-            const linkProps = a.href
-              ? { href: a.href, target: '_blank', rel: 'noopener noreferrer', onClick: () => a.track && counterHit(a.track) }
-              : {};
-            return (
-              <Tag key={a.name} {...linkProps} style={{
-                display: 'flex', alignItems: 'center', gap: 12,
-                background: `${t.cream}`, border: `1px solid ${t.sand}`,
-                borderRadius: 16, padding: isMobile ? 10 : 12, minWidth: 0,
-                textDecoration: 'none', color: 'inherit',
-                cursor: a.href ? 'pointer' : 'default',
-              }}>
-                <FinalIcon size={isMobile ? 44 : 56} bg={a.bg} mark={a.mark} dots={a.dots} />
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <div style={{ fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: isMobile ? 15 : 17, color: t.ink, letterSpacing: '-0.02em', overflowWrap: 'anywhere' }}>{a.name}</div>
-                  <div style={{ fontSize: 11, color: t.husk, letterSpacing: '0.04em', marginTop: 2 }}>{a.sub}</div>
-                </div>
-              </Tag>
-            );
-          })}
-        </div>
-      </div>
     </Sec>
   );
 }
@@ -217,6 +233,7 @@ function Principles({ t, copy }) {
 function AppsSection({ t, copy }) {
   const isMobile = useIsMobile();
   const mocks = [CCVMock, VTextMock, FloFiMock, SwitcherMock, TelesuflerMock, OnitMock];
+  const mockCopy = ['ccv', 'vtext', 'flofi', 'switcher', 'telesufler', 'onit'];
   const bgs   = ['husk',  'coral', 'lagoon', 'saffron', 'ink',   'sand'];
   const marks = ['cream', 'cream', 'brown',  'brown',   'coral', 'brown'];
   const dots  = ['husk',  'coral', 'cream',  'cream',   'cream', 'cream'];
@@ -259,18 +276,18 @@ function AppsSection({ t, copy }) {
                       <span key={p} style={{ fontSize: 11, padding: '5px 11px', borderRadius: 999, background: t.cream, color: t.husk, border: `1px solid ${t.sand}`, fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500 }}>{p}</span>
                     ))}
                   </div>
-                  <span style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: a.status === 'Available' ? t.palm : t.husk, fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600 }}>{a.status}</span>
+                  <span style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: a.available ? t.palm : t.husk, fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600 }}>{copy.apps.status}</span>
                 </div>
-                <a href="#" style={{
+                <a {...appLinkProps(APP_LINKS[i])} style={{
                   display: 'inline-block', marginTop: 22,
                   background: KELAPPA_BROWN, color: t.cream, fontSize: 14, padding: '12px 20px',
                   borderRadius: 999, textDecoration: 'none', fontFamily: "'Plus Jakarta Sans', sans-serif",
                   fontWeight: 500, whiteSpace: 'nowrap',
-                }}>{copy.apps.cta} →</a>
+                }}>{isDownload(APP_LINKS[i].href) ? copy.apps.download : copy.apps.cta} →</a>
               </div>
               <div style={{ order: reverse ? 1 : 2, display: 'flex', justifyContent: 'center', maxWidth: '100%', overflow: 'hidden' }}>
                 <div style={{ maxWidth: '100%', transform: isMobile ? 'scale(0.85)' : 'none', transformOrigin: 'center' }}>
-                  <Mock t={t} />
+                  <Mock t={t} m={copy.mocks[mockCopy[i]]} />
                 </div>
               </div>
             </div>
@@ -319,7 +336,7 @@ function CtaSection({ t, copy }) {
           </span>
         </h2>
         <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 18, lineHeight: 1.55, color: t.husk, marginTop: 28, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>{copy.cta.sub}</p>
-        <a href="#" style={{
+        <a href="#apps" style={{
           display: 'inline-block', marginTop: 36,
           background: KELAPPA_BROWN, color: t.cream, fontSize: 16, padding: '17px 28px',
           borderRadius: 999, textDecoration: 'none', fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -336,7 +353,7 @@ function Footer({ t, copy }) {
   return (
     <footer style={{ background: t.ink, color: t.cream, padding: isMobile ? '56px 20px 32px' : '80px 40px 40px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : `1.6fr ${'1fr '.repeat(copy.footer.cols.length).trim()}`, gap: isMobile ? 28 : 40, paddingBottom: isMobile ? 36 : 60, borderBottom: `1px solid ${t.cream}20` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : `1.6fr ${'1fr '.repeat(copy.footer.cols.length).trim()}`, gap: isMobile ? 28 : 40, paddingBottom: isMobile ? 36 : 60, borderBottom: `1px solid ${withAlpha(t.cream, '20')}` }}>
           <div>
             <KelappaLogo size={28} fg={t.cream} mark={t.cream} dots={t.ink} accent={t.coral} gap={12} />
             <p style={{ fontSize: 14, lineHeight: 1.55, color: t.cream, opacity: 0.7, marginTop: 22, maxWidth: 320 }}>{copy.footer.tag}</p>
@@ -345,8 +362,8 @@ function Footer({ t, copy }) {
             <div key={col.h}>
               <div style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.6, fontWeight: 600 }}>{col.h}</div>
               <ul style={{ listStyle: 'none', padding: 0, margin: '14px 0 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {col.l.map((item) => (
-                  <li key={item}><a href="#" style={{ color: t.cream, opacity: 0.85, textDecoration: 'none', fontSize: 14.5 }}>{item}</a></li>
+                {col.l.map((item, i) => (
+                  <li key={item}><a {...appLinkProps(APP_LINKS[i])} style={{ color: t.cream, opacity: 0.85, textDecoration: 'none', fontSize: 14.5 }}>{item}</a></li>
                 ))}
               </ul>
             </div>
@@ -363,11 +380,14 @@ function Footer({ t, copy }) {
 
 // ── PAGE ROOT ─────────────────────────────────────────────
 function Landing({ t }) {
-  const copy = COPY.en;
+  const [lang, setLangState] = React.useState(KelappaLang.get);
+  const copy = COPY[lang];
   React.useEffect(() => { counterHit('visits'); }, []);
+  React.useEffect(() => KelappaLang.onChange(setLangState), []);
+  React.useEffect(() => { document.title = copy.meta.title; }, [copy]);
   return (
     <div style={{ background: t.cream, color: t.ink, minHeight: '100vh' }}>
-      <Nav t={t} copy={copy} />
+      <Nav t={t} copy={copy} lang={lang} setLang={KelappaLang.set} />
       <Hero t={t} copy={copy} />
       <Manifesto t={t} copy={copy} />
       <AppsSection t={t} copy={copy} />

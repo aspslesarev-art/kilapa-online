@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<script src="/lang.js"></script>
 <title>CCV — a clipboard in your MacBook's notch</title>
+<meta name="description" content="Drop files into your MacBook's notch, switch to any Space or app, and pull them back out wherever you need them. Free for macOS." />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -94,6 +96,45 @@
     border-radius: 8px;
     cursor: pointer;
     letter-spacing: -0.01em;
+  }
+  .nav-right {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  /* ===== Language switcher (EN / RU) ===== */
+  .lang-switch {
+    display: inline-flex;
+    padding: 2px;
+    gap: 2px;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    background: rgba(10,10,10,0.4);
+  }
+  .lang-switch button {
+    appearance: none;
+    border: 0;
+    margin: 0;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    padding: 9px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 120ms, background 120ms;
+  }
+  .lang-switch button:hover { color: var(--ink); }
+  .lang-switch button[aria-pressed="true"] {
+    background: rgba(255,255,255,0.1);
+    color: var(--ink);
+  }
+  .lang-switch button:focus-visible,
+  .nav-cta:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
   }
 
   /* ===== Sections ===== */
@@ -401,6 +442,14 @@
     .nav { padding: 16px 22px; }
     .nav-links { display: none; }
     section, .hero { padding-left: 22px; padding-right: 22px; }
+    .footer { flex-wrap: wrap; gap: 12px 24px; padding: 32px 22px; }
+    .footer .left, .footer .right { flex-wrap: wrap; gap: 8px 16px; }
+  }
+  @media (max-width: 420px) {
+    .nav-right { gap: 8px; }
+    .nav-cta { padding: 10px 14px; }
+    .hero-cta { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
+    .hero-cta .btn { white-space: nowrap; text-align: center; }
   }
 </style>
 
@@ -418,20 +467,26 @@
     CCV
   </div>
   <div class="nav-links">
-    <a href="#how">How it works</a>
-    <a href="#bonus">What's inside</a>
-    <a href="#download-section">Download</a>
+    <a href="#how" data-i18n="nav.how">How it works</a>
+    <a href="#bonus" data-i18n="nav.inside">What's inside</a>
+    <a href="#download-section" data-i18n="nav.download">Download</a>
   </div>
-  <button class="nav-cta" onclick="document.getElementById('download-section')?.scrollIntoView({behavior:'smooth'})">Download</button>
+  <div class="nav-right">
+    <div class="lang-switch" role="group" aria-label="Language" data-i18n-aria="nav.langLabel">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('download-section')?.scrollIntoView({behavior:'smooth'})" data-i18n="nav.cta">Download</button>
+  </div>
 </div>
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="hero-eyebrow"><span class="dot"></span> Available for macOS · free</div>
-  <h1 class="hero-title">
+  <div class="hero-eyebrow"><span class="dot"></span> <span data-i18n="hero.eyebrow">Available for macOS · free</span></div>
+  <h1 class="hero-title" data-i18n="hero.title">
     Files across your screens — <span class="dim">no juggling.</span>
   </h1>
-  <p class="hero-sub">
+  <p class="hero-sub" data-i18n="hero.sub">
     Drop files into your MacBook's notch, switch anywhere you like, and pull them back out — into any window, any app, on any Space.
   </p>
 
@@ -439,29 +494,29 @@
     <div id="hero-stage"></div>
   </div>
   <div id="hero-caption" class="stage-caption">
-    <span class="step">01 — grab a file</span>
+    <span class="step" data-i18n="captions.0">01 — grab a file</span>
   </div>
 
   <div class="hero-cta">
     <button class="btn btn-primary" onclick="document.getElementById('download-section')?.scrollIntoView({behavior:'smooth'})">
       <span style="display: inline-flex; align-items: center; gap: 8px;">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9 M3 7l4 4 4-4 M2 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Download for macOS
+        <span data-i18n="hero.ctaPrimary">Download for macOS</span>
       </span>
     </button>
-    <a href="#how" class="btn btn-ghost" style="text-decoration: none;">How it works</a>
+    <a href="#how" class="btn btn-ghost" style="text-decoration: none;" data-i18n="hero.ctaSecondary">How it works</a>
   </div>
 </section>
 
 <!-- ============ PAIN ============ -->
 <section>
   <div class="pain-block">
-    <div class="section-eyebrow">A familiar pain</div>
-    <h2 class="display-title">
+    <div class="section-eyebrow" data-i18n="pain.eyebrow">A familiar pain</div>
+    <h2 class="display-title" data-i18n="pain.title">
       Grab a file. Drag it across screens.<br/>
       <span class="strike">It works.</span> <span class="em">Or it doesn't.</span>
     </h2>
-    <p class="pain-sub">
+    <p class="pain-sub" data-i18n="pain.sub">
       The window's closed. Spaces switched to the wrong one. You dropped the file along the way. Back you go, dragging it again. Fifty little micro-dances, every single day.
     </p>
   </div>
@@ -469,28 +524,28 @@
 
 <!-- ============ HOW IT WORKS ============ -->
 <section id="how">
-  <div class="section-eyebrow" style="margin-bottom: 18px;">How it works</div>
-  <h2 class="display-title">Three gestures. No windows.</h2>
+  <div class="section-eyebrow" style="margin-bottom: 18px;" data-i18n="how.eyebrow">How it works</div>
+  <h2 class="display-title" data-i18n="how.title">Three gestures. No windows.</h2>
 
   <div class="how-grid">
     <div class="how-card">
       <div class="how-step-num">01</div>
-      <div class="how-title">Drop it — into the notch</div>
-      <div class="how-body">
+      <div class="how-title" data-i18n="how.steps.0.title">Drop it — into the notch</div>
+      <div class="how-body" data-i18n="how.steps.0.body">
         Drag a file to the top of the screen. The shelf catches it and holds on. Drop several at once — they gather into a group.
       </div>
     </div>
     <div class="how-card">
       <div class="how-step-num">02</div>
-      <div class="how-title">Switch — anywhere</div>
-      <div class="how-body">
+      <div class="how-title" data-i18n="how.steps.1.title">Switch — anywhere</div>
+      <div class="how-body" data-i18n="how.steps.1.body">
         Another Space, another app, another monitor, another project. Your files wait. Nothing gets lost.
       </div>
     </div>
     <div class="how-card">
       <div class="how-step-num">03</div>
-      <div class="how-title">Pull it out — wherever you need</div>
-      <div class="how-body">
+      <div class="how-title" data-i18n="how.steps.2.title">Pull it out — wherever you need</div>
+      <div class="how-body" data-i18n="how.steps.2.body">
         Move your cursor to the notch and the shelf opens. Drag the file into any window: Telegram, email, chat, a form. Done.
       </div>
     </div>
@@ -499,15 +554,15 @@
 
 <!-- ============ BONUS ============ -->
 <section id="bonus">
-  <div class="section-eyebrow" style="margin-bottom: 18px;">The nice touches</div>
-  <h2 class="display-title">Not just a clipboard.</h2>
+  <div class="section-eyebrow" style="margin-bottom: 18px;" data-i18n="bonus.eyebrow">The nice touches</div>
+  <h2 class="display-title" data-i18n="bonus.title">Not just a clipboard.</h2>
 
   <div class="bonus-grid">
     <div class="bonus-card">
       <div class="bonus-icon">⌘⇧4</div>
       <div>
-        <div class="bonus-title">Screenshots — straight to the shelf</div>
-        <div class="bonus-body">
+        <div class="bonus-title" data-i18n="bonus.items.0.title">Screenshots — straight to the shelf</div>
+        <div class="bonus-body" data-i18n="bonus.items.0.body">
           <span class="kbd">⌘⇧3</span> / <span class="kbd">⌘⇧4</span> / <span class="kbd">⌘⇧5</span> land in CCV instead of cluttering your desktop. No more hunting for them.
         </div>
       </div>
@@ -517,8 +572,8 @@
         ▸ 3<br/><span style="opacity: 0.5;">a·b·c</span>
       </div>
       <div>
-        <div class="bonus-title">Groups — all at once or one by one</div>
-        <div class="bonus-body">
+        <div class="bonus-title" data-i18n="bonus.items.1.title">Groups — all at once or one by one</div>
+        <div class="bonus-body" data-i18n="bonus.items.1.body">
           Drop three files together and they become a group. Drag the whole set, or just one from it.
         </div>
       </div>
@@ -526,8 +581,8 @@
     <div class="bonus-card">
       <div class="bonus-icon" style="font-size: 24px;">⋯</div>
       <div>
-        <div class="bonus-title">No windows, no menus</div>
-        <div class="bonus-body">
+        <div class="bonus-title" data-i18n="bonus.items.2.title">No windows, no menus</div>
+        <div class="bonus-body" data-i18n="bonus.items.2.body">
           Rename, open, reveal in Finder — all right from the shelf, via a context menu.
         </div>
       </div>
@@ -535,8 +590,8 @@
     <div class="bonus-card">
       <div class="bonus-icon">○</div>
       <div>
-        <div class="bonus-title">Out of sight when you don't need it</div>
-        <div class="bonus-body">
+        <div class="bonus-title" data-i18n="bonus.items.3.title">Out of sight when you don't need it</div>
+        <div class="bonus-body" data-i18n="bonus.items.3.body">
           No Dock icon, doesn't block the menu bar, doesn't get in the way of fullscreen apps. It shows up only when you need it.
         </div>
       </div>
@@ -546,21 +601,21 @@
 
 <!-- ============ CTA ============ -->
 <section id="download-section" class="cta">
-  <div class="section-eyebrow" style="margin-bottom: 0;">Download</div>
-  <h2 class="display-title">
+  <div class="section-eyebrow" style="margin-bottom: 0;" data-i18n="cta.eyebrow">Download</div>
+  <h2 class="display-title" data-i18n="cta.title">
     One gesture to <span class="dim">grab.</span><br/>
     Another to <span class="dim">drop.</span>
   </h2>
-  <p class="pain-sub" style="margin: 0;">Free. macOS 13 Ventura and up. Apple Silicon and Intel.</p>
+  <p class="pain-sub" style="margin: 0;" data-i18n="cta.sub">Free. macOS 13 Ventura and up. Apple Silicon and Intel.</p>
 
   <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
     <a class="btn btn-primary" href="/ccv/CCV.dmg?v=1.0.1" download style="font-size: 16px; padding: 16px 28px; text-decoration: none;">
       <span style="display: inline-flex; align-items: center; gap: 10px;">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.182 0a4.064 4.064 0 0 0-2.79 1.413 3.633 3.633 0 0 0-.93 2.738 3.32 3.32 0 0 0 2.762-1.353A3.96 3.96 0 0 0 11.18 0zm2.876 11.31c-.018-.034-3.448-1.92-3.13-5.18.21-2.16 1.937-3.198 2.014-3.245-.5-.728-1.28-1.227-2.225-1.36-1.077-.085-2.06.62-2.643.62-.583 0-1.476-.6-2.376-.582a3.49 3.49 0 0 0-2.946 1.792c-1.26 2.183-.32 5.41.91 7.18.595.872 1.305 1.852 2.234 1.818.9-.036 1.236-.582 2.317-.582 1.082 0 1.388.582 2.336.563.967-.018 1.578-.886 2.17-1.762.685-1.012.97-1.989.987-2.05-.022-.01-.025-.012-.65-.31z"/></svg>
-        Download CCV.dmg
+        <span data-i18n="cta.download">Download CCV.dmg</span>
       </span>
     </a>
-    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--muted);">v 1.0.1 · AUG 18 2026 · 553 KB</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--muted);" data-i18n="cta.meta">v 1.0.1 · AUG 18 2026 · 553 KB</div>
   </div>
 </section>
 
@@ -571,11 +626,220 @@
     <span>macOS 13+</span>
   </div>
   <div class="right">
-    <span>Privacy</span>
-    <span>Terms</span>
-    <span>Contact</span>
+    <span data-i18n="footer.privacy">Privacy</span>
+    <span data-i18n="footer.terms">Terms</span>
+    <span data-i18n="footer.contact">Contact</span>
   </div>
 </footer>
+
+<!-- Page copy (EN / RU). Static markup keeps English as the no-JS fallback;
+     [data-i18n] nodes are filled from CCV_COPY and refilled on language change.
+     The hero animation (React, below) reads the same object. -->
+<script>
+window.CCV_COPY = {
+  en: {
+    meta: {
+      title: "CCV — a clipboard in your MacBook's notch",
+      description: "Drop files into your MacBook's notch, switch to any Space or app, and pull them back out wherever you need them. Free for macOS.",
+    },
+    nav: {
+      how: 'How it works',
+      inside: "What's inside",
+      download: 'Download',
+      cta: 'Download',
+      langLabel: 'Language',
+    },
+    hero: {
+      eyebrow: 'Available for macOS · free',
+      title: 'Files across your screens — <span class="dim">no juggling.</span>',
+      sub: "Drop files into your MacBook's notch, switch anywhere you like, and pull them back out — into any window, any app, on any Space.",
+      ctaPrimary: 'Download for macOS',
+      ctaSecondary: 'How it works',
+    },
+    captions: [
+      '01 — grab a file',
+      '02 — it flies into the shelf under the notch',
+      '03 — switch anywhere',
+      '04 — pull it out — paste',
+      '✓ done',
+    ],
+    pain: {
+      eyebrow: 'A familiar pain',
+      title: 'Grab a file. Drag it across screens.<br/><span class="strike">It works.</span> <span class="em">Or it doesn\'t.</span>',
+      sub: "The window's closed. Spaces switched to the wrong one. You dropped the file along the way. Back you go, dragging it again. Fifty little micro-dances, every single day.",
+    },
+    how: {
+      eyebrow: 'How it works',
+      title: 'Three gestures. No windows.',
+      steps: [
+        { title: 'Drop it — into the notch', body: 'Drag a file to the top of the screen. The shelf catches it and holds on. Drop several at once — they gather into a group.' },
+        { title: 'Switch — anywhere', body: 'Another Space, another app, another monitor, another project. Your files wait. Nothing gets lost.' },
+        { title: 'Pull it out — wherever you need', body: 'Move your cursor to the notch and the shelf opens. Drag the file into any window: Telegram, email, chat, a form. Done.' },
+      ],
+    },
+    bonus: {
+      eyebrow: 'The nice touches',
+      title: 'Not just a clipboard.',
+      items: [
+        { title: 'Screenshots — straight to the shelf', body: '<span class="kbd">⌘⇧3</span> / <span class="kbd">⌘⇧4</span> / <span class="kbd">⌘⇧5</span> land in CCV instead of cluttering your desktop. No more hunting for them.' },
+        { title: 'Groups — all at once or one by one', body: 'Drop three files together and they become a group. Drag the whole set, or just one from it.' },
+        { title: 'No windows, no menus', body: 'Rename, open, reveal in Finder — all right from the shelf, via a context menu.' },
+        { title: "Out of sight when you don't need it", body: "No Dock icon, doesn't block the menu bar, doesn't get in the way of fullscreen apps. It shows up only when you need it." },
+      ],
+    },
+    cta: {
+      eyebrow: 'Download',
+      title: 'One gesture to <span class="dim">grab.</span><br/>Another to <span class="dim">drop.</span>',
+      sub: 'Free. macOS 13 Ventura and up. Apple Silicon and Intel.',
+      download: 'Download CCV.dmg',
+      meta: 'v 1.0.1 · AUG 18 2026 · 553 KB',
+    },
+    footer: { privacy: 'Privacy', terms: 'Terms', contact: 'Contact' },
+    mock: {
+      menu: ['File', 'Edit', 'View'],
+      clock: 'Thu May 14 12:42',
+      apps: { finder: 'Finder', slack: 'Slack', mail: 'Mail' },
+      notchDrop: 'Drop',
+      notchCount: '· 1 file',
+      fileSize: '2.4 MB',
+      downloads: 'Downloads',
+      workspace: 'workspace',
+      chat: [
+        { name: 'Maria', text: 'hey, can someone look at the latest roadmap version?' },
+        { name: 'Igor', text: 'sure, send it over' },
+        { name: 'Maria', text: 'one sec, opening the file' },
+      ],
+      newMessage: 'New Message',
+      to: 'To:',
+      subjectLabel: 'Subject:',
+      subject: 'Q3 roadmap',
+      body: 'Hi! Sending over the latest version.',
+      readyToSend: '2.4 MB · ready to send',
+      send: 'Send →',
+      dropHere: 'Drag a file here',
+    },
+  },
+  ru: {
+    meta: {
+      title: 'CCV — буфер обмена в чёлке MacBook',
+      description: 'Бросьте файлы в чёлку MacBook, переключитесь на другой рабочий стол или приложение — и достаньте их там, где нужно. Бесплатно для macOS.',
+    },
+    nav: {
+      how: 'Как это работает',
+      inside: 'Что внутри',
+      download: 'Скачать',
+      cta: 'Скачать',
+      langLabel: 'Язык',
+    },
+    hero: {
+      eyebrow: 'Для macOS · бесплатно',
+      title: 'Файлы между экранами — <span class="dim">без суеты.</span>',
+      sub: 'Бросьте файлы в чёлку MacBook, переключайтесь куда угодно и доставайте их обратно — в любое окно, любое приложение, на любом рабочем столе.',
+      ctaPrimary: 'Скачать для macOS',
+      ctaSecondary: 'Как это работает',
+    },
+    captions: [
+      '01 — возьмите файл',
+      '02 — он улетает на полку под чёлкой',
+      '03 — переключайтесь куда угодно',
+      '04 — достаньте и вставьте',
+      '✓ готово',
+    ],
+    pain: {
+      eyebrow: 'Знакомая боль',
+      title: 'Берёте файл. Тащите на другой экран.<br/><span class="strike">Получилось.</span> <span class="em">Или&nbsp;нет.</span>',
+      sub: 'Нужное окно закрыто. Рабочий стол переключился не на тот. Файл выпал по дороге. Возвращаетесь и тащите заново. И так по пятьдесят раз на дню.',
+    },
+    how: {
+      eyebrow: 'Как это работает',
+      title: 'Три жеста. Ни одного окна.',
+      steps: [
+        { title: 'Бросьте — в чёлку', body: 'Перетащите файл к верхнему краю экрана. Полка подхватит его и придержит. Можно сразу несколько — они соберутся в группу.' },
+        { title: 'Переключитесь — куда угодно', body: 'Другой рабочий стол, другое приложение, другой монитор, другой проект. Файлы подождут. Ничего не потеряется.' },
+        { title: 'Достаньте — там, где нужно', body: 'Подведите курсор к чёлке — полка откроется. Перетащите файл в любое окно: Telegram, почту, чат, форму. Готово.' },
+      ],
+    },
+    bonus: {
+      eyebrow: 'Приятные мелочи',
+      title: 'Не просто буфер обмена.',
+      items: [
+        { title: 'Скриншоты — сразу на полку', body: '<span class="kbd">⌘⇧3</span> / <span class="kbd">⌘⇧4</span> / <span class="kbd">⌘⇧5</span> попадают в CCV, а не засоряют рабочий стол. Больше не придётся их искать.' },
+        { title: 'Группы — целиком или по одному', body: 'Бросьте три файла вместе — получится группа. Тащите весь набор или только один файл из него.' },
+        { title: 'Ни окон, ни меню', body: 'Переименовать, открыть, показать в Finder — всё прямо с полки, через контекстное меню.' },
+        { title: 'Не мозолит глаза, пока не нужна', body: 'Нет значка в Dock, не закрывает строку меню, не мешает полноэкранным приложениям. Появляется, только когда нужна.' },
+      ],
+    },
+    cta: {
+      eyebrow: 'Скачать',
+      title: 'Один жест&nbsp;— <span class="dim">взять.</span><br/>Второй&nbsp;— <span class="dim">положить.</span>',
+      sub: 'Бесплатно. macOS 13 Ventura и новее. Apple Silicon и Intel.',
+      download: 'Скачать CCV.dmg',
+      meta: 'v 1.0.1 · 18 АВГ 2026 · 553 КБ',
+    },
+    footer: { privacy: 'Приватность', terms: 'Условия', contact: 'Контакты' },
+    mock: {
+      menu: ['Файл', 'Правка', 'Вид'],
+      clock: 'Чт 14 мая 12:42',
+      apps: { finder: 'Finder', slack: 'Slack', mail: 'Mail' },
+      notchDrop: 'Сюда',
+      notchCount: '· 1 файл',
+      fileSize: '2,4 МБ',
+      downloads: 'Загрузки',
+      workspace: 'команда',
+      chat: [
+        { name: 'Мария', text: 'привет, кто-нибудь глянет свежую версию роадмапа?' },
+        { name: 'Игорь', text: 'да, кидай' },
+        { name: 'Мария', text: 'секунду, открываю файл' },
+      ],
+      newMessage: 'Новое сообщение',
+      to: 'Кому:',
+      subjectLabel: 'Тема:',
+      subject: 'Роадмап на Q3',
+      body: 'Привет! Отправляю свежую версию.',
+      readyToSend: '2,4 МБ · готово к отправке',
+      send: 'Отправить →',
+      dropHere: 'Перетащите файл сюда',
+    },
+  },
+};
+
+(function () {
+  var Lang = window.KelappaLang;
+  var COPY = window.CCV_COPY;
+
+  function lookup(dict, path) {
+    return path.split('.').reduce(function (node, key) {
+      return node == null ? undefined : node[key];
+    }, dict);
+  }
+
+  function applyCopy(code) {
+    var dict = COPY[code] || COPY.en;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var value = lookup(dict, el.getAttribute('data-i18n'));
+      if (typeof value === 'string') el.innerHTML = value; // trusted, static copy
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+      var value = lookup(dict, el.getAttribute('data-i18n-aria'));
+      if (typeof value === 'string') el.setAttribute('aria-label', value);
+    });
+    document.title = dict.meta.title;
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc) desc.setAttribute('content', dict.meta.description);
+    document.querySelectorAll('.lang-switch [data-lang]').forEach(function (btn) {
+      btn.setAttribute('aria-pressed', String(btn.getAttribute('data-lang') === code));
+    });
+  }
+
+  if (!Lang) return; // lang.js failed to load — English markup stays as is
+
+  document.querySelectorAll('.lang-switch [data-lang]').forEach(function (btn) {
+    btn.addEventListener('click', function () { Lang.set(btn.getAttribute('data-lang')); });
+  });
+  applyCopy(Lang.get());
+  Lang.onChange(applyCopy);
+})();
+</script>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -616,14 +880,27 @@ const P = {
   hold:         [0.88, 1.00],
 };
 
-// Captions per timeline range
+// Caption timeline ranges; text comes from CCV_COPY[lang].captions by index
 const CAPTIONS = [
-  { from: 0.00, to: 0.15, text: '01 — grab a file' },
-  { from: 0.15, to: 0.38, text: '02 — it flies into the shelf under the notch' },
-  { from: 0.38, to: 0.62, text: '03 — switch anywhere' },
-  { from: 0.62, to: 0.88, text: '04 — pull it out — paste' },
-  { from: 0.88, to: 1.00, text: '✓ done' },
+  { from: 0.00, to: 0.15 },
+  { from: 0.15, to: 0.38 },
+  { from: 0.38, to: 0.62 },
+  { from: 0.62, to: 0.88 },
+  { from: 0.88, to: 1.00 },
 ];
+
+// =============== Language ===============
+const getLang = () => (window.KelappaLang ? window.KelappaLang.get() : 'en');
+const copyFor = (lang) => window.CCV_COPY[lang] || window.CCV_COPY.en;
+
+function useLang() {
+  const [lang, setLang] = useState(getLang);
+  useEffect(() => {
+    if (!window.KelappaLang) return undefined;
+    return window.KelappaLang.onChange(setLang);
+  }, []);
+  return lang;
+}
 
 // =============== Visual constants ===============
 const STAGE_W = 1100;
@@ -637,7 +914,7 @@ const NOTCH_W_OPEN = 400;
 const NOTCH_H_OPEN = 230;
 
 // =============== Sub-components ===============
-function MenuBar({ appName }) {
+function MenuBar({ appName, m }) {
   return (
     <div style={{
       position: 'absolute', top: 0, left: 0, right: 0,
@@ -657,11 +934,11 @@ function MenuBar({ appName }) {
         <path d="M11.182 0a4.064 4.064 0 0 0-2.79 1.413 3.633 3.633 0 0 0-.93 2.738 3.32 3.32 0 0 0 2.762-1.353A3.96 3.96 0 0 0 11.18 0zm2.876 11.31c-.018-.034-3.448-1.92-3.13-5.18.21-2.16 1.937-3.198 2.014-3.245-.5-.728-1.28-1.227-2.225-1.36-1.077-.085-2.06.62-2.643.62-.583 0-1.476-.6-2.376-.582a3.49 3.49 0 0 0-2.946 1.792c-1.26 2.183-.32 5.41.91 7.18.595.872 1.305 1.852 2.234 1.818.9-.036 1.236-.582 2.317-.582 1.082 0 1.388.582 2.336.563.967-.018 1.578-.886 2.17-1.762.685-1.012.97-1.989.987-2.05-.022-.01-.025-.012-.65-.31z"/>
       </svg>
       <span style={{ fontWeight: 700 }}>{appName}</span>
-      <span style={{ opacity: 0.85 }}>File</span>
-      <span style={{ opacity: 0.85 }}>Edit</span>
-      <span style={{ opacity: 0.85 }}>View</span>
+      {m.menu.map((item) => (
+        <span key={item} style={{ opacity: 0.85 }}>{item}</span>
+      ))}
       <div style={{ flex: 1 }} />
-      <span style={{ opacity: 0.8, fontFamily: 'JetBrains Mono, monospace', fontSize: 11 }}>Thu May 14 12:42</span>
+      <span style={{ opacity: 0.8, fontFamily: 'JetBrains Mono, monospace', fontSize: 11 }}>{m.clock}</span>
     </div>
   );
 }
@@ -738,7 +1015,7 @@ function FileIcon({ x, y, scale = 1, label = 'PDF', dim = 0, badge = null }) {
   );
 }
 
-function Notch({ state, fileCount }) {
+function Notch({ state, fileCount, m }) {
   // state: collapsed | hover | open
   let w, h, r;
   if (state === 'open')      { w = NOTCH_W_OPEN; h = NOTCH_H_OPEN; r = 24; }
@@ -792,7 +1069,7 @@ function Notch({ state, fileCount }) {
           letterSpacing: '0.16em',
           color: '#fff',
           textTransform: 'uppercase',
-        }}>Drop</div>
+        }}>{m.notchDrop}</div>
       )}
       {state === 'open' && (
         <div style={{ padding: '14px 12px', color: '#fff' }}>
@@ -804,7 +1081,7 @@ function Notch({ state, fileCount }) {
             letterSpacing: '0.06em',
           }}>
             <span style={{ color: '#fff', fontWeight: 800, letterSpacing: '0.22em' }}>CCV</span>
-            <span>· 1 file</span>
+            <span>{m.notchCount}</span>
           </div>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
@@ -821,7 +1098,7 @@ function Notch({ state, fileCount }) {
             }}>PDF</div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 12, fontWeight: 500 }}>Q3-roadmap.pdf</div>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>2.4 MB</div>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>{m.fileSize}</div>
             </div>
           </div>
         </div>
@@ -831,7 +1108,7 @@ function Notch({ state, fileCount }) {
 }
 
 // =============== Three scene backgrounds ===============
-function SceneFinder({ opacity, fileVisible }) {
+function SceneFinder({ opacity, fileVisible, m }) {
   return (
     <div style={{
       position: 'absolute', inset: 0,
@@ -865,7 +1142,7 @@ function SceneFinder({ opacity, fileVisible }) {
             marginLeft: 12,
             fontSize: 12, fontWeight: 600,
             color: '#3a3835',
-          }}>Downloads</span>
+          }}>{m.downloads}</span>
         </div>
         {/* Files grid */}
         <div style={{
@@ -923,7 +1200,7 @@ function DesktopFile({ name, folder, placeholder }) {
   );
 }
 
-function SceneSlack({ opacity }) {
+function SceneSlack({ opacity, m }) {
   return (
     <div style={{
       position: 'absolute', inset: 0,
@@ -942,7 +1219,7 @@ function SceneSlack({ opacity }) {
         display: 'flex', flexDirection: 'column', gap: 8,
         borderRight: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 8 }}>workspace</div>
+        <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 8 }}>{m.workspace}</div>
         <div style={{ opacity: 0.65 }}># general</div>
         <div style={{ background: '#1164a3', borderRadius: 5, padding: '4px 8px', margin: '0 -6px' }}># design-review</div>
         <div style={{ opacity: 0.65 }}># product</div>
@@ -951,9 +1228,9 @@ function SceneSlack({ opacity }) {
       {/* Main */}
       <div style={{ flex: 1, background: '#ffffff', padding: 24, display: 'flex', flexDirection: 'column', gap: 14 }}>
         <div style={{ fontSize: 14, fontWeight: 700, color: '#1d1c1d', borderBottom: '1px solid rgba(0,0,0,0.08)', paddingBottom: 12 }}># design-review</div>
-        <ChatMsg name="Maria" text="hey, can someone look at the latest roadmap version?" />
-        <ChatMsg name="Igor" text="sure, send it over" />
-        <ChatMsg name="Maria" text="one sec, opening the file" you />
+        {m.chat.map((msg, i) => (
+          <ChatMsg key={i} name={msg.name} text={msg.text} you={i === m.chat.length - 1} />
+        ))}
       </div>
     </div>
   );
@@ -977,7 +1254,7 @@ function ChatMsg({ name, text, you }) {
   );
 }
 
-function SceneCompose({ opacity, attached }) {
+function SceneCompose({ opacity, attached, m }) {
   return (
     <div style={{
       position: 'absolute', inset: 0,
@@ -989,18 +1266,18 @@ function SceneCompose({ opacity, attached }) {
     }}>
       {/* fake mail header */}
       <div style={{ padding: '24px 32px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: '#0a0a0a', marginBottom: 14 }}>New Message</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: '#0a0a0a', marginBottom: 14 }}>{m.newMessage}</div>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: '#0a0a0a', marginBottom: 6 }}>
-          <span style={{ color: '#8a8784', width: 60 }}>To:</span> maria@team.com
+          <span style={{ color: '#8a8784', width: 60 }}>{m.to}</span> maria@team.com
         </div>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: '#0a0a0a' }}>
-          <span style={{ color: '#8a8784', width: 60 }}>Subject:</span> Q3 roadmap
+          <span style={{ color: '#8a8784', width: 60 }}>{m.subjectLabel}</span> {m.subject}
         </div>
       </div>
 
       {/* body + attach */}
       <div style={{ flex: 1, padding: '20px 32px', color: '#0a0a0a', fontSize: 13 }}>
-        Hi! Sending over the latest version.
+        {m.body}
       </div>
 
       <div style={{
@@ -1026,13 +1303,13 @@ function SceneCompose({ opacity, attached }) {
             }}>PDF</div>
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 600, fontSize: 13 }}>Q3-roadmap.pdf</div>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#8a8784' }}>2.4 MB · ready to send</div>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#8a8784' }}>{m.readyToSend}</div>
             </div>
             <div style={{
               padding: '6px 12px', borderRadius: 6,
               background: '#0a0a0a', color: '#fff',
               fontWeight: 600, fontSize: 12,
-            }}>Send →</div>
+            }}>{m.send}</div>
           </>
         ) : (
           <div style={{
@@ -1040,7 +1317,7 @@ function SceneCompose({ opacity, attached }) {
             fontFamily: 'JetBrains Mono, monospace',
             fontSize: 11, letterSpacing: '0.12em',
             color: '#8a8784', textTransform: 'uppercase',
-          }}>Drag a file here</div>
+          }}>{m.dropHere}</div>
         )}
       </div>
     </div>
@@ -1050,6 +1327,9 @@ function SceneCompose({ opacity, attached }) {
 // =============== Main HeroAnim ===============
 function HeroAnim() {
   const [t, setT] = useState(0);
+  const lang = useLang();
+  const copy = copyFor(lang);
+  const m = copy.mock;
 
   useEffect(() => {
     let raf;
@@ -1068,15 +1348,23 @@ function HeroAnim() {
   useEffect(() => {
     const c = document.getElementById('hero-caption');
     if (!c) return;
-    const found = CAPTIONS.find(cap => t >= cap.from && t < cap.to);
-    if (found) c.innerHTML = `<span class="step">${found.text}</span>`;
-  }, [t]);
+    const idx = CAPTIONS.findIndex(cap => t >= cap.from && t < cap.to);
+    if (idx === -1) return;
+    const text = copy.captions[idx];
+    const step = c.querySelector('.step');
+    if (step && step.textContent === text) return; // avoid rewriting the DOM every frame
+    c.innerHTML = '';
+    const span = document.createElement('span');
+    span.className = 'step';
+    span.textContent = text;
+    c.appendChild(span);
+  }, [t, copy]);
 
   // ===== Compute states =====
   // App name in menu bar
-  let appName = 'Finder';
-  if (t > 0.46 && t < 0.58) appName = 'Slack';
-  else if (t >= 0.58) appName = 'Mail';
+  let appName = m.apps.finder;
+  if (t > 0.46 && t < 0.58) appName = m.apps.slack;
+  else if (t >= 0.58) appName = m.apps.mail;
 
   // Scene opacities (crossfade)
   const sceneA = 1 - interp(t, P.switchAB[0], P.switchAB[1], 0, 1);
@@ -1190,9 +1478,9 @@ function HeroAnim() {
       background: '#000',
       boxShadow: '0 30px 90px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)',
     }}>
-      <SceneFinder opacity={sceneA} fileVisible={fileOnDesktop} />
-      <SceneSlack  opacity={sceneB} />
-      <SceneCompose opacity={sceneC} attached={attached} />
+      <SceneFinder opacity={sceneA} fileVisible={fileOnDesktop} m={m} />
+      <SceneSlack  opacity={sceneB} m={m} />
+      <SceneCompose opacity={sceneC} attached={attached} m={m} />
 
       {/* Menu bar overlays everything, on top of scenes */}
       <div style={{
@@ -1203,10 +1491,10 @@ function HeroAnim() {
         WebkitBackdropFilter: 'blur(8px)',
         zIndex: 4,
       }} />
-      <MenuBar appName={appName} />
+      <MenuBar appName={appName} m={m} />
 
       {/* Notch */}
-      <Notch state={notchState} fileCount={fileCount} />
+      <Notch state={notchState} fileCount={fileCount} m={m} />
 
       {/* File */}
       {fileVisible && <FileIcon x={fileX} y={fileY} scale={fileScale} dim={fileDim} />}

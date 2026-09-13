@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="ru">
+<html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/lang.js"></script>
 <title>Clipdeck — расширенный буфер обмена для Mac</title>
 <meta name="description" content="Вся история копирований и сохранённые заготовки в одной панели по ⌥⌘C. Клик — и текст вставлен туда, где стоит курсор.">
 <link rel="icon" href="/clipdeck/brand/clipdeck-favicon.svg" type="image/svg+xml">
@@ -18,10 +19,23 @@
   .dl:hover{filter:brightness(1.06)}
   .dl-white:hover{filter:brightness(0.96)}
   .navlink:hover{opacity:1 !important}
+
+  /* EN / RU segmented switcher */
+  .lang-seg{display:inline-flex;align-items:center;height:32px;padding:2px;border-radius:8px;background:rgba(120,120,128,0.14);flex:none;}
+  .lang-seg button{height:28px;min-width:34px;padding:0 8px;border:none;border-radius:6px;background:transparent;color:rgba(60,60,67,0.6);font-family:inherit;font-size:12px;font-weight:600;line-height:1;letter-spacing:0.4px;cursor:pointer;transition:background-color 120ms cubic-bezier(.2,.8,.2,1),color 120ms cubic-bezier(.2,.8,.2,1),box-shadow 120ms cubic-bezier(.2,.8,.2,1);}
+  .lang-seg button:hover{color:#1d1d1f;}
+  .lang-seg button[aria-pressed="true"]{background:#fff;color:#1d1d1f;box-shadow:0 1px 2px rgba(0,0,0,0.12);cursor:default;}
+  .lang-seg button:focus-visible{outline:2px solid #7B3FD4;outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){.lang-seg button{transition:none}}
+
   @media (max-width:760px){
     .feat-grid{grid-template-columns:1fr !important}
     .nav-links{gap:16px !important}
     h1{font-size:44px !important;letter-spacing:-1.4px !important}
+  }
+  @media (max-width:520px){
+    .nav-links{gap:8px !important}
+    .navlink{display:none !important}
   }
 </style>
 </head>
@@ -32,9 +46,13 @@
   <nav style="position:sticky;top:0;z-index:50;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100% - 1120px)/2));background:rgba(255,255,255,0.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.1);">
     <img src="/clipdeck/brand/clipdeck-wordmark.svg" alt="Clipdeck" style="height:30px;display:block;">
     <div class="nav-links" style="display:flex;align-items:center;gap:26px;">
-      <a class="navlink" href="#features" style="font-size:13.5px;color:#1d1d1f;opacity:0.82;">Возможности</a>
-      <a class="navlink" href="#start" style="font-size:13.5px;color:#1d1d1f;opacity:0.82;">Как начать</a>
-      <a class="dl" href="https://kelappa.com/Clipdeck.dmg" style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 15px;border-radius:8px;background:#1d1d1f;color:#fff;font-size:13px;font-weight:600;">Скачать</a>
+      <a class="navlink" href="#features" style="font-size:13.5px;color:#1d1d1f;opacity:0.82;" data-i18n="navFeatures">Возможности</a>
+      <a class="navlink" href="#start" style="font-size:13.5px;color:#1d1d1f;opacity:0.82;" data-i18n="navStart">Как начать</a>
+      <a class="dl" href="https://kelappa.com/Clipdeck.dmg" style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 15px;border-radius:8px;background:#1d1d1f;color:#fff;font-size:13px;font-weight:600;" data-i18n="navDownload">Скачать</a>
+      <div class="lang-seg" role="group" aria-label="Язык" data-i18n-aria="langLabel">
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+      </div>
     </div>
   </nav>
 
@@ -45,17 +63,17 @@
     <div style="position:relative;max-width:820px;margin:0 auto;animation:floatUp 0.7s cubic-bezier(0.2,0.8,0.2,1) both;">
       <div style="display:inline-flex;align-items:center;gap:8px;padding:5px 13px 5px 8px;border-radius:999px;background:rgba(120,120,128,0.1);font-size:12.5px;font-weight:500;color:#4a4a4f;margin-bottom:26px;">
         <span style="display:inline-flex;width:18px;height:18px;border-radius:5px;background:linear-gradient(160deg,#7B3FD4,#E0704A);"></span>
-        Расширенный буфер обмена для Mac
+        <span data-i18n="badge">Расширенный буфер обмена для Mac</span>
       </div>
-      <h1 style="font-size:66px;line-height:1.04;font-weight:700;letter-spacing:-2.4px;margin:0;text-wrap:balance;">Буфер обмена,<br>который помнит всё</h1>
-      <p style="font-size:21px;line-height:1.5;color:#4a4a4f;max-width:600px;margin:24px auto 0;text-wrap:pretty;">Вся история копирований и сохранённые заготовки — в одной панели по <kbd style="font-family:inherit;font-size:16px;font-weight:600;background:#1d1d1f;color:#fff;border-radius:7px;padding:2px 8px;white-space:nowrap;">⌥⌘C</kbd>. Клик — и текст вставлен туда, где стоит курсор.</p>
+      <h1 style="font-size:66px;line-height:1.04;font-weight:700;letter-spacing:-2.4px;margin:0;text-wrap:balance;" data-i18n-html="heroTitle">Буфер обмена,<br>который помнит всё</h1>
+      <p style="font-size:21px;line-height:1.5;color:#4a4a4f;max-width:600px;margin:24px auto 0;text-wrap:pretty;" data-i18n-html="heroSub">Вся история копирований и сохранённые заготовки — в одной панели по <kbd style="font-family:inherit;font-size:16px;font-weight:600;background:#1d1d1f;color:#fff;border-radius:7px;padding:2px 8px;white-space:nowrap;">⌥⌘C</kbd>. Клик — и текст вставлен туда, где стоит курсор.</p>
 
       <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:36px;">
         <a class="dl" href="https://kelappa.com/Clipdeck.dmg" style="display:inline-flex;align-items:center;gap:9px;height:52px;padding:0 26px;border-radius:13px;background:linear-gradient(160deg,#7B3FD4,#A13A9C 55%,#E0704A);color:#fff;font-size:17px;font-weight:600;box-shadow:0 14px 30px -8px rgba(140,50,140,0.55);">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>
-          Скачать для macOS
+          <span data-i18n="ctaDownload">Скачать для macOS</span>
         </a>
-        <div style="font-size:13px;color:#86868b;">macOS 14+ · бесплатно · 1.8 МБ</div>
+        <div style="font-size:13px;color:#86868b;" data-i18n="meta">macOS 14+ · бесплатно · 1.8 МБ</div>
       </div>
     </div>
 
@@ -67,8 +85,8 @@
         <div style="padding:12px 13px 10px;border-bottom:0.5px solid rgba(60,60,67,0.13);">
           <div style="display:flex;gap:8px;">
             <div style="flex:1;display:flex;background:rgba(120,120,128,0.16);border-radius:9px;padding:2px;">
-              <button id="tabClipBtn" onclick="showTab('clip')" style="flex:1;border:none;border-radius:7px;height:27px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:#fff;color:#1c1c1e;box-shadow:0 1px 2px rgba(0,0,0,0.12);">Буфер</button>
-              <button id="tabSnipBtn" onclick="showTab('snip')" style="flex:1;border:none;border-radius:7px;height:27px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:transparent;color:rgba(60,60,67,0.6);">Заготовки</button>
+              <button id="tabClipBtn" onclick="showTab('clip')" style="flex:1;border:none;border-radius:7px;height:27px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:#fff;color:#1c1c1e;box-shadow:0 1px 2px rgba(0,0,0,0.12);" data-i18n="tabClip">Буфер</button>
+              <button id="tabSnipBtn" onclick="showTab('snip')" style="flex:1;border:none;border-radius:7px;height:27px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:transparent;color:rgba(60,60,67,0.6);" data-i18n="tabSnip">Заготовки</button>
             </div>
             <div style="width:31px;height:31px;border-radius:9px;background:#007AFF;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 1px 2px rgba(0,0,0,0.2);">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -84,55 +102,55 @@
           <div style="display:flex;gap:11px;padding:9px;border-radius:11px;align-items:flex-start;background:rgba(120,120,128,0.1);">
             <div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;font-family:ui-monospace,Menlo,monospace;background:rgba(120,120,128,0.18);color:#3c3c43;">T</div>
             <div style="flex:1;min-width:0;">
-              <div style="font-size:13px;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Договор аренды подписан — вышлю скан…</div>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>iPhone 15</span><span style="opacity:0.5;">·</span><span>2 мин</span></div>
+              <div style="font-size:13px;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-i18n="mockLease">Договор аренды подписан — вышлю скан…</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>iPhone 15</span><span style="opacity:0.5;">·</span><span data-i18n="t2m">2 мин</span></div>
             </div>
           </div>
           <div style="display:flex;gap:11px;padding:9px;border-radius:11px;align-items:flex-start;">
             <div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;font-family:ui-monospace,Menlo,monospace;background:rgba(0,122,255,0.16);color:#007AFF;">↗</div>
             <div style="flex:1;min-width:0;">
-              <div style="font-size:13px;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Кластеризация фидбэка — Notion</div>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>MacBook Pro</span><span style="opacity:0.5;">·</span><span>8 мин</span></div>
+              <div style="font-size:13px;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-i18n="mockNotion">Кластеризация фидбэка — Notion</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>MacBook Pro</span><span style="opacity:0.5;">·</span><span data-i18n="t8m">8 мин</span></div>
             </div>
           </div>
           <div style="display:flex;gap:11px;padding:9px;border-radius:11px;align-items:flex-start;">
             <div style="width:30px;height:30px;border-radius:8px;flex:none;background:#E4572E;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.12);"></div>
             <div style="flex:1;min-width:0;">
               <div style="font-size:13px;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:ui-monospace,Menlo,monospace;font-weight:600;text-transform:uppercase;">#E4572E</div>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>MacBook Pro</span><span style="opacity:0.5;">·</span><span>15 мин</span></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>MacBook Pro</span><span style="opacity:0.5;">·</span><span data-i18n="t15m">15 мин</span></div>
             </div>
           </div>
           <div style="display:flex;gap:11px;padding:9px;border-radius:11px;align-items:flex-start;">
             <div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;font-family:ui-monospace,Menlo,monospace;background:rgba(94,92,230,0.16);color:#5E5CE6;">{}</div>
             <div style="flex:1;min-width:0;">
               <div style="font-size:13px;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:ui-monospace,Menlo,monospace;">const debounce = (fn, ms) => …</div>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>MacBook Pro</span><span style="opacity:0.5;">·</span><span>23 мин</span></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>MacBook Pro</span><span style="opacity:0.5;">·</span><span data-i18n="t23m">23 мин</span></div>
             </div>
           </div>
           <div style="display:flex;gap:11px;padding:9px;border-radius:11px;align-items:flex-start;">
             <div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:8.5px;font-family:ui-monospace,Menlo,monospace;background:rgba(255,149,0,0.16);color:#FF9500;">PDF</div>
             <div style="flex:1;min-width:0;">
               <div style="font-size:13px;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Q3_Presentation.pdf</div>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>MacBook Pro</span><span style="opacity:0.5;">·</span><span>1 ч</span></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:5px;color:rgba(60,60,67,0.5);font-size:11px;"><span>MacBook Pro</span><span style="opacity:0.5;">·</span><span data-i18n="t1h">1 ч</span></div>
             </div>
           </div>
         </div>
         <!-- SNIPPETS items -->
         <div id="snipTab" style="display:none;padding:6px 6px 8px;">
           <div style="margin-top:4px;">
-            <div style="display:flex;align-items:center;gap:7px;padding:6px 10px 4px;"><span style="width:7px;height:7px;border-radius:50%;background:#007AFF;"></span><span style="font-size:11px;font-weight:600;color:rgba(60,60,67,0.55);text-transform:uppercase;letter-spacing:0.4px;">Личное</span></div>
-            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(0,122,255,0.15);color:#007AFF;">Л</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Личный email</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">ivan.petrov@gmail.com</div></div></div>
-            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(0,122,255,0.15);color:#007AFF;">Т</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Телефон</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">+7 916 204-88-31</div></div></div>
+            <div style="display:flex;align-items:center;gap:7px;padding:6px 10px 4px;"><span style="width:7px;height:7px;border-radius:50%;background:#007AFF;"></span><span style="font-size:11px;font-weight:600;color:rgba(60,60,67,0.55);text-transform:uppercase;letter-spacing:0.4px;" data-i18n="grpPersonal">Личное</span></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(0,122,255,0.15);color:#007AFF;" data-i18n="avPersonalEmail">Л</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-i18n="snPersonalEmail">Личный email</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;" data-i18n="valPersonalEmail">ivan.petrov@gmail.com</div></div></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(0,122,255,0.15);color:#007AFF;" data-i18n="avPhone">Т</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-i18n="snPhone">Телефон</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;" data-i18n="valPhone">+7 916 204-88-31</div></div></div>
           </div>
           <div style="margin-top:4px;">
-            <div style="display:flex;align-items:center;gap:7px;padding:6px 10px 4px;"><span style="width:7px;height:7px;border-radius:50%;background:#5E5CE6;"></span><span style="font-size:11px;font-weight:600;color:rgba(60,60,67,0.55);text-transform:uppercase;letter-spacing:0.4px;">Работа</span></div>
-            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(94,92,230,0.15);color:#5E5CE6;">Р</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Рабочий email</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">i.petrov@company.com</div></div></div>
-            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(94,92,230,0.15);color:#5E5CE6;">Z</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Zoom для стендапа</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">https://zoom.us/j/8842019</div></div></div>
+            <div style="display:flex;align-items:center;gap:7px;padding:6px 10px 4px;"><span style="width:7px;height:7px;border-radius:50%;background:#5E5CE6;"></span><span style="font-size:11px;font-weight:600;color:rgba(60,60,67,0.55);text-transform:uppercase;letter-spacing:0.4px;" data-i18n="grpWork">Работа</span></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(94,92,230,0.15);color:#5E5CE6;" data-i18n="avWorkEmail">Р</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-i18n="snWorkEmail">Рабочий email</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;" data-i18n="valWorkEmail">i.petrov@company.com</div></div></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(94,92,230,0.15);color:#5E5CE6;">Z</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-i18n="snZoom">Zoom для стендапа</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">https://zoom.us/j/8842019</div></div></div>
           </div>
           <div style="margin-top:4px;">
-            <div style="display:flex;align-items:center;gap:7px;padding:6px 10px 4px;"><span style="width:7px;height:7px;border-radius:50%;background:#34C759;"></span><span style="font-size:11px;font-weight:600;color:rgba(60,60,67,0.55);text-transform:uppercase;letter-spacing:0.4px;">Оплата</span></div>
-            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(52,199,89,0.15);color:#34C759;">К</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Карта Tinkoff</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">4276 •••• •••• 1234</div></div><span style="flex:none;color:rgba(60,60,67,0.4);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span></div>
-            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(52,199,89,0.15);color:#34C759;">К</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Кошелёк ETH</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">0x8f2a ···· ···· 7f80</div></div><span style="flex:none;color:rgba(60,60,67,0.4);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span></div>
+            <div style="display:flex;align-items:center;gap:7px;padding:6px 10px 4px;"><span style="width:7px;height:7px;border-radius:50%;background:#34C759;"></span><span style="font-size:11px;font-weight:600;color:rgba(60,60,67,0.55);text-transform:uppercase;letter-spacing:0.4px;" data-i18n="grpPayments">Оплата</span></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(52,199,89,0.15);color:#34C759;" data-i18n="avCard">К</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-i18n="snCard">Карта Tinkoff</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">4276 •••• •••• 1234</div></div><span style="flex:none;color:rgba(60,60,67,0.4);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:11px;"><div style="width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:rgba(52,199,89,0.15);color:#34C759;" data-i18n="avWallet">К</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:#1c1c1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-i18n="snWallet">Кошелёк ETH</div><div style="font-size:12px;color:rgba(60,60,67,0.6);font-family:ui-monospace,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">0x8f2a ···· ···· 7f80</div></div><span style="flex:none;color:rgba(60,60,67,0.4);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span></div>
           </div>
         </div>
       </div>
@@ -146,54 +164,54 @@
         <div style="width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(160deg,#7B3FD4,#A13A9C);">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M9 10h6M9 14h4"/></svg>
         </div>
-        <h3 style="font-size:19px;font-weight:600;letter-spacing:-0.3px;margin:16px 0 8px;">История буфера</h3>
-        <p style="font-size:14.5px;line-height:1.5;color:#4a4a4f;margin:0;text-wrap:pretty;">Текст, ссылки, цвета, код, картинки, файлы — ничего не теряется, всё под поиском.</p>
+        <h3 style="font-size:19px;font-weight:600;letter-spacing:-0.3px;margin:16px 0 8px;" data-i18n="f1Title">История буфера</h3>
+        <p style="font-size:14.5px;line-height:1.5;color:#4a4a4f;margin:0;text-wrap:pretty;" data-i18n="f1Text">Текст, ссылки, цвета, код, картинки, файлы — ничего не теряется, всё под поиском.</p>
       </div>
       <div style="background:#f5f5f7;border-radius:20px;padding:26px 24px;">
         <div style="width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(160deg,#A13A9C,#E0704A);">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg>
         </div>
-        <h3 style="font-size:19px;font-weight:600;letter-spacing:-0.3px;margin:16px 0 8px;">Заготовки</h3>
-        <p style="font-size:14.5px;line-height:1.5;color:#4a4a4f;margin:0;text-wrap:pretty;">Почта, реквизиты, карты — с маскированием. Вставка в один клик.</p>
+        <h3 style="font-size:19px;font-weight:600;letter-spacing:-0.3px;margin:16px 0 8px;" data-i18n="f2Title">Заготовки</h3>
+        <p style="font-size:14.5px;line-height:1.5;color:#4a4a4f;margin:0;text-wrap:pretty;" data-i18n="f2Text">Почта, реквизиты, карты — с маскированием. Вставка в один клик.</p>
       </div>
       <div style="background:#f5f5f7;border-radius:20px;padding:26px 24px;">
         <div style="width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(160deg,#E0704A,#f0a840);">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
         </div>
-        <h3 style="font-size:19px;font-weight:600;letter-spacing:-0.3px;margin:16px 0 8px;">Быстро</h3>
-        <p style="font-size:14.5px;line-height:1.5;color:#4a4a4f;margin:0;text-wrap:pretty;">Вызов ⌥⌘C (можно сменить), поиск и вставка в любое приложение.</p>
+        <h3 style="font-size:19px;font-weight:600;letter-spacing:-0.3px;margin:16px 0 8px;" data-i18n="f3Title">Быстро</h3>
+        <p style="font-size:14.5px;line-height:1.5;color:#4a4a4f;margin:0;text-wrap:pretty;" data-i18n="f3Text">Вызов ⌥⌘C (можно сменить), поиск и вставка в любое приложение.</p>
       </div>
     </div>
   </section>
 
   <!-- TYPES STRIP -->
   <section style="max-width:1000px;margin:0 auto;padding:36px 24px 20px;text-align:center;">
-    <div style="font-size:13px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;color:#86868b;margin-bottom:20px;">Ничего не теряется</div>
+    <div style="font-size:13px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;color:#86868b;margin-bottom:20px;" data-i18n="typesTitle">Ничего не теряется</div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
-      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#8E8E93;"></span>Текст</div>
-      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#007AFF;"></span>Ссылки</div>
-      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:linear-gradient(135deg,#E4572E,#7B3FD4);"></span>Цвета</div>
-      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#5E5CE6;"></span>Код</div>
-      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#34C759;"></span>Картинки</div>
-      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#FF9500;"></span>Файлы</div>
+      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#8E8E93;"></span><span data-i18n="typeText">Текст</span></div>
+      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#007AFF;"></span><span data-i18n="typeLinks">Ссылки</span></div>
+      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:linear-gradient(135deg,#E4572E,#7B3FD4);"></span><span data-i18n="typeColors">Цвета</span></div>
+      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#5E5CE6;"></span><span data-i18n="typeCode">Код</span></div>
+      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#34C759;"></span><span data-i18n="typeImages">Картинки</span></div>
+      <div style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 0.5px rgba(0,0,0,0.06);font-size:14.5px;font-weight:500;"><span style="width:16px;height:16px;border-radius:5px;flex:none;background:#FF9500;"></span><span data-i18n="typeFiles">Файлы</span></div>
     </div>
   </section>
 
   <!-- HOW TO START -->
   <section id="start" style="max-width:840px;margin:0 auto;padding:64px 24px 40px;">
-    <h2 style="font-size:40px;font-weight:700;letter-spacing:-1.2px;text-align:center;margin:0 0 44px;">Как начать</h2>
+    <h2 style="font-size:40px;font-weight:700;letter-spacing:-1.2px;text-align:center;margin:0 0 44px;" data-i18n="startTitle">Как начать</h2>
     <div style="display:flex;flex-direction:column;gap:14px;">
       <div style="display:flex;gap:20px;align-items:flex-start;background:#f5f5f7;border-radius:18px;padding:24px 26px;">
         <div style="flex:none;width:38px;height:38px;border-radius:11px;background:linear-gradient(160deg,#7B3FD4,#E0704A);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -4px rgba(140,50,140,0.5);">1</div>
-        <div style="padding-top:2px;"><div style="font-size:16.5px;font-weight:600;margin-bottom:5px;">Установи</div><p style="font-size:14.5px;line-height:1.55;color:#4a4a4f;margin:0;text-wrap:pretty;">Открой Clipdeck.dmg и перетащи Clipdeck в «Программы». Первый запуск — правый клик по иконке → «Открыть» (приложение пока без подписи Apple, это нормально).</p></div>
+        <div style="padding-top:2px;"><div style="font-size:16.5px;font-weight:600;margin-bottom:5px;" data-i18n="s1Title">Установи</div><p style="font-size:14.5px;line-height:1.55;color:#4a4a4f;margin:0;text-wrap:pretty;" data-i18n="s1Text">Открой Clipdeck.dmg и перетащи Clipdeck в «Программы». Первый запуск — правый клик по иконке → «Открыть» (приложение пока без подписи Apple, это нормально).</p></div>
       </div>
       <div style="display:flex;gap:20px;align-items:flex-start;background:#f5f5f7;border-radius:18px;padding:24px 26px;">
         <div style="flex:none;width:38px;height:38px;border-radius:11px;background:linear-gradient(160deg,#7B3FD4,#E0704A);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -4px rgba(140,50,140,0.5);">2</div>
-        <div style="padding-top:2px;"><div style="font-size:16.5px;font-weight:600;margin-bottom:5px;">Разреши «Универсальный доступ»</div><p style="font-size:14.5px;line-height:1.55;color:#4a4a4f;margin:0;text-wrap:pretty;">При запуске macOS попросит доступ — нажми «Разрешить». Только с этим разрешением Clipdeck может вставлять выбранное прямо туда, где курсор — он нажимает ⌘V за тебя. Без него приложение лишь копирует в буфер. Никаких других данных доступ не даёт.</p></div>
+        <div style="padding-top:2px;"><div style="font-size:16.5px;font-weight:600;margin-bottom:5px;" data-i18n="s2Title">Разреши «Универсальный доступ»</div><p style="font-size:14.5px;line-height:1.55;color:#4a4a4f;margin:0;text-wrap:pretty;" data-i18n="s2Text">При запуске macOS попросит доступ — нажми «Разрешить». Только с этим разрешением Clipdeck может вставлять выбранное прямо туда, где курсор — он нажимает ⌘V за тебя. Без него приложение лишь копирует в буфер. Никаких других данных доступ не даёт.</p></div>
       </div>
       <div style="display:flex;gap:20px;align-items:flex-start;background:#f5f5f7;border-radius:18px;padding:24px 26px;">
         <div style="flex:none;width:38px;height:38px;border-radius:11px;background:linear-gradient(160deg,#7B3FD4,#E0704A);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -4px rgba(140,50,140,0.5);">3</div>
-        <div style="padding-top:2px;"><div style="font-size:16.5px;font-weight:600;margin-bottom:5px;">Нажми ⌥⌘C</div><p style="font-size:14.5px;line-height:1.55;color:#4a4a4f;margin:0;text-wrap:pretty;">Откроется панель с историей и заготовками. Клик по записи — вставка, наведение — иконка «копировать». Готово.</p></div>
+        <div style="padding-top:2px;"><div style="font-size:16.5px;font-weight:600;margin-bottom:5px;" data-i18n="s3Title">Нажми ⌥⌘C</div><p style="font-size:14.5px;line-height:1.55;color:#4a4a4f;margin:0;text-wrap:pretty;" data-i18n="s3Text">Откроется панель с историей и заготовками. Клик по записи — вставка, наведение — иконка «копировать». Готово.</p></div>
       </div>
     </div>
   </section>
@@ -203,13 +221,13 @@
     <div style="position:relative;max-width:900px;margin:0 auto;border-radius:30px;overflow:hidden;background:linear-gradient(150deg,#2b1a63 0%,#7b3fd4 38%,#b6467f 70%,#e88a4e 100%);padding:72px 40px;text-align:center;color:#fff;">
       <div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 80% -10%,rgba(255,255,255,0.22),transparent 55%);"></div>
       <div style="position:relative;">
-        <h2 style="font-size:44px;font-weight:700;letter-spacing:-1.4px;margin:0 0 16px;text-wrap:balance;">Попробуй прямо сейчас</h2>
-        <p style="font-size:18px;opacity:0.9;margin:0 auto 32px;max-width:460px;">Вызов <kbd style="font-family:inherit;font-size:15px;font-weight:600;background:rgba(255,255,255,0.2);border-radius:6px;padding:2px 8px;">⌥⌘C</kbd>, поиск и вставка в любое приложение.</p>
+        <h2 style="font-size:44px;font-weight:700;letter-spacing:-1.4px;margin:0 0 16px;text-wrap:balance;" data-i18n="finalTitle">Попробуй прямо сейчас</h2>
+        <p style="font-size:18px;opacity:0.9;margin:0 auto 32px;max-width:460px;" data-i18n-html="finalSub">Вызов <kbd style="font-family:inherit;font-size:15px;font-weight:600;background:rgba(255,255,255,0.2);border-radius:6px;padding:2px 8px;">⌥⌘C</kbd>, поиск и вставка в любое приложение.</p>
         <a class="dl-white" href="https://kelappa.com/Clipdeck.dmg" style="display:inline-flex;align-items:center;gap:9px;height:54px;padding:0 28px;border-radius:14px;background:#fff;color:#1d1d1f;font-size:17px;font-weight:600;box-shadow:0 16px 34px -10px rgba(0,0,0,0.4);">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>
-          Скачать для macOS
+          <span data-i18n="ctaDownload">Скачать для macOS</span>
         </a>
-        <div style="font-size:13.5px;opacity:0.82;margin-top:14px;">macOS 14+ · бесплатно · 1.8 МБ</div>
+        <div style="font-size:13.5px;opacity:0.82;margin-top:14px;" data-i18n="meta">macOS 14+ · бесплатно · 1.8 МБ</div>
       </div>
     </div>
   </section>
@@ -219,24 +237,165 @@
     <div style="max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:13px;color:#86868b;">
       <div style="display:flex;align-items:center;gap:10px;">
         <img src="/clipdeck/brand/clipdeck-favicon.svg" alt="" style="width:22px;height:22px;display:block;">
-        <span>Clipdeck · сделано для macOS</span>
+        <span data-i18n="footerMade">Clipdeck · сделано для macOS</span>
       </div>
-      <a href="mailto:asp.slesarev@gmail.com" style="color:#007AFF;">Написать разработчику</a>
+      <a href="mailto:asp.slesarev@gmail.com" style="color:#007AFF;" data-i18n="footerContact">Написать разработчику</a>
     </div>
   </footer>
 
 </div>
 
 <script>
+  // ---- i18n (EN / RU). All strings below are our own constants, never user input. ----
+  var KBD_HERO = '<kbd style="font-family:inherit;font-size:16px;font-weight:600;background:#1d1d1f;color:#fff;border-radius:7px;padding:2px 8px;white-space:nowrap;">⌥⌘C</kbd>';
+  var KBD_FINAL = '<kbd style="font-family:inherit;font-size:15px;font-weight:600;background:rgba(255,255,255,0.2);border-radius:6px;padding:2px 8px;">⌥⌘C</kbd>';
+
+  var I18N = {
+    en: {
+      docTitle: 'Clipdeck — a smarter clipboard for Mac',
+      docDesc: 'Your entire copy history and saved snippets in one panel on ⌥⌘C. Click, and the text is pasted right where your cursor is.',
+      langLabel: 'Language',
+      navFeatures: 'Features',
+      navStart: 'Get started',
+      navDownload: 'Download',
+      badge: 'A smarter clipboard for Mac',
+      heroTitle: 'The clipboard<br>that never forgets',
+      heroSub: 'Your entire copy history and saved snippets — in one panel on ' + KBD_HERO + '. Click, and the text lands right where your cursor is.',
+      ctaDownload: 'Download for macOS',
+      meta: 'macOS 14+ · Free · 1.8 MB',
+      tabClip: 'Clipboard',
+      tabSnip: 'Snippets',
+      searchClip: 'Search clipboard',
+      searchSnip: 'Search snippets',
+      mockLease: 'Lease signed — sending the scan over…',
+      mockNotion: 'Feedback clustering — Notion',
+      t2m: '2 min', t8m: '8 min', t15m: '15 min', t23m: '23 min', t1h: '1 hr',
+      grpPersonal: 'Personal',
+      grpWork: 'Work',
+      grpPayments: 'Payments',
+      avPersonalEmail: 'P', snPersonalEmail: 'Personal email', valPersonalEmail: 'john.miller@gmail.com',
+      avPhone: 'P', snPhone: 'Phone', valPhone: '+1 415 204-8831',
+      avWorkEmail: 'W', snWorkEmail: 'Work email', valWorkEmail: 'j.miller@company.com',
+      snZoom: 'Zoom for stand-up',
+      avCard: 'V', snCard: 'Visa card',
+      avWallet: 'E', snWallet: 'ETH wallet',
+      f1Title: 'Clipboard history',
+      f1Text: 'Text, links, colors, code, images, files — nothing gets lost, and everything is searchable.',
+      f2Title: 'Snippets',
+      f2Text: 'Emails, bank details, cards — with masking. Paste in a single click.',
+      f3Title: 'Fast',
+      f3Text: 'Open with ⌥⌘C (customizable), search, and paste into any app.',
+      typesTitle: 'Nothing gets lost',
+      typeText: 'Text', typeLinks: 'Links', typeColors: 'Colors', typeCode: 'Code', typeImages: 'Images', typeFiles: 'Files',
+      startTitle: 'Get started',
+      s1Title: 'Install',
+      s1Text: 'Open Clipdeck.dmg and drag Clipdeck into Applications. On first launch, right-click the icon and choose Open (the app isn’t signed by Apple yet — that’s expected).',
+      s2Title: 'Allow Accessibility access',
+      s2Text: 'On first launch, macOS will ask for access — click Allow. This permission is what lets Clipdeck paste your pick right where the cursor is: it presses ⌘V for you. Without it, the app can only copy to the clipboard. It grants access to nothing else.',
+      s3Title: 'Press ⌥⌘C',
+      s3Text: 'A panel opens with your history and snippets. Click an item to paste it, or hover to reveal the copy icon. That’s it.',
+      finalTitle: 'Try it now',
+      finalSub: 'Open with ' + KBD_FINAL + ', search, and paste into any app.',
+      footerMade: 'Clipdeck · made for macOS',
+      footerContact: 'Contact the developer'
+    },
+    ru: {
+      docTitle: 'Clipdeck — расширенный буфер обмена для Mac',
+      docDesc: 'Вся история копирований и сохранённые заготовки в одной панели по ⌥⌘C. Клик — и текст вставлен туда, где стоит курсор.',
+      langLabel: 'Язык',
+      navFeatures: 'Возможности',
+      navStart: 'Как начать',
+      navDownload: 'Скачать',
+      badge: 'Расширенный буфер обмена для Mac',
+      heroTitle: 'Буфер обмена,<br>который помнит всё',
+      heroSub: 'Вся история копирований и сохранённые заготовки — в одной панели по ' + KBD_HERO + '. Клик — и текст вставлен туда, где стоит курсор.',
+      ctaDownload: 'Скачать для macOS',
+      meta: 'macOS 14+ · бесплатно · 1.8 МБ',
+      tabClip: 'Буфер',
+      tabSnip: 'Заготовки',
+      searchClip: 'Поиск в буфере',
+      searchSnip: 'Поиск по заготовкам',
+      mockLease: 'Договор аренды подписан — вышлю скан…',
+      mockNotion: 'Кластеризация фидбэка — Notion',
+      t2m: '2 мин', t8m: '8 мин', t15m: '15 мин', t23m: '23 мин', t1h: '1 ч',
+      grpPersonal: 'Личное',
+      grpWork: 'Работа',
+      grpPayments: 'Оплата',
+      avPersonalEmail: 'Л', snPersonalEmail: 'Личный email', valPersonalEmail: 'ivan.petrov@gmail.com',
+      avPhone: 'Т', snPhone: 'Телефон', valPhone: '+7 916 204-88-31',
+      avWorkEmail: 'Р', snWorkEmail: 'Рабочий email', valWorkEmail: 'i.petrov@company.com',
+      snZoom: 'Zoom для стендапа',
+      avCard: 'К', snCard: 'Карта Tinkoff',
+      avWallet: 'К', snWallet: 'Кошелёк ETH',
+      f1Title: 'История буфера',
+      f1Text: 'Текст, ссылки, цвета, код, картинки, файлы — ничего не теряется, всё под поиском.',
+      f2Title: 'Заготовки',
+      f2Text: 'Почта, реквизиты, карты — с маскированием. Вставка в один клик.',
+      f3Title: 'Быстро',
+      f3Text: 'Вызов ⌥⌘C (можно сменить), поиск и вставка в любое приложение.',
+      typesTitle: 'Ничего не теряется',
+      typeText: 'Текст', typeLinks: 'Ссылки', typeColors: 'Цвета', typeCode: 'Код', typeImages: 'Картинки', typeFiles: 'Файлы',
+      startTitle: 'Как начать',
+      s1Title: 'Установи',
+      s1Text: 'Открой Clipdeck.dmg и перетащи Clipdeck в «Программы». Первый запуск — правый клик по иконке → «Открыть» (приложение пока без подписи Apple, это нормально).',
+      s2Title: 'Разреши «Универсальный доступ»',
+      s2Text: 'При запуске macOS попросит доступ — нажми «Разрешить». Только с этим разрешением Clipdeck может вставлять выбранное прямо туда, где курсор — он нажимает ⌘V за тебя. Без него приложение лишь копирует в буфер. Никаких других данных доступ не даёт.',
+      s3Title: 'Нажми ⌥⌘C',
+      s3Text: 'Откроется панель с историей и заготовками. Клик по записи — вставка, наведение — иконка «копировать». Готово.',
+      finalTitle: 'Попробуй прямо сейчас',
+      finalSub: 'Вызов ' + KBD_FINAL + ', поиск и вставка в любое приложение.',
+      footerMade: 'Clipdeck · сделано для macOS',
+      footerContact: 'Написать разработчику'
+    }
+  };
+
+  var FALLBACK_LANG = 'en';
+  var currentTab = 'clip';
+
+  function currentLang(){
+    var code = window.KelappaLang ? window.KelappaLang.get() : FALLBACK_LANG;
+    return I18N[code] ? code : FALLBACK_LANG;
+  }
+  function t(key){
+    var dict = I18N[currentLang()];
+    return Object.prototype.hasOwnProperty.call(dict, key) ? dict[key] : I18N[FALLBACK_LANG][key];
+  }
+
+  function applyLang(){
+    var lang = currentLang();
+    document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent = t(el.getAttribute('data-i18n')); });
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el){ el.innerHTML = t(el.getAttribute('data-i18n-html')); });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(el){ el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria'))); });
+    document.querySelectorAll('.lang-seg [data-lang]').forEach(function(btn){
+      btn.setAttribute('aria-pressed', btn.getAttribute('data-lang') === lang ? 'true' : 'false');
+    });
+    document.getElementById('searchPh').textContent = t(currentTab === 'clip' ? 'searchClip' : 'searchSnip');
+    document.title = t('docTitle');
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc) desc.setAttribute('content', t('docDesc'));
+  }
+
+  // ---- mockup tabs ----
   var TAB_ON='flex:1;border:none;border-radius:7px;height:27px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:#fff;color:#1c1c1e;box-shadow:0 1px 2px rgba(0,0,0,0.12);';
   var TAB_OFF='flex:1;border:none;border-radius:7px;height:27px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:transparent;color:rgba(60,60,67,0.6);';
-  function showTab(t){
-    document.getElementById('clipTab').style.display = t==='clip' ? 'flex' : 'none';
-    document.getElementById('snipTab').style.display = t==='snip' ? 'block' : 'none';
-    document.getElementById('tabClipBtn').style.cssText = t==='clip' ? TAB_ON : TAB_OFF;
-    document.getElementById('tabSnipBtn').style.cssText = t==='snip' ? TAB_ON : TAB_OFF;
-    document.getElementById('searchPh').textContent = t==='clip' ? 'Поиск в буфере' : 'Поиск по заготовкам';
+  function showTab(tab){
+    currentTab = tab;
+    document.getElementById('clipTab').style.display = tab==='clip' ? 'flex' : 'none';
+    document.getElementById('snipTab').style.display = tab==='snip' ? 'block' : 'none';
+    document.getElementById('tabClipBtn').style.cssText = tab==='clip' ? TAB_ON : TAB_OFF;
+    document.getElementById('tabSnipBtn').style.cssText = tab==='snip' ? TAB_ON : TAB_OFF;
+    document.getElementById('searchPh').textContent = t(tab==='clip' ? 'searchClip' : 'searchSnip');
   }
+
+  applyLang();
+  document.querySelectorAll('.lang-seg [data-lang]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (window.KelappaLang) window.KelappaLang.set(btn.getAttribute('data-lang'));
+    });
+  });
+  if (window.KelappaLang) window.KelappaLang.onChange(applyLang);
+
+  // ---- analytics ----
   function hit(k){ try{ new Image().src='https://abacus.jasoncameron.dev/hit/kelappa-2026/'+k+'?t='+Date.now(); }catch(e){} }
   hit('visit-clipdeck');
   document.querySelectorAll('a[href$="Clipdeck.dmg"]').forEach(function(a){ a.addEventListener('click', function(){ hit('dl-clipdeck'); }); });
