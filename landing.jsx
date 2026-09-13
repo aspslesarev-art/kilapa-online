@@ -196,6 +196,7 @@ function Manifesto({ t, copy }) {
         <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? 17 : 19, lineHeight: 1.6, color: t.ink }}>
           <p style={{ margin: '0 0 22px' }}>{copy.manifesto.p1}</p>
           <p style={{ margin: 0 }}>{copy.manifesto.p2}</p>
+          <p style={{ margin: '28px 0 0', fontFamily: "'Hanken Grotesque', sans-serif", fontWeight: 600, fontSize: isMobile ? 20 : 24, lineHeight: 1.3, letterSpacing: '-0.015em' }}>{copy.manifesto.p3}</p>
         </div>
       </div>
     </Sec>

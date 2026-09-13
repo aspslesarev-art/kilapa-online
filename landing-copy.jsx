@@ -17,10 +17,10 @@ const COPY = {
     },
     manifesto: {
       eyebrow: 'Why we exist',
-      h: 'The world is loud. Software does not have to be.',
-      p1: 'Most apps are built to capture you — streaks, notifications, autoplay, infinite feeds. For a restless brain, that is not a tool. That is another thing to manage.',
-      p2: 'We grew up with ADHD. We know what it costs when an app punishes a missed day, or hides what you typed, or asks one more question before saving. So we make the other kind.',
-      p3: 'Small apps. Quiet by default. They wait. They remember. They never make you feel behind.',
+      h: 'We live with ADHD ourselves.',
+      p1: 'These days everyone says they have a bit of ADHD. But when you actually live with it, there is nothing to compare it to. The dumb slip-ups drive you mad. It drives you mad that they annoy other people. It drives you mad that they eat into your life.',
+      p2: 'So we build apps for ourselves — to keep up with the world on equal terms. And we share them with you, because we have been where you are and we know how it feels. Most of those slip-ups can be fixed with technology and AI.',
+      p3: 'Someone with ADHD, AI and the right crutches might just be a superhuman. No promises, though.',
     },
     principles: {
       eyebrow: 'How we build',
@@ -157,10 +157,10 @@ const COPY = {
     },
     manifesto: {
       eyebrow: 'Зачем мы это делаем',
-      h: 'Мир шумный. Программы не обязаны быть такими же.',
-      p1: 'Большинство приложений сделаны, чтобы вас удерживать: серии дней, уведомления, автозапуск видео, бесконечные ленты. Для беспокойного мозга это не инструмент, а ещё одна вещь, за которой надо следить.',
-      p2: 'Мы сами живём с СДВГ. Мы знаем, чего стоит приложение, которое наказывает за пропущенный день, прячет то, что вы написали, или задаёт ещё один вопрос перед сохранением. Поэтому делаем по-другому.',
-      p3: 'Маленькие приложения. Тихие по умолчанию. Они ждут. Они помнят. Они никогда не дают почувствовать, что вы отстали.',
+      h: 'Мы сами живём с СДВГ.',
+      p1: 'Сейчас модно говорить, что СДВГ у всех. Но когда живёшь с этим каждый день, это ни с чем не спутаешь. Бесят глупые косяки. Бесит, что они бесят других. Бесит, что они мешают нормально жить.',
+      p2: 'Поэтому мы делаем приложения для себя — чтобы жить и работать наравне со всеми. И делимся ими с вами: мы были на вашем месте и понимаем, что вы чувствуете. Большую часть этих косяков можно закрыть технологиями и искусственным интеллектом.',
+      p3: 'СДВГшник с ИИ и правильными костылями — возможно, суперчеловек. Но это не точно.',
     },
     principles: {
       eyebrow: 'Как мы делаем',
