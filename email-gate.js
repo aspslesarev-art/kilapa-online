@@ -36,7 +36,8 @@
     'vtext.dmg': { name: 'VText', key: 'dl-vtext' },
     'clipdeck.dmg': { name: 'Clipdeck', key: 'dl-clipdeck' },
     'en-ru-switcher.dmg': { name: 'EN-RU Switcher', key: 'dl-switcher' },
-    'telesufler.dmg': { name: 'Telesufler', key: 'dl-telesufler' }
+    'telesufler.dmg': { name: 'Telesufler', key: 'dl-telesufler' },
+    'onit.dmg': { name: 'Onit', key: 'dl-onit' }
   };
 
   var STRINGS = {

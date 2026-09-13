@@ -79,7 +79,7 @@ const COPY = {
           tagline: 'Remember what you sat down to do.',
           desc: 'Write the task once and it parks in the corner of your screen, above every window. Wander off into Telegram and it turns red and starts to breathe — it reminds, it does not punish. Press done, say in one line how it went, and it lands in your success diary: by the evening you can see what the day actually was, instead of wondering where it went.',
           platforms: ['macOS'],
-          status: 'Coming soon',
+          status: 'Available',
         },
       ],
       cta: 'Open',

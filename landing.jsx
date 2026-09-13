@@ -102,7 +102,7 @@ function Hero({ t, copy }) {
     { bg: t.lagoon,       mark: KELAPPA_BROWN, dots: t.cream,       name: 'FloFi',          sub: 'iOS · web',     href: 'https://flofi.online',                      track: 'dl-flofi' },
     { bg: t.saffron,      mark: KELAPPA_BROWN, dots: t.cream,       name: 'En-Ru Switcher', sub: 'macOS · DMG',   href: '/switcher/EN-RU-Switcher.dmg',              track: 'dl-switcher' },
     { bg: t.ink,          mark: t.coral,       dots: t.cream,       name: 'Telesufler',     sub: 'macOS · DMG',   href: '/teleprompter/Telesufler.dmg',              track: 'dl-telesufler' },
-    { bg: t.sand,         mark: KELAPPA_BROWN, dots: t.cream,       name: 'Onit',           sub: 'macOS · soon'                                                      },
+    { bg: t.sand,         mark: KELAPPA_BROWN, dots: t.cream,       name: 'Onit',           sub: 'macOS · DMG',   href: '/onit/Onit.dmg',                           track: 'dl-onit' },
   ];
   return (
     <Sec bg={t.cream} color={t.ink} pad="80px 40px 100px" padMobile="56px 20px 72px" id="top">
